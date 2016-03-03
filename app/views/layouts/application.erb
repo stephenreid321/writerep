@@ -44,21 +44,14 @@
     <meta name="twitter:image" content="<%=@og_image%>">    
 
   </head>
-  <body>
+  <body style="background-image: url('<%=@campaign.background_image_url%>'); background-size: cover; background-position: center; background-repeat: no-repeat">
 
     <%= partial :alert %>
 
-    <div style="background-image: url('<%=@campaign.background_image_url%>'); background-size: cover; background-position: center; height: 100%">
-
-      <div class="container">
-
-        <div style="background: rgba(0,0,0,0.7); padding: 20px">    
-          <%= yield %>
-
-        </div>
-
+    <div class="container">
+      <div style="background: rgba(0,0,0,0.7); padding: 20px">    
+        <%= yield %>
       </div>
-
     </div>
 
   </body>
