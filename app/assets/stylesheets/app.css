@@ -9,3 +9,6 @@ h1 { margin-top: 0 }
 body, p, h1, h2, h3, h4, h5, h6 { color: white;  }
 #alert-wrap { margin-top: 20px; position: absolute; z-index: 1040; width: 40%; margin-left: -20%; left: 50%; }
 
+.control-label { display: none }
+
+#tweet_body { height: 6em }

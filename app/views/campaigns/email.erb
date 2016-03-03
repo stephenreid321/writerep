@@ -1,17 +1,18 @@
-  <h1>Email <%=@target.name%></h1>
+<h1>Email <%=@target.name%></h1>
 
-  <div class="row">
-    <div class="col-md-6 col-md-push-6" style="margin-bottom: 20px">
-      <%=@campaign.advice%>
-    </div>            
-    <div class="col-md-6 col-md-pull-6">
-      <% form_for @email, "/campaigns/#{@campaign.slug}/#{@decision.id}/email" do |f| %>
-        <%= f.text_block :subject, :div_class => '', :label_class => '' %>
-        <%= f.text_area_block :body, :div_class => '', :label_class => '' %>
-        <%= f.text_block :from_name, :div_class => '', :label_class => '' %>
-        <%= f.email_block :from_email, :div_class => '', :label_class => '' %>
-        <%= f.text_block :from_postcode, :div_class => '', :label_class => '' %>
-        <%= f.submit_block button_text: 'Send', :div_class => '' %>
-      <% end %>
-    </div>
+<div class="row">
+  <div class="col-md-6 col-md-push-6" style="margin-bottom: 20px">
+    <%=@campaign.advice%>
+  </div>            
+  <div class="col-md-6 col-md-pull-6">
+    <% form_for @email, "/campaigns/#{@campaign.slug}/#{@decision.id}/email" do |f| %>
+      <%= f.text_block :subject, :div_class => '', :label_class => '' %>
+      <%= f.text_area_block :body, :div_class => '', :label_class => '' %>
+      <p>Yours sincerely,</p>    
+      <%= f.text_block :from_name, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_name) %>
+      <%= f.email_block :from_email, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_email) %>
+      <%= f.text_block :from_postcode, :div_class => '', :label_class => '' %>
+      <%= f.submit_block button_text: 'Send', :div_class => '' %>
+    <% end %>
   </div>
+</div>

@@ -1,6 +1,8 @@
 <h1><%=@campaign.name%></h1>
 
-<%= @campaign.intro %>
+<div style="margin-bottom: 10px">
+  <%= @campaign.intro %>
+</div>
 
 <% form_tag '', method: :get do %>
   <%= text_field_tag :postcode, :class => 'form-control', :placeholder => 'Enter your postcode' %>

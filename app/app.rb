@@ -90,7 +90,7 @@ module ActivateApp
         redirect "/campaigns/#{@campaign.slug}/thanks"
       else
         flash[:error] = 'Some errors prevented the email from being sent'
-        erb :'campaigns/campaign'
+        erb :'campaigns/email'
       end
     end  
         
@@ -99,11 +99,10 @@ module ActivateApp
       @decision = @campaign.decisions.find(params[:decision_id])
       @tweet = @decision.tweets.new(params[:tweet])
       if @tweet.save
-        @success = true
-        erb :'campaigns/campaign'
+        redirect "/campaigns/#{@campaign.slug}/thanks"
       else
         flash[:error] = 'Some errors prevented the tweet from being sent'
-        erb :'campaigns/campaign'
+        erb :'campaigns/tweet'
       end
     end   
     

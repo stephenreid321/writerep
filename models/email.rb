@@ -28,6 +28,21 @@ class Email
       :from_email => 'Your email address',
       :from_postcode => 'Your postcode',
     }[attr.to_sym] || super  
-  end    
+  end   
+  
+  def body_with_additions
+    "#{body}\n\nYours sincerely,\n#{from_name}\n#{from_postcode}"
+  end
+  
+  after_create :send_email
+  def send_email
+    mail = Mail.new
+    mail.to = decision.target.email
+    mail.from = from_email
+    mail.cc = from_email
+    mail.subject = subject
+    mail.body = body_with_additions
+    mail.deliver 
+  end
     
 end
