@@ -3,7 +3,8 @@
 
 body { }
 body, html { height: 100% }
-body, p, input, select { font-family: 'Open Sans' }
+body, p, input, select { font-family: 'Open Sans'; font-size: 18px }
+h1 { font-size: 60px }
 h1, h2, h3, h4, h5, h6 { font-family: 'Open Sans Condensed'; text-transform: uppercase; font-weight: 700 }
 h1 { margin-top: 0 }
 body, p, h1, h2, h3, h4, h5, h6 { color: white;  }

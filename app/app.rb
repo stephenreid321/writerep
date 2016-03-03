@@ -48,7 +48,7 @@ module ActivateApp
     end
     
     get :home, :map => '/' do
-      erb :home
+      redirect "/campaigns/#{Campaign.order_by('created_at desc').limit(1).first.slug}"
     end
     
     get '/campaigns/:slug' do
