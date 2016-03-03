@@ -44,7 +44,7 @@
     <meta name="twitter:image" content="<%=@og_image%>">    
 
   </head>
-  <body style="background-image: url('<%=@campaign.background_image_url%>'); background-size: cover; background-position: center; background-repeat: no-repeat">
+  <body style="background-image: url('<%=@campaign.try(:background_image_url)%>'); background-size: cover; background-position: center; background-repeat: no-repeat">
 
     <%= partial :alert %>
 
