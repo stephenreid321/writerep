@@ -36,6 +36,7 @@ class Email
   
   after_create :send_email
   def send_email
+    decision = Decision.find(decision_id) # decision.target is reserved (by mongoid?)
     mail = Mail.new
     mail.to = decision.target.email
     mail.from = from_email
