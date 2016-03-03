@@ -54,6 +54,10 @@ module ActivateApp
     get '/campaigns/:slug' do
       @campaign = Campaign.find_by(slug: params[:slug])
       
+      @title = @campaign.name
+      @og_image = @campaign.background_image_url
+      @og_desc = @campaign.facebook_share_text
+      
       if @campaign.decisions.count == 1
         @decision = @campaign.decisions.first
       elsif params[:postcode]

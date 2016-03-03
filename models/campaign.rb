@@ -5,6 +5,7 @@ class Campaign
   field :name, :type => String
   field :slug, :type => String
   field :background_image_url, :type => String
+  field :facebook_share_text, :type => String
   field :action, :type => String
   field :intro, :type => String
   field :advice, :type => String
@@ -24,6 +25,7 @@ class Campaign
       :name => :text,
       :slug => :slug,
       :background_image_url => :text,
+      :facebook_share_text => :text_area,
       :action => :select,
       :intro => :wysiwyg,
       :advice => :wysiwyg,
