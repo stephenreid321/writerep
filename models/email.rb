@@ -41,7 +41,7 @@ class Email
     mail = Mail.new
     mail.to = decision.target.email
     mail.from = from_email
-    mail.cc = from_email
+    mail.bcc = from_email
     mail.subject = subject
     mail.body = body_with_additions
     mail.deliver 
