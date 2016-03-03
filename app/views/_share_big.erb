@@ -1,0 +1,10 @@
+<% url = request.url unless (defined? url and url.is_a? String) %>
+
+<div class="share-big">
+  <a class="popup facebook" href="http://www.facebook.com/sharer/sharer.php?u=<%=CGI::escape(url)%>">
+    <i class="fa fa-facebook-square"></i> Share on Facebook
+  </a>
+  <a class="popup twitter"  href="http://twitter.com/intent/tweet?<%=[:url,:via,:text,:in_reply_to,:hashtags,:related].map { |x| begin "#{x}=#{CGI::escape(eval(x.to_s))}" rescue nil; end }.compact.join('&') %>">
+    <i class="fa fa-twitter"></i> Share on Twitter
+  </a>
+</div>

@@ -1,0 +1,20 @@
+
+<div class="row">
+  <div class="col-md-offset-2 col-md-8">
+    <div style="text-align: center">
+
+      <a href="<%=url(:accounts, :new)%>">Sign up with an email address</a>
+
+      <% if !Provider.registered.empty? %>
+        <p style="margin: 10px; text-align: center">
+          or   
+        </p>
+
+        <%  Provider.registered.each { |provider| %>             
+          <a class="btn btn-default" href="/auth/<%=provider.omniauth_name%>"><i class="fa fa-<%=provider.icon%>"></i> Sign up via <%=provider.display_name%></a>
+        <% } %>
+      <% end %>
+
+    </div>
+  </div>
+</div>

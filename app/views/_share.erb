@@ -1,0 +1,36 @@
+<% url = request.url unless (defined? url and url.is_a? String); id = 'share-buttons-'+Digest::MD5.hexdigest(url) unless (defined? id and id.is_a? String); %>
+
+<div id="<%=id%>" class="share-buttons">
+
+  <span class="facebook">
+    <a class="button popup" href="http://www.facebook.com/sharer/sharer.php?u=<%=CGI::escape(url)%>">
+      <i class="fa fa-facebook-square"></i> Share
+    </a>
+    <span class="count"><i></i><u></u></span>
+  </span>
+  
+  <script>
+    $(function() {
+      $.getJSON('http://graph.facebook.com/?ids=<%=CGI::escape(url)%>', function(data) {
+        $('#<%=id%> .facebook .count').append(data['<%=url%>']['shares'] || 0);
+      });
+    });
+  </script>
+
+  <span class="twitter">
+    <a class="button popup" href="http://twitter.com/intent/tweet?<%=[:url,:via,:text,:in_reply_to,:hashtags,:related].map { |x| begin "#{x}=#{CGI::escape(eval(x.to_s))}" rescue nil; end }.compact.join('&') %>">
+      <i class="fa fa-twitter"></i> Tweet
+    </a>
+    <span class="count"><i></i><u></u></span>  
+  </span>
+
+  <script>
+    $(function() {
+      $.getJSON("http://urls.api.twitter.com/1/urls/count.json?url=<%=CGI::escape(url)%>+&callback=?", function(data) {
+        $('#<%=id%> .twitter .count').append('<a target="_blank" href="http://twitter.com/search?q=<%=CGI::escape(url)%>">' + data['count'] + '</a>');
+      });
+    });
+  </script>
+
+</div>
+

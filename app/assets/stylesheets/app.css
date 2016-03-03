@@ -1,0 +1,11 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:700);
+
+body { }
+body, html { height: 100% }
+body, p, input, select { font-family: 'Open Sans' }
+h1, h2, h3, h4, h5, h6 { font-family: 'Open Sans Condensed'; text-transform: uppercase; font-weight: 700 }
+h1 { margin-top: 0 }
+body, p, h1, h2, h3, h4, h5, h6 { color: white;  }
+#alert-wrap { margin-top: 20px; position: absolute; z-index: 1040; width: 40%; margin-left: -20%; left: 50%; }
+

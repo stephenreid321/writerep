@@ -1,0 +1,220 @@
+GIT
+  remote: git://github.com/mislav/will_paginate.git
+  revision: 2f0b4694b3cc7ffcb265daad13eb95c972fa0bb1
+  specs:
+    will_paginate (3.1.0)
+
+GIT
+  remote: git://github.com/wordsandwriting/activate-admin.git
+  revision: 98cff580acac2450fd4964d0860c5ca5a35d3f8a
+  specs:
+    activate-admin (0.0.1)
+      activate-tools
+      padrino
+      will_paginate
+
+GIT
+  remote: git://github.com/wordsandwriting/activate-tools.git
+  revision: 38099559a719899892c1bf77236d3d8459c90d5d
+  specs:
+    activate-tools (0.0.1)
+      padrino
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activemodel (4.2.5.1)
+      activesupport (= 4.2.5.1)
+      builder (~> 3.1)
+    activesupport (4.2.5.1)
+      i18n (~> 0.7)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.3, >= 0.3.4)
+      tzinfo (~> 1.1)
+    addressable (2.4.0)
+    airbrake (4.3.5)
+      builder
+      multi_json
+    bcrypt (3.1.10)
+    bson (4.0.1)
+    builder (3.2.2)
+    delayed_job (4.1.1)
+      activesupport (>= 3.0, < 5.0)
+    delayed_job_mongoid (2.2.0)
+      delayed_job (>= 3.0, < 5)
+      mongoid (>= 3.0, < 6)
+      mongoid-compatibility
+    domain_name (0.5.20160128)
+      unf (>= 0.0.5, < 1.0.0)
+    dragonfly (1.0.12)
+      addressable (~> 2.3)
+      multi_json (~> 1.0)
+      rack (>= 1.3.0)
+    dragonfly-s3_data_store (1.2)
+      dragonfly (~> 1.0)
+      fog-aws
+    enumerable-lazy (0.0.1)
+    erubis (2.7.0)
+    excon (0.45.4)
+    faraday (0.9.2)
+      multipart-post (>= 1.2, < 3)
+    fog-aws (0.8.1)
+      fog-core (~> 1.27)
+      fog-json (~> 1.0)
+      fog-xml (~> 0.1)
+      ipaddress (~> 0.8)
+    fog-core (1.35.0)
+      builder
+      excon (~> 0.45)
+      formatador (~> 0.2)
+    fog-json (1.0.2)
+      fog-core (~> 1.0)
+      multi_json (~> 1.10)
+    fog-xml (0.1.2)
+      fog-core
+      nokogiri (~> 1.5, >= 1.5.11)
+    formatador (0.2.5)
+    hashie (3.4.3)
+    http-cookie (1.0.2)
+      domain_name (~> 0.5)
+    i18n (0.7.0)
+    ipaddress (0.8.2)
+    json (1.8.3)
+    jwt (1.5.1)
+    mail (2.6.3)
+      mime-types (>= 1.16, < 3)
+    mechanize (2.7.4)
+      domain_name (~> 0.5, >= 0.5.1)
+      http-cookie (~> 1.0)
+      mime-types (>= 1.17.2, < 3)
+      net-http-digest_auth (~> 1.1, >= 1.1.1)
+      net-http-persistent (~> 2.5, >= 2.5.2)
+      nokogiri (~> 1.6)
+      ntlm-http (~> 0.1, >= 0.1.1)
+      webrobots (>= 0.0.9, < 0.2)
+    mime-types (2.99.1)
+    mini_portile2 (2.0.0)
+    minitest (5.8.4)
+    moneta (0.7.20)
+    mongo (2.2.2)
+      bson (~> 4.0)
+    mongoid (5.1.0)
+      activemodel (~> 4.0)
+      mongo (~> 2.1)
+      origin (~> 2.2)
+      tzinfo (>= 0.3.37)
+    mongoid-compatibility (0.3.1)
+      activesupport
+      mongoid (>= 2.0)
+    multi_json (1.11.2)
+    multi_xml (0.5.5)
+    multipart-post (2.0.0)
+    mustermann19 (0.4.2)
+      enumerable-lazy
+    net-http-digest_auth (1.4)
+    net-http-persistent (2.9.4)
+    nokogiri (1.6.7.2)
+      mini_portile2 (~> 2.0.0.rc2)
+    ntlm-http (0.1.1)
+    oauth2 (1.1.0)
+      faraday (>= 0.8, < 0.10)
+      jwt (~> 1.0, < 1.5.2)
+      multi_json (~> 1.3)
+      multi_xml (~> 0.5)
+      rack (>= 1.2, < 3)
+    omniauth (1.3.1)
+      hashie (>= 1.2, < 4)
+      rack (>= 1.0, < 3)
+    omniauth-facebook (3.0.0)
+      omniauth-oauth2 (~> 1.2)
+    omniauth-google-oauth2 (0.3.1)
+      jwt (~> 1.0)
+      multi_json (~> 1.3)
+      omniauth (>= 1.1.1)
+      omniauth-oauth2 (>= 1.3.1)
+    omniauth-oauth2 (1.4.0)
+      oauth2 (~> 1.0)
+      omniauth (~> 1.2)
+    origin (2.2.0)
+    padrino (0.13.1)
+      padrino-admin (= 0.13.1)
+      padrino-cache (= 0.13.1)
+      padrino-core (= 0.13.1)
+      padrino-gen (= 0.13.1)
+      padrino-helpers (= 0.13.1)
+      padrino-mailer (= 0.13.1)
+      padrino-support (= 0.13.1)
+    padrino-admin (0.13.1)
+      padrino-core (= 0.13.1)
+      padrino-helpers (= 0.13.1)
+    padrino-cache (0.13.1)
+      moneta (~> 0.7.0)
+      padrino-core (= 0.13.1)
+      padrino-helpers (= 0.13.1)
+    padrino-core (0.13.1)
+      activesupport (>= 3.1)
+      mustermann19
+      padrino-support (= 0.13.1)
+      rack-protection (>= 1.5.0)
+      sinatra (~> 1.4.6)
+      thor (~> 0.18)
+    padrino-gen (0.13.1)
+      bundler (~> 1.0)
+      padrino-core (= 0.13.1)
+    padrino-helpers (0.13.1)
+      i18n (~> 0.6, >= 0.6.7)
+      padrino-support (= 0.13.1)
+      tilt (~> 1.4.1)
+    padrino-mailer (0.13.1)
+      mail (~> 2.5)
+      padrino-core (= 0.13.1)
+    padrino-support (0.13.1)
+      activesupport (>= 3.1)
+    puma (2.16.0)
+    rack (1.6.4)
+    rack-protection (1.5.3)
+      rack
+    rack-timeout (0.3.2)
+    rake (10.5.0)
+    sinatra (1.4.7)
+      rack (~> 1.5)
+      rack-protection (~> 1.4)
+      tilt (>= 1.3, < 3)
+    thor (0.19.1)
+    thread_safe (0.3.5)
+    tilt (1.4.1)
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.2)
+    webrobots (0.1.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activate-admin!
+  activate-tools!
+  airbrake (= 4.3.5)
+  bcrypt
+  delayed_job_mongoid
+  dragonfly
+  dragonfly-s3_data_store
+  erubis
+  mail
+  mechanize
+  mongoid
+  omniauth
+  omniauth-facebook
+  omniauth-google-oauth2
+  padrino
+  puma
+  rack
+  rack-timeout
+  rake
+  will_paginate!
+
+BUNDLED WITH
+   1.11.2

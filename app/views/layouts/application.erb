@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <% {            
+      'jquery/1.11.2' => 'jquery.min.js',
+      'webshim/1.15.7' => 'minified/polyfiller.js',
+      'bootswatch/3.3.2' => 'lumen/bootstrap.min.css',      
+      'twitter-bootstrap/3.3.2' => 'js/bootstrap.min.js',
+      'font-awesome/4.3.0' => 'css/font-awesome.min.css',
+      }.each { |k,v| %>    
+      <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
+        <% case f.split('.').last.to_sym; when :js %>
+          <script src="<%=u%>"></script>      
+        <% when :css %>
+          <link rel="stylesheet" href="<%=u%>" />
+        <% end %>
+      <% } %>
+    <% } %>
+
+    <% [
+      '/stylesheets/share.css',
+      '/stylesheets/app.css'
+      ].each { |f| %> 
+      <link rel="stylesheet" href="<%=f%>" />    
+    <% } %>
+
+    <% [
+      '/javascripts/app.js'
+      ].each { |f| %>
+      <script src="<%=f%>"></script>
+    <% } %>  
+
+    <%= favicon_tag 'favicon.png' %>
+    <title><%=@title%></title>
+    <meta name="description" content="<%=@og_desc%>">
+    <meta property="og:title" content="<%=@title%>" />
+    <meta property="og:image" content="<%=@og_image%>" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%=@title%>">
+    <meta name="twitter:description" content="<%=@og_desc%>">
+    <meta name="twitter:image" content="<%=@og_image%>">    
+
+  </head>
+  <body>
+
+    <%= partial :alert %>
+
+    <div style="background-image: url('<%=@campaign.background_image_url%>'); background-size: cover; background-position: center; height: 100%">
+
+      <div class="container">
+
+        <div style="background: rgba(0,0,0,0.7); padding: 20px">    
+          <%= yield %>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </body>
+</html>

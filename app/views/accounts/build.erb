@@ -1,0 +1,50 @@
+
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+
+    <% form_for @account, @account.new_record? ? url(:accounts, :new) : url(:accounts, :edit), :class => 'form-horizontal', :multipart => true do |f| %>
+      <%= f.text_block :name %>
+      <%= f.text_block :email %>
+      <%= f.image_block :picture, rotate: false %>
+      <%= f.select_block :time_zone %>
+      <%= f.password_block :password %>
+      <%= f.password_block :password_confirmation %>
+      <%= f.submit_block %>  
+    <% end %>
+
+    <script>
+      $(function() {
+        $('.use-picture').popover({trigger: 'hover', html: true});
+      });
+    </script>
+      <% Provider.registered.each { |provider| %>
+      <% if @account.persisted? or (session['omniauth.auth'] and session['omniauth.auth']['provider'] == provider.omniauth_name) %>
+        <div class="row" style="margin-bottom: 10px">
+          <div class="col-md-3" style="text-align: right"><i class="fa fa-<%=provider.icon%>"></i></div>
+          <div class="col-md-8">      
+            <div class="row">
+              <% if provider_link = @account.provider_links.select { |provider_link| provider_link.provider == provider.display_name }[0] %>
+                <a class="col-md-4" style="margin-top: 5px" target="_blank" href="<%= provider.profile_url.call(provider_link.omniauth_hash) %>"><%=provider.nickname.call(provider_link.omniauth_hash)%></a>
+                <% if current_account %>
+                  <div class="col-md-3">
+                    <a class="use-picture btn btn-default" href="<%=url(:accounts, :use_picture, :provider => provider.omniauth_name)%>" data-content="<img src='<%=provider.image.call(provider_link.omniauth_hash)%>'>" title="Click to use this picture">Use picture</a>
+                  </div>
+                  <div class="col-md-3">
+                    <a class="btn btn-default" href="<%=url(:accounts, :disconnect, :provider => provider.omniauth_name)%>">Disconnect</a>
+                  </div>
+                <% end %>                
+              <% else %>
+                <span class="col-md-4" style="margin-top: 5px">Not connected</span>
+                <div class="col-md-3">
+                  <a class="btn btn-default" href="/auth/<%=provider.omniauth_name%>">Connect</a>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% } %>   
+
+  </div>
+</div>
