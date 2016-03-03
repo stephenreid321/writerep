@@ -3,7 +3,7 @@
 
 body { }
 body, html { height: 100% }
-body, p, input, select, textarea { font-family: 'Open Sans'; font-size: 18px }
+body, p, input, select, textarea, .form-control { font-family: 'Open Sans'; font-size: 18px }
 h1 { font-size: 48px; margin-top: 0; margin-bottom: 20px }
 h1, h2, h3, h4, h5, h6 { font-family: 'Open Sans Condensed'; text-transform: uppercase; font-weight: 700 }
 body, p, h1, h2, h3, h4, h5, h6 { color: white;  }
