@@ -1,6 +1,3 @@
 
-<div style="margin-bottom: 10px">
-  <%=@campaign.thanks%>
-</div>
-
+<%=@campaign.thanks%>
 <%= partial :share_big, :locals => {:url => "http://#{ENV['DOMAIN']}/campaigns/#{@campaign.slug}"} %>

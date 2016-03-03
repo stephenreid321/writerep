@@ -111,7 +111,8 @@ module ActivateApp
     end   
     
     get '/campaigns/:slug/thanks' do
-      @campaign = Campaign.find_by(slug: params[:slug])
+      @campaign = Campaign.find_by(slug: params[:slug])      
+      @title = @campaign.name      
       erb :'campaigns/thanks'
     end    
     
