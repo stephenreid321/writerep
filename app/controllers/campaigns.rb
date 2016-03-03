@@ -1,7 +1,7 @@
 ActivateApp::App.controller do
   
   get '/campaigns/:slug' do
-    @campaign = Campaign.find_by(slug: params[:slug])
+    @campaign = Campaign.find_by(slug: params[:slug]) || not_found
       
     @title = @campaign.name
     @og_image = @campaign.background_image_url
@@ -36,7 +36,7 @@ ActivateApp::App.controller do
   end
     
   post '/campaigns/:slug/:decision_id/email' do
-    @campaign = Campaign.find_by(slug: params[:slug])
+    @campaign = Campaign.find_by(slug: params[:slug]) || not_found
     @decision = @campaign.decisions.find(params[:decision_id])
     @email = @decision.emails.new(params[:email])
     if @email.save
@@ -48,7 +48,7 @@ ActivateApp::App.controller do
   end  
         
   post '/campaigns/:slug/:decision_id/tweet' do
-    @campaign = Campaign.find_by(slug: params[:slug])
+    @campaign = Campaign.find_by(slug: params[:slug]) || not_found
     @decision = @campaign.decisions.find(params[:decision_id])
     @tweet = @decision.tweets.new(params[:tweet])
     if @tweet.save
@@ -60,7 +60,7 @@ ActivateApp::App.controller do
   end   
     
   get '/campaigns/:slug/thanks' do
-    @campaign = Campaign.find_by(slug: params[:slug])      
+    @campaign = Campaign.find_by(slug: params[:slug]) || not_found  
     @title = @campaign.name      
     erb :'campaigns/thanks'
   end    
