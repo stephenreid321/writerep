@@ -52,7 +52,7 @@ ActivateApp::App.controller do
     if @tweet.save
       redirect "/campaigns/#{@campaign.slug}/thanks"
     else
-      flash[:error] = 'Some errors prevented the tweet from being sent'
+      flash[:error] = 'Some errors prevented the tweet from being saved'
       erb :'campaigns/tweet'
     end
   end   
