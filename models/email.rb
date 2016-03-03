@@ -31,12 +31,13 @@ class Email
   end   
   
   def body_with_additions
-    "#{body}\n\nYours sincerely,\n#{from_name}\n#{from_postcode}"
+    decision = Decision.find(decision_id)
+    "Dear #{decision.target.email},\n\n#{body}\n\nYours sincerely,\n\n#{from_name}\n#{from_postcode}"
   end
   
   after_create :send_email
   def send_email
-    decision = Decision.find(decision_id) # decision.target is reserved (by mongoid?)
+    decision = Decision.find(decision_id)
     mail = Mail.new
     mail.to = decision.target.email
     mail.from = from_email
