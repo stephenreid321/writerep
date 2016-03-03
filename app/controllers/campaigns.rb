@@ -11,10 +11,8 @@ ActivateApp::App.controller do
       @decision = @campaign.decisions.first
     elsif params[:postcode]
       agent = Mechanize.new
-      uri = agent.get("http://www.parliament.uk/mps-lords-and-offices/mps/?search_term=#{params[:postcode]}").uri
-      if uri.path != '/mps-lords-and-offices/mps/'          
-        @decision = @campaign.decisions.find_by(target_id: Target.find_by(identifier: uri.to_s.split('/').last).try(:id))
-      end
+      uri = agent.get("#{@campaign.postcode_lookup_url}#{params[:postcode]}").uri
+      @decision = @campaign.decisions.find_by(target_id: Target.find_by(identifier: uri.to_s.split('/').last).try(:id))
       if !@decision
         flash[:error] = 'Not found'
         redirect "/campaigns/#{@campaign.slug}"
