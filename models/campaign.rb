@@ -17,7 +17,7 @@ class Campaign
   
   has_many :decisions, :dependent => :destroy
   
-  validates_presence_of :name, :slug, :intro
+  validates_presence_of :name, :slug
   validates_uniqueness_of :slug
   validates_format_of :slug, :with => /\A[a-z0-9\-]+\z/
         

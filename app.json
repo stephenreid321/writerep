@@ -1,0 +1,8 @@
+{
+  "name": "Campaign Kit",
+  "repository": "https://github.com/wordsandwriting/campaign-kit",
+  "addons": [
+    "mongolab"
+  ],  
+  "success_url": "/admin"
+}
