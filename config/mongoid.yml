@@ -15,4 +15,4 @@ test:
 production:
   clients:
     default:
-      uri: <%= ENV['MONGO_URL'] %>
+      uri: <%= ENV['MONGOLAB_URI'] || ENV['MONGO_URL'] %>
