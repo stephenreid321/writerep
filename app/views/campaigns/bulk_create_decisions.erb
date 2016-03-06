@@ -9,13 +9,12 @@
     <%= select_tag :type, :class => 'form-control', :placeholder => 'Type', :options => Target.pluck(:type).uniq, :selected => params[:type] %>
   </div>
   <div class="form-group">
-    <button class="btn btn-primary" name="search" value="1">Search</button>
+    <button class="btn btn-default" name="search" value="1">Search</button>
   </div>
-
 <% end %>
 
 <% if @targets %>
-  <a class="btn btn-primary" id="create-decisions" href="javascript:;">Create decisions for these targets</a>
+  <a class="btn btn-primary" href="javascript:;" onclick="$('.create-decision').click()">Create decisions for these targets</a>
   <table class="table">
     <% @targets.each { |target| %>
       <tr>
@@ -44,10 +43,6 @@
       });
     };
 
-    $('#create-decisions').click(function () {
-      $('.create-decision').click()
-    })
-
     $('.create-decision').click(function () {
       var a = this;
       $.ajaxQueue({
@@ -57,7 +52,7 @@
           $(a).html('<i class=\'fa fa-check\'></i>')
         },
         error: function (data) {
-          $(a).html('<i class=\'fa fa-times\'></i>')
+          $(a).html('<i class=\'fa fa-exclamation\'></i>')
         }
       });
     });
