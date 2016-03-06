@@ -36,7 +36,7 @@ class Target
         email = email.text.strip.split(';').first
       end
       if twitter = mp_page.search('[data-generic-id=twitter] a')[0]
-        twitter = twitter.text.strip
+        twitter = twitter.text.strip.split('?').first
       end      
       target = Target.create name: name, identifier: mp_page.uri.to_s.split('/').last, type: 'MP'
       target.email = email
