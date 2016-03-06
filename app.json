@@ -3,6 +3,9 @@
   "repository": "https://github.com/wordsandwriting/campaign-kit",
   "addons": [
     "mongolab"
-  ],  
-  "success_url": "/admin"
+  ],
+  "success_url": "/admin",
+  "scripts": {
+    "postdeploy": "bundle exec rake import:mps"
+  }
 }

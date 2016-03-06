@@ -1,0 +1,66 @@
+
+<h1>Create decisions for <%=@campaign.name%></h1>
+
+<% form_tag "/campaigns/#{@campaign.slug}/bulk_create_decisions", :method => :get do %>
+  <div class="form-group">
+    <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Name', :value => params[:name] %>
+  </div>
+  <div class="form-group">
+    <%= select_tag :type, :class => 'form-control', :placeholder => 'Type', :options => Target.pluck(:type).uniq, :selected => params[:type] %>
+  </div>
+  <div class="form-group">
+    <button class="btn btn-primary" name="search" value="1">Search</button>
+  </div>
+
+<% end %>
+
+<% if @targets %>
+  <a class="btn btn-primary" id="create-decisions" href="javascript:;">Create decisions for these targets</a>
+  <table class="table">
+    <% @targets.each { |target| %>
+      <tr>
+        <td><%=target.name%></td>
+        <td><%=target.type%></td>
+        <td><a class="btn btn-default btn-sm create-decision" href="javascript:;" data-target-id="<%=target.id%>"><i class="fa fa-plus"></i></a></td>
+      </tr>
+    <% } %> 
+  </table>
+<% end %>
+
+<script>
+  $(function () {
+
+    var ajaxQueue = $({});
+    $.ajaxQueue = function (ajaxOpts) {
+      var oldComplete = ajaxOpts.complete;
+      ajaxQueue.queue(function (next) {
+        ajaxOpts.complete = function () {
+          if (oldComplete) {
+            oldComplete.apply(this, arguments);
+          }
+          next();
+        };
+        $.ajax(ajaxOpts);
+      });
+    };
+
+    $('#create-decisions').click(function () {
+      $('.create-decision').click()
+    })
+
+    $('.create-decision').click(function () {
+      var a = this;
+      $.ajaxQueue({
+        url: '/campaigns/<%=@campaign.slug%>/create_decisions/' + $(a).attr('data-target-id'),
+        type: 'POST',
+        success: function (data) {
+          $(a).html('<i class=\'fa fa-check\'></i>')
+        },
+        error: function (data) {
+          $(a).html('<i class=\'fa fa-times\'></i>')
+        }
+      });
+    });
+
+  })
+</script>

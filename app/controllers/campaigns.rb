@@ -63,4 +63,27 @@ ActivateApp::App.controller do
     erb :'campaigns/thanks'
   end    
     
+  get '/bulk_create_decisions' do    
+    @campaign = Campaign.find(request.referrer.split('/').last)   
+    redirect "/campaigns/#{@campaign.slug}/bulk_create_decisions"
+  end
+  
+  get '/campaigns/:slug/bulk_create_decisions' do
+    admins_only!    
+    @campaign = Campaign.find_by(slug: params[:slug]) || not_found  
+    if params[:search]
+      @targets = Target.all
+      @targets = @targets.where(name: /#{Regexp.escape(params[:name])}/i) if params[:name]
+      @targets = @targets.where(type: params[:type]) if params[:type]
+    end
+    erb :'campaigns/bulk_create_decisions'
+  end 
+  
+  post '/campaigns/:slug/create_decisions/:target_id' do
+    admins_only!    
+    @campaign = Campaign.find_by(slug: params[:slug]) || not_found  
+    @campaign.decisions.create! target_id: params[:target_id]
+    200
+  end
+  
 end

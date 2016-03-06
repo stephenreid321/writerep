@@ -11,11 +11,19 @@ ActivateApp::App.helpers do
       request.xhr? ? halt : redirect(url(:accounts, :sign_in))
     end
   end  
+     
+  def admins_only!
+    unless current_account and current_account.admin?
+      flash[:notice] = 'You must be an admin to access that page'
+      session[:return_to] = request.url
+      request.xhr? ? halt : redirect(url(:accounts, :sign_in))
+    end
+  end    
   
   def f(slug)
     (if fragment = Fragment.find_by(slug: slug) and fragment.body
-      "\"#{fragment.body.to_s.gsub('"','\"')}\""
-    end).to_s
+        "\"#{fragment.body.to_s.gsub('"','\"')}\""
+      end).to_s
   end  
   
 end

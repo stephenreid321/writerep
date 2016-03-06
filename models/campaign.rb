@@ -35,7 +35,7 @@ class Campaign
       :email_subject => :text_area,
       :email_body => :text_area,
       :tweet_body => :text_area,      
-      :decisions => :collection
+      :decisions => {:type => :collection, :edit_hint => '<a class="btn btn-default" href="/bulk_create_decisions">Bulk create decisions</a>'}
     }
   end
       

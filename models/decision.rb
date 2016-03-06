@@ -6,6 +6,7 @@ class Decision
   belongs_to :target
   
   validates_presence_of :campaign, :target
+  validates_uniqueness_of :campaign, :scope => :target
   
   has_many :emails, :dependent => :destroy
   has_many :tweets, :dependent => :destroy
