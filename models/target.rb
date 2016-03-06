@@ -6,6 +6,7 @@ class Target
   field :address_as, :type => String
   field :email, :type => String  
   field :twitter, :type => String
+  field :facebook, :type => String
   field :image_url, :type => String
   field :identifier, :type => String
   field :type, :type => String
@@ -23,6 +24,7 @@ class Target
       :address_as => :text,   
       :email => :email,
       :twitter => :text,
+      :facebook => :text,
       :image_url => :text,
       :identifier => :text,         
       :type => :text,
@@ -43,7 +45,7 @@ class Target
     agent = Mechanize.new
     mp_page = agent.get(url)
     name = mp_page.search('h1')[0].text.strip
-    target = Target.create name: name, identifier: mp_page.uri.to_s.split('/').last, type: 'MP'
+    target = Target.create! name: name, identifier: mp_page.uri.to_s.split('/').last, type: 'MP'
     if address_as = mp_page.search('#commons-addressas')[0]
       address_as = address_as.text.strip
       target.update_attributes(address_as: address_as)
@@ -55,6 +57,9 @@ class Target
     if twitter = mp_page.search('[data-generic-id=twitter] a')[0]
       twitter = twitter.text.strip.split('?').first
       target.update_attributes(twitter: twitter)
+    end      
+    if facebook = mp_page.search('[data-generic-id=facebook] a')[0]
+      target.update_attributes(facebook: facebook['href'])
     end      
     if img = mp_page.search('#member-image img')[0]
       target.update_attributes(image_url: img['src'])
