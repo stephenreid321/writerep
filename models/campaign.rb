@@ -5,7 +5,7 @@ class Campaign
   field :name, :type => String
   field :slug, :type => String
   field :background_image_url, :type => String
-  field :postcode_lookup_url, :type => String
+  field :postcode_lookup_url, :type => String, :default => 'http://www.parliament.uk/mps-lords-and-offices/mps/?search_term='
   field :facebook_share_text, :type => String  
   field :action, :type => String
   field :intro, :type => String
@@ -38,11 +38,7 @@ class Campaign
       :decisions => :collection
     }
   end
-    
-  before_validation do
-    self.postcode_lookup_url = 'http://www.parliament.uk/mps-lords-and-offices/mps/?search_term=' if !self.postcode_lookup_url
-  end
-  
+      
   def self.actions
     %w{email tweet}
   end
