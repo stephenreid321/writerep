@@ -14,7 +14,7 @@ ActivateApp::App.controller do
       uri = agent.get("#{@campaign.postcode_lookup_url}#{params[:postcode]}").uri
       @decision = @campaign.decisions.find_by(representative_id: Representative.find_by(identifier: uri.to_s.split('/').last).try(:id))
       if !@decision
-        flash[:error] = 'Not found'
+        flash[:error] = "No representatives of that postcode are part of this campaign"
         redirect "/campaigns/#{@campaign.slug}"
       end
     end  
