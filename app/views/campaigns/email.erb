@@ -7,6 +7,7 @@
   <div class="col-md-6 col-md-pull-6">
     <% form_for @email, "/campaigns/#{@campaign.slug}/#{@decision.id}/email" do |f| %>
       <%= f.text_block :subject, :div_class => '', :label_class => '' %>
+      <p>Dear <%=decision.representative.address_as || decision.representative.name%>,</p>    
       <%= f.text_area_block :body, :div_class => '', :label_class => '' %>
       <p>Yours sincerely,</p>    
       <%= f.text_block :from_name, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_name) %>
