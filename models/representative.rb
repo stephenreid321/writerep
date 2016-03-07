@@ -42,7 +42,9 @@ class Representative
     agent = Mechanize.new
     index_page = agent.get('http://www.parliament.uk/mps-lords-and-offices/mps/')
     index_page.search('#pnlListing table td a[id]').each { |a| 
-      import_mp(a['href'])
+      begin
+        import_mp(a['href'])
+      rescue; end       
     }      
   end
   
@@ -88,7 +90,9 @@ class Representative
     agent = Mechanize.new
     index_page = agent.get('https://www.london.gov.uk/people/assembly')
     index_page.search('a[data-mh=view--related-content]').each { |a| 
-      import_am("https://www.london.gov.uk#{a['href']}")
+      begin
+        import_am("https://www.london.gov.uk#{a['href']}")
+      rescue; end
     }        
   end
   
