@@ -1,4 +1,4 @@
-class Target
+class Representative
   include Mongoid::Document
   include Mongoid::Timestamps
 
@@ -48,33 +48,33 @@ class Target
     ['Rt Hon ', 'Dr ', 'Sir ', 'Mr ', 'Ms ', 'Mrs ', ' MP', ' QC'].each { |x|
       name = name.gsub(x,'')
     }
-    target = Target.create! name: name, identifier: mp_page.uri.to_s.split('/').last, type: 'MP'
+    representative = Representative.create! name: name, identifier: mp_page.uri.to_s.split('/').last, type: 'MP'
     if address_as = mp_page.search('#commons-addressas')[0]
       address_as = address_as.text.strip
-      target.update_attributes(address_as: address_as)
+      representative.update_attributes(address_as: address_as)
     end    
     if email = mp_page.search('[data-generic-id=email-address] a')[0]
       email = email.text.strip.split(';').first
-      target.update_attributes(email: email)
+      representative.update_attributes(email: email)
     end
     if twitter = mp_page.search('[data-generic-id=twitter] a')[0]
       twitter = twitter.text.strip.split('?').first
-      target.update_attributes(twitter: twitter)
+      representative.update_attributes(twitter: twitter)
     end      
     if facebook = mp_page.search('[data-generic-id=facebook] a')[0]
-      target.update_attributes(facebook: facebook['href'])
+      representative.update_attributes(facebook: facebook['href'])
     end      
     if img = mp_page.search('#member-image img')[0]
-      target.update_attributes(image_url: img['src'])
+      representative.update_attributes(image_url: img['src'])
     end           
     p = mp_page.search('#commons-party')[0].text.strip
     p_image = mp_page.search('#imgPartyLogo')[0]['src']
     if party = Party.find_by(name: p) || Party.create(name: p, image_url: p_image)
-      target.update_attributes(party: party)
+      representative.update_attributes(party: party)
     end
     c = mp_page.search('#commons-constituency')[0].text.strip
     if constituency = Constituency.find_by(name: c) || Constituency.create(name: c, type: 'pcon')
-      target.update_attributes(constituency: constituency)
+      representative.update_attributes(constituency: constituency)
     end
   end
     

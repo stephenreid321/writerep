@@ -4,6 +4,6 @@ end
 
 namespace :import do
   task :mps => :environment do
-    Target.import_mps
+    Representative.import_mps
   end
 end

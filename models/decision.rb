@@ -3,10 +3,10 @@ class Decision
   include Mongoid::Timestamps
 
   belongs_to :campaign
-  belongs_to :target
+  belongs_to :representative
   
-  validates_presence_of :campaign, :target
-  validates_uniqueness_of :campaign, :scope => :target
+  validates_presence_of :campaign, :representative
+  validates_uniqueness_of :campaign, :scope => :representative
   
   has_many :emails, :dependent => :destroy
   has_many :tweets, :dependent => :destroy
@@ -15,12 +15,12 @@ class Decision
     {
       :summary => {:type => :text, :edit => false},
       :campaign_id => :lookup,
-      :target_id => :lookup
+      :representative_id => :lookup
     }
   end
   
   def summary
-    "#{target.name}: #{campaign.name}"
+    "#{representative.name}: #{campaign.name}"
   end
     
 end

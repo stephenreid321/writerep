@@ -7,13 +7,13 @@ class Party
   
   validates_presence_of :name
   
-  has_many :targets, :dependent => :destroy
+  has_many :representatives, :dependent => :destroy
         
   def self.admin_fields
     {
       :name => :text,
       :image_url => :text,
-      :targets => :collection
+      :representatives => :collection
     }
   end
     

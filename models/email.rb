@@ -31,15 +31,13 @@ class Email
   end   
   
   def body_with_additions
-    decision = Decision.find(decision_id)
-    "Dear #{decision.target.address_as || decision.target.name},\n\n#{body}\n\nYours sincerely,\n\n#{from_name}\n#{from_postcode}"
+    "Dear #{decision.representative.address_as || decision.representative.name},\n\n#{body}\n\nYours sincerely,\n\n#{from_name}\n#{from_postcode}"
   end
   
   after_create :send_email
   def send_email
-    decision = Decision.find(decision_id)
     mail = Mail.new
-    mail.to = decision.target.email
+    mail.to = decision.representative.email
     mail.from = from_email
     mail.bcc = from_email
     mail.subject = subject

@@ -12,16 +12,16 @@
     <%= text_field_tag :constituency, :class => 'form-control', :placeholder => 'Constituency', :value => params[:constituency] %>
   </div>
   <div class="form-group">
-    <%= select_tag :type, :class => 'form-control', :options => Target.pluck(:type).uniq, :selected => params[:type] %>
+    <%= select_tag :type, :class => 'form-control', :options => Representative.pluck(:type).uniq, :selected => params[:type] %>
   </div>
   <div class="form-group">
     <button class="btn btn-default" name="search" value="1">Search</button>
   </div>
 <% end %>
 
-<% if @targets %>
-  <p><%= pluralize(@targets.count, 'target') %></p>
-  <a class="btn btn-primary" href="javascript:;" onclick="$('.create-decision').click()">Create decisions for these targets</a>
+<% if @representatives %>
+  <p><%= pluralize(@representatives.count, 'representative') %></p>
+  <a class="btn btn-primary" href="javascript:;" onclick="$('.create-decision').click()">Create decisions for these representatives</a>
   <table class="table" data-sortlist="[[4,0],[0,0]]">
     <thead>
       <tr>
@@ -32,19 +32,19 @@
         <th>Decision</th>
       </tr>
     </thead>
-    <% @targets.each { |target| %>
+    <% @representatives.each { |representative| %>
       <tr>
-        <td><%=target.name%></td>
-        <td><%=target.party.try(:name)%></td>
-        <td><%=target.constituency.try(:name)%></td>
-        <td><%=target.type%></td>        
+        <td><%=representative.name%></td>
+        <td><%=representative.party.try(:name)%></td>
+        <td><%=representative.constituency.try(:name)%></td>
+        <td><%=representative.type%></td>        
         <td>
-          <% if @campaign.decisions.find_by(target: target) %>
-            <a class="btn btn-default btn-sm disabled" href="javascript:;" data-target-id="<%=target.id%>">            
+          <% if @campaign.decisions.find_by(representative: representative) %>
+            <a class="btn btn-default btn-sm disabled" href="javascript:;" data-representative-id="<%=representative.id%>">            
               <i class="fa fa-check"></i>
             </a>
           <% else %>
-            <a class="btn btn-default btn-sm create-decision" href="javascript:;" data-target-id="<%=target.id%>">            
+            <a class="btn btn-default btn-sm create-decision" href="javascript:;" data-representative-id="<%=representative.id%>">            
               <i class="fa fa-plus"></i>
             </a>
           <% end %>
@@ -83,7 +83,7 @@
     $('.create-decision').click(function () {
       var a = this;
       $.ajaxQueue({
-        url: '/campaigns/<%=@campaign.slug%>/create_decisions/' + $(a).attr('data-target-id'),
+        url: '/campaigns/<%=@campaign.slug%>/create_decisions/' + $(a).attr('data-representative-id'),
         type: 'POST',
         success: function (data) {
           $(a).removeClass('create-decision').addClass('disabled').html('<i class=\'fa fa-check\'></i>')

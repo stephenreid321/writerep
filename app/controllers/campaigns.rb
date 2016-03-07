@@ -12,7 +12,7 @@ ActivateApp::App.controller do
     elsif params[:postcode]
       agent = Mechanize.new
       uri = agent.get("#{@campaign.postcode_lookup_url}#{params[:postcode]}").uri
-      @decision = @campaign.decisions.find_by(target_id: Target.find_by(identifier: uri.to_s.split('/').last).try(:id))
+      @decision = @campaign.decisions.find_by(representative_id: Representative.find_by(identifier: uri.to_s.split('/').last).try(:id))
       if !@decision
         flash[:error] = 'Not found'
         redirect "/campaigns/#{@campaign.slug}"
@@ -22,12 +22,12 @@ ActivateApp::App.controller do
     if !@decision
       erb :'campaigns/intro'
     else
-      @target = @decision.target
+      @representative = @decision.representative
       if @campaign.email?
         @email = @decision.emails.new subject: @campaign.email_subject, body: @campaign.email_body, from_postcode: params[:postcode]
         erb :'campaigns/email'
       elsif @campaign.tweet?
-        @tweet = @decision.tweets.new body: "#{@decision.target.twitter} #{@campaign.tweet_body}", from_postcode: params[:postcode]
+        @tweet = @decision.tweets.new body: "#{@decision.representative.twitter} #{@campaign.tweet_body}", from_postcode: params[:postcode]
         erb :'campaigns/tweet'
       end        
     end
@@ -72,19 +72,19 @@ ActivateApp::App.controller do
     admins_only!    
     @campaign = Campaign.find_by(slug: params[:slug]) || not_found  
     if params[:search]
-      @targets = Target.all
-      @targets = @targets.where(name: /#{Regexp.escape(params[:name])}/i) if params[:name]
-      @targets = @targets.where(:party_id => params[:party_id]) if params[:party_id]
-      @targets = @targets.where(:constituency_id.in => Constituency.where(name: /#{Regexp.escape(params[:constituency])}/i).pluck(:id)) if params[:constituency]
-      @targets = @targets.where(type: params[:type]) if params[:type]      
+      @representatives = Representative.all
+      @representatives = @representatives.where(name: /#{Regexp.escape(params[:name])}/i) if params[:name]
+      @representatives = @representatives.where(:party_id => params[:party_id]) if params[:party_id]
+      @representatives = @representatives.where(:constituency_id.in => Constituency.where(name: /#{Regexp.escape(params[:constituency])}/i).pluck(:id)) if params[:constituency]
+      @representatives = @representatives.where(type: params[:type]) if params[:type]      
     end
     erb :'campaigns/bulk_create_decisions'
   end 
   
-  post '/campaigns/:slug/create_decisions/:target_id' do
+  post '/campaigns/:slug/create_decisions/:representative_id' do
     admins_only!    
     @campaign = Campaign.find_by(slug: params[:slug]) || not_found  
-    @campaign.decisions.create! target_id: params[:target_id]
+    @campaign.decisions.create! representative_id: params[:representative_id]
     200
   end
   
