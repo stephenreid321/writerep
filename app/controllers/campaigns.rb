@@ -74,7 +74,9 @@ ActivateApp::App.controller do
     if params[:search]
       @targets = Target.all
       @targets = @targets.where(name: /#{Regexp.escape(params[:name])}/i) if params[:name]
-      @targets = @targets.where(type: params[:type]) if params[:type]
+      @targets = @targets.where(:party_id => params[:party_id]) if params[:party_id]
+      @targets = @targets.where(:constituency_id.in => Constituency.where(name: /#{Regexp.escape(params[:constituency])}/i).pluck(:id)) if params[:constituency]
+      @targets = @targets.where(type: params[:type]) if params[:type]      
     end
     erb :'campaigns/bulk_create_decisions'
   end 

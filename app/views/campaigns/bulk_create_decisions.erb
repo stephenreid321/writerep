@@ -1,12 +1,18 @@
 
-<h1>Create decisions for <%=@campaign.name%></h1>
+<h1><a style="color: white; text-decoration: none" href="/campaigns/<%=@campaign.slug%>/bulk_create_decisions"><%=@campaign.name%>: create decisions</a></h1>
 
 <% form_tag "/campaigns/#{@campaign.slug}/bulk_create_decisions", :method => :get do %>
   <div class="form-group">
     <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Name', :value => params[:name] %>
   </div>
   <div class="form-group">
-    <%= select_tag :type, :class => 'form-control', :placeholder => 'Type', :options => Target.pluck(:type).uniq, :selected => params[:type] %>
+    <%= select_tag :party_id, :class => 'form-control', :options => [['Select a party','']] + Party.all.map { |party| [party.name, party.id] }, :selected => params[:party_id] %>
+  </div>
+  <div class="form-group">
+    <%= text_field_tag :constituency, :class => 'form-control', :placeholder => 'Constituency', :value => params[:constituency] %>
+  </div>
+  <div class="form-group">
+    <%= select_tag :type, :class => 'form-control', :options => Target.pluck(:type).uniq, :selected => params[:type] %>
   </div>
   <div class="form-group">
     <button class="btn btn-default" name="search" value="1">Search</button>
@@ -14,13 +20,35 @@
 <% end %>
 
 <% if @targets %>
+  <p><%= pluralize(@targets.count, 'target') %></p>
   <a class="btn btn-primary" href="javascript:;" onclick="$('.create-decision').click()">Create decisions for these targets</a>
-  <table class="table">
+  <table class="table" data-sortlist="[[4,0],[0,0]]">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Party</th>
+        <th>Constituency</th>
+        <th>Type</th>
+        <th>Decision</th>
+      </tr>
+    </thead>
     <% @targets.each { |target| %>
       <tr>
         <td><%=target.name%></td>
-        <td><%=target.type%></td>
-        <td><a class="btn btn-default btn-sm create-decision" href="javascript:;" data-target-id="<%=target.id%>"><i class="fa fa-plus"></i></a></td>
+        <td><%=target.party.name%></td>
+        <td><%=target.constituency.name%></td>
+        <td><%=target.type%></td>        
+        <td>
+          <% if @campaign.decisions.find_by(target: target) %>
+            <a class="btn btn-default btn-sm disabled" href="javascript:;" data-target-id="<%=target.id%>">            
+              <i class="fa fa-check"></i>
+            </a>
+          <% else %>
+            <a class="btn btn-default btn-sm create-decision" href="javascript:;" data-target-id="<%=target.id%>">            
+              <i class="fa fa-plus"></i>
+            </a>
+          <% end %>
+        </td>
       </tr>
     <% } %> 
   </table>
@@ -28,6 +56,15 @@
 
 <script>
   $(function () {
+
+    $('table').tablesorter({
+      textExtraction: {
+        4: function (node, table, cellIndex) {
+          return $(node).find("i").attr('class');
+        }
+      }
+    })
+
 
     var ajaxQueue = $({});
     $.ajaxQueue = function (ajaxOpts) {
@@ -49,7 +86,7 @@
         url: '/campaigns/<%=@campaign.slug%>/create_decisions/' + $(a).attr('data-target-id'),
         type: 'POST',
         success: function (data) {
-          $(a).html('<i class=\'fa fa-check\'></i>')
+          $(a).removeClass('create-decision').addClass('disabled').html('<i class=\'fa fa-check\'></i>')
         },
         error: function (data) {
           $(a).html('<i class=\'fa fa-exclamation\'></i>')

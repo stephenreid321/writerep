@@ -10,6 +10,7 @@
       'bootswatch/3.3.2' => 'lumen/bootstrap.min.css',      
       'twitter-bootstrap/3.3.2' => 'js/bootstrap.min.js',
       'font-awesome/4.3.0' => 'css/font-awesome.min.css',
+      'jquery.tablesorter/2.25.5' => 'js/jquery.tablesorter.min.js'
       }.each { |k,v| %>    
       <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
         <% case f.split('.').last.to_sym; when :js %>

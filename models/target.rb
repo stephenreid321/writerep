@@ -45,6 +45,9 @@ class Target
     agent = Mechanize.new
     mp_page = agent.get(url)
     name = mp_page.search('h1')[0].text.strip
+    ['Rt Hon ', 'Dr ', 'Sir ', 'Mr ', 'Ms ', 'Mrs ', ' MP', ' QC'].each { |x|
+      name = name.gsub(x,'')
+    }
     target = Target.create! name: name, identifier: mp_page.uri.to_s.split('/').last, type: 'MP'
     if address_as = mp_page.search('#commons-addressas')[0]
       address_as = address_as.text.strip
