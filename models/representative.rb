@@ -48,25 +48,27 @@ class Representative
     ['Rt Hon ', 'Dr ', 'Sir ', 'Mr ', 'Ms ', 'Mrs ', ' MP', ' QC'].each { |x|
       name = name.gsub(x,'')
     }
+    puts name
     representative = Representative.create! name: name, identifier: mp_page.uri.to_s.split('/').last, type: 'MP'
-    if address_as = mp_page.search('#commons-addressas')[0]
-      address_as = address_as.text.strip
-      representative.update_attributes(address_as: address_as)
-    end    
     if email = mp_page.search('[data-generic-id=email-address] a')[0]
       email = email.text.strip.split(';').first
       representative.update_attributes(email: email)
     end
+    
+    if address_as = mp_page.search('#commons-addressas')[0]
+      address_as = address_as.text.strip
+    end    
     if twitter = mp_page.search('[data-generic-id=twitter] a')[0]
-      twitter = twitter.text.strip.split('?').first
-      representative.update_attributes(twitter: twitter)
+      twitter = twitter.text.strip.split('?').first      
     end      
     if facebook = mp_page.search('[data-generic-id=facebook] a')[0]
-      representative.update_attributes(facebook: facebook['href'])
+      facebook = facebook['href']
     end      
     if img = mp_page.search('#member-image img')[0]
-      representative.update_attributes(image_url: img['src'])
-    end           
+      img = img['src']
+    end               
+    representative.update_attributes(address_as: address_as, twitter: twitter, facebook: facebook, image_url: img)
+    
     p = mp_page.search('#commons-party')[0].text.strip
     p_image = mp_page.search('#imgPartyLogo')[0]['src']
     if party = Party.find_by(name: p) || Party.create(name: p, image_url: p_image)
