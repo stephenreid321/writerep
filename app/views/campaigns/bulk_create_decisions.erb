@@ -35,8 +35,8 @@
     <% @targets.each { |target| %>
       <tr>
         <td><%=target.name%></td>
-        <td><%=target.party.name%></td>
-        <td><%=target.constituency.name%></td>
+        <td><%=target.party.try(:name)%></td>
+        <td><%=target.constituency.try(:name)%></td>
         <td><%=target.type%></td>        
         <td>
           <% if @campaign.decisions.find_by(target: target) %>
