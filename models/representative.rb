@@ -33,6 +33,11 @@ class Representative
     }
   end
   
+  def self.import
+    import_mps
+    import_ams
+  end
+  
   def self.import_mps
     agent = Mechanize.new
     index_page = agent.get('http://www.parliament.uk/mps-lords-and-offices/mps/')
@@ -43,41 +48,62 @@ class Representative
   
   def self.import_mp(url)
     agent = Mechanize.new
-    mp_page = agent.get(url)
-    name = mp_page.search('h1')[0].text.strip
+    page = agent.get(url)
+    name = page.search('h1')[0].text.strip
     ['Rt Hon ', 'Dr ', 'Sir ', 'Mr ', 'Ms ', 'Mrs ', ' MP', ' QC'].each { |x|
       name = name.gsub(x,'')
     }
     puts name
-    representative = Representative.create! name: name, identifier: mp_page.uri.to_s.split('/').last, type: 'MP'
-    if email = mp_page.search('[data-generic-id=email-address] a')[0]
-      email = email.text.strip.split(';').first
-      representative.update_attributes(email: email)
-    end
+    representative = Representative.create! name: name, identifier: page.uri.to_s.split('/').last, type: 'MP'
     
-    if address_as = mp_page.search('#commons-addressas')[0]
+    if email = page.search('[data-generic-id=email-address] a')[0]
+      email = email.text.strip.split(';').first
+    end    
+    if address_as = page.search('#commons-addressas')[0]
       address_as = address_as.text.strip
     end    
-    if twitter = mp_page.search('[data-generic-id=twitter] a')[0]
+    if twitter = page.search('[data-generic-id=twitter] a')[0]
       twitter = twitter.text.strip.split('?').first      
     end      
-    if facebook = mp_page.search('[data-generic-id=facebook] a')[0]
+    if facebook = page.search('[data-generic-id=facebook] a')[0]
       facebook = facebook['href']
     end      
-    if img = mp_page.search('#member-image img')[0]
+    if img = page.search('#member-image img')[0]
       img = img['src']
     end               
-    representative.update_attributes(address_as: address_as, twitter: twitter, facebook: facebook, image_url: img)
+    representative.update_attributes(email: email, address_as: address_as, twitter: twitter, facebook: facebook, image_url: img)
     
-    p = mp_page.search('#commons-party')[0].text.strip
-    p_image = mp_page.search('#imgPartyLogo')[0]['src']
+    p = page.search('#commons-party')[0].text.strip
+    p_image = page.search('#imgPartyLogo')[0]['src']
     if party = Party.find_by(name: p) || Party.create(name: p, image_url: p_image)
       representative.update_attributes(party: party)
     end
-    c = mp_page.search('#commons-constituency')[0].text.strip
+    c = page.search('#commons-constituency')[0].text.strip
     if constituency = Constituency.find_by(name: c) || Constituency.create(name: c, type: 'pcon')
       representative.update_attributes(constituency: constituency)
     end
+  end
+  
+  def self.import_ams
+    agent = Mechanize.new
+    index_page = agent.get('https://www.london.gov.uk/people/assembly')
+    index_page.search('a[data-mh=view--related-content]').each { |a| 
+      import_am("https://www.london.gov.uk#{a['href']}")
+    }        
+  end
+  
+  def self.import_am(url)
+    agent = Mechanize.new
+    page = agent.get(url)   
+    name = page.search('.gla--key-person-profile--header h1')[0].text.strip
+    puts name
+    representative = Representative.create! name: name, identifier: name.parameterize, type: 'AM'
+    representative.update_attributes(email: page.search('li.social-email')[0].text, image_url: page.search('img.gla-2-1-medium')[0]['src'])
+    
+    p = page.search('li.political-group')[0].text.gsub('Party:','').strip
+    if party = Party.find_by(name: p) || Party.create(name: p)
+      representative.update_attributes(party: party)
+    end    
   end
     
 end
