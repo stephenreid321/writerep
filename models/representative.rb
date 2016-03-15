@@ -101,7 +101,7 @@ class Representative
     page = agent.get(url)   
     name = page.search('.gla--key-person-profile--header h1')[0].text.strip
     puts name
-    representative = Representative.create! name: name, identifier: name.parameterize, type: 'AM'
+    representative = Representative.create! name: name, identifier: "am:#{name.parameterize}", type: 'AM'
     representative.update_attributes(email: page.search('li.social-email')[0].text, image_url: page.search('img.gla-2-1-medium')[0]['src'])
     
     p = page.search('li.political-group')[0].text.gsub('Party:','').strip
@@ -118,9 +118,20 @@ class Representative
       name_parts = name.gsub('Dr.','').gsub('D.R.', '').split(' - ').first.split(' ').map(&:capitalize)
       name = "#{name_parts[0]} #{name_parts[-1]}"
       email = email1.split(' ').last
-      representative = Representative.create! name: name, identifier: name.parameterize, type: 'Bristol City Councillor'
+      representative = Representative.create! name: name, identifier: "bcc:#{name.parameterize}", type: 'Bristol City Councillor'
       representative.update_attributes(email: email)
     }    
   end
-    
+  
+  def self.import_north_somerset_councillors
+    agent = Mechanize.new
+    index_page = agent.get('http://www.n-somerset.gov.uk/my-council/councillors/councillor/find-your-councillors/list-of-councillors/')
+    index_page.search('.main-content p a').each { |a| 
+      page = agent.get("http://www.n-somerset.gov.uk/#{a['href']}")   
+      name = page.search('.service-details .col-sm-8')[0].text.strip
+      representative = Representative.create! name: name, identifier: "nsc:#{name.parameterize}", type: 'North Somerset Councillor'
+      representative.update_attributes(email: page.search('.service-details a[href^=mailto]')[0].text.strip)
+    }           
+  end
+      
 end
