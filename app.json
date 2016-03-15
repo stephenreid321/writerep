@@ -3,7 +3,7 @@
   "repository": "https://github.com/wordsandwriting/campaign-kit",
   "addons": [
     "mongolab",
-    "mailgun"
+    "sendgrid"
   ],
   "success_url": "/admin",
   "scripts": {

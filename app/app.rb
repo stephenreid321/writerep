@@ -24,11 +24,14 @@ module ActivateApp
     set :default_builder, 'ActivateFormBuilder'    
     
     Mail.defaults do
-      delivery_method :smtp, {
-        :user_name => ENV['MAILGUN_SMTP_LOGIN'],
-        :password => ENV['MAILGUN_SMTP_PASSWORD'],
-        :address => ENV['MAILGUN_SMTP_SERVER'],
-        :port => ENV['MAILGUN_SMTP_PORT']
+      delivery_method :smtp, {       
+        :address => 'smtp.sendgrid.net',
+        :port => '587',
+        :domain => 'heroku.com',
+        :user_name => ENV['SENDGRID_USERNAME'],
+        :password => ENV['SENDGRID_PASSWORD'],
+        :authentication => :plain,
+        :enable_starttls_auto => true
       }   
     end 
        
