@@ -117,7 +117,7 @@ class Representative
       name, address, phone1, phone2, phone3, email1, email2, party, ward = *line.split(';').map(&:strip)
       name = name.gsub('Dr.','').gsub('D.R.', '').split(' - ').first.split(' ').map(&:capitalize).join(' ')
       email = email1.split(' ').last
-      representative = Representative.create! name: name, identifier: name.parameterize, type: 'Councillor'
+      representative = Representative.create! name: name, identifier: name.parameterize, type: 'Bristol City Councillor'
       representative.update_attributes(email: email)
     }    
   end

@@ -2,7 +2,8 @@
   "name": "Campaign Kit",
   "repository": "https://github.com/wordsandwriting/campaign-kit",
   "addons": [
-    "mongolab"
+    "mongolab",
+    "mailgun"
   ],
   "success_url": "/admin",
   "scripts": {
