@@ -44,7 +44,9 @@ class Representative
     index_page.search('#pnlListing table td a[id]').each { |a| 
       begin
         import_mp(a['href'])
-      rescue; end       
+      rescue
+        puts "failed to import #{a['href']}"
+      end       
     }      
   end
   
@@ -90,30 +92,23 @@ class Representative
     agent = Mechanize.new
     index_page = agent.get('https://www.london.gov.uk/people/assembly')
     index_page.search('a[data-mh=view--related-content]').each { |a| 
-      begin
-        import_am("https://www.london.gov.uk#{a['href']}")
-      rescue; end
+      page = agent.get("https://www.london.gov.uk#{a['href']}")   
+      name = page.search('.gla--key-person-profile--header h1')[0].text.strip
+      puts name
+      representative = Representative.create! name: name, identifier: "am:#{name.parameterize}", type: 'AM'
+      representative.update_attributes(email: page.search('li.social-email')[0].text, image_url: page.search('img.gla-2-1-medium')[0]['src'])
+    
+      p = page.search('li.political-group')[0].text.gsub('Party:','').strip
+      if party = Party.find_by(name: p) || Party.create(name: p)
+        representative.update_attributes(party: party)
+      end 
     }        
   end
-  
-  def self.import_am(url)
-    agent = Mechanize.new
-    page = agent.get(url)   
-    name = page.search('.gla--key-person-profile--header h1')[0].text.strip
-    puts name
-    representative = Representative.create! name: name, identifier: "am:#{name.parameterize}", type: 'AM'
-    representative.update_attributes(email: page.search('li.social-email')[0].text, image_url: page.search('img.gla-2-1-medium')[0]['src'])
     
-    p = page.search('li.political-group')[0].text.gsub('Party:','').strip
-    if party = Party.find_by(name: p) || Party.create(name: p)
-      representative.update_attributes(party: party)
-    end    
-  end
-  
   def self.import_bristol_city_councillors
     agent = Mechanize.new
-    page = agent.get('https://www2.bristol.gov.uk/CouncillorFinder?Task=contact_detail&csvFormat=true')   
-    page.search('#esiwebapps > div')[0].inner_html.split("<br>")[1..-2].each { |line|     
+    index_page = agent.get('https://www2.bristol.gov.uk/CouncillorFinder?Task=contact_detail&csvFormat=true')   
+    index_page.search('#esiwebapps > div')[0].inner_html.split("<br>")[1..-2].each { |line|     
       name, address, phone1, phone2, phone3, email1, email2, party, ward = *line.split(';').map(&:strip)
       name_parts = name.gsub('Dr.','').gsub('D.R.', '').split(' - ').first.split(' ').map(&:capitalize)
       name = "#{name_parts[0]} #{name_parts[-1]}"
