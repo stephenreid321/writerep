@@ -113,7 +113,7 @@ class Representative
       name_parts = name.gsub('Dr.','').gsub('D.R.', '').split(' - ').first.split(' ').map(&:capitalize)
       name = "#{name_parts[0]} #{name_parts[-1]}"
       email = email1.split(' ').last
-      representative = Representative.create! name: name, identifier: "bcc:#{name.parameterize}", type: 'Bristol City Councillor'
+      representative = Representative.create! name: name, identifier: "bristol-city-council:#{name.parameterize}", type: 'Bristol City Councillor'
       representative.update_attributes(email: email)
     }    
   end
@@ -124,7 +124,7 @@ class Representative
     index_page.search('.main-content p a').each { |a| 
       page = agent.get("http://www.n-somerset.gov.uk/#{a['href']}")   
       name = page.search('.service-details .col-sm-8')[0].text.strip
-      representative = Representative.create! name: name, identifier: "nsc:#{name.parameterize}", type: 'North Somerset Councillor'
+      representative = Representative.create! name: name, identifier: "north-somerset-council:#{name.parameterize}", type: 'North Somerset Councillor'
       representative.update_attributes(email: page.search('.service-details a[href^=mailto]')[0].text.strip)
     }           
   end

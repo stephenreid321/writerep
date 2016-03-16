@@ -5,7 +5,7 @@ class Campaign
   field :name, :type => String
   field :slug, :type => String
   field :background_image_url, :type => String
-  field :postcode_lookup_url, :type => String, :default => 'http://www.parliament.uk/mps-lords-and-offices/mps/?search_term='
+  field :postcode_lookup_url, :type => String, :default => 'http://www.parliament.uk/mps-lords-and-offices/mps/?search_term='  
   field :facebook_share_text, :type => String  
   field :action, :type => String
   field :intro, :type => String
@@ -14,6 +14,7 @@ class Campaign
   field :email_subject, :type => String
   field :email_body, :type => String
   field :tweet_body, :type => String  
+  field :display_representative_type, :type => Boolean
   
   has_many :decisions, :dependent => :destroy
   
@@ -34,7 +35,8 @@ class Campaign
       :thanks => :wysiwyg,            
       :email_subject => :text_area,
       :email_body => :text_area,
-      :tweet_body => :text_area,      
+      :tweet_body => :text_area,    
+      :display_representative_type => :check_box,
       :decisions => {:type => :collection, :edit_hint => '<a class="btn btn-default" href="/bulk_create_decisions">Bulk create decisions</a>'}
     }
   end
