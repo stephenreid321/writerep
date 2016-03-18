@@ -35,7 +35,6 @@ class Representative
   
   def self.import
     import_mps
-    import_ams
   end
   
   def self.import_mps
