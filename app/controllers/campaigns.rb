@@ -12,7 +12,13 @@ ActivateApp::App.controller do
     elsif params[:postcode]
       agent = Mechanize.new
       uri = agent.get("#{@campaign.postcode_lookup_url}#{params[:postcode]}").uri
-      @decision = @campaign.decisions.find_by(representative_id: Representative.find_by(identifier: uri.to_s.split('/').last).try(:id))
+      uri.to_s.split('/').last.split(',').each { |identifier|        
+        if !@decision
+          if representative = Representative.find_by(identifier: identifier)
+            @decision = @campaign.decisions.find_by(representative_id: representative.id)
+          end
+        end
+      }
       if !@decision
         flash[:error] = "No representatives of that postcode are part of this campaign"
         redirect "/campaigns/#{@campaign.slug}"
