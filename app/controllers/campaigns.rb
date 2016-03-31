@@ -12,11 +12,9 @@ ActivateApp::App.controller do
     elsif params[:postcode]
       agent = Mechanize.new
       uri = agent.get("#{@campaign.postcode_lookup_url}#{params[:postcode]}").uri
-      uri.to_s.split('/').last.split(',').each { |identifier|        
-        if !@decision
-          if representative = Representative.find_by(identifier: identifier)
-            @decision = @campaign.decisions.find_by(representative_id: representative.id)
-          end
+      uri.to_s.split('/').last.split(',').shuffle.each { |identifier|        
+        if !@decision and representative = Representative.find_by(identifier: identifier)
+          @decision = @campaign.decisions.find_by(representative_id: representative.id)
         end
       }
       if !@decision
