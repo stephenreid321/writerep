@@ -15,10 +15,10 @@
     <%= select_tag :type, :class => 'form-control', :options => Representative.order('name asc').pluck(:type).uniq, :selected => params[:type] %>
   </div>
   <div class="form-group">
-    <%= check_box_tag :email, :class => 'form-control', :value => 1 %> Has email
+    <%= check_box_tag :email, :value => 1, :checked => params[:email] %> Has email
   </div>
   <div class="form-group">
-    <%= check_box_tag :twitter, :class => 'form-control', :value => 1 %> Has twitter
+    <%= check_box_tag :twitter, :value => 1, :checked => params[:twitter] %> Has Twitter
   </div>
   <div class="form-group">
     <button class="btn btn-default" name="search" value="1">Search</button>
@@ -28,22 +28,22 @@
 <% if @representatives %>
   <p><%= pluralize(@representatives.count, 'representative') %></p>
   <a class="btn btn-primary" href="javascript:;" onclick="$('.create-decision').click()">Create decisions for these representatives</a>
-  <table class="table" data-sortlist="[[4,0],[0,0]]">
+  <table class="table" data-sortlist="[[4,0],[0,0]]" style="font-size: 12px">
     <thead>
       <tr>
         <th>Name</th>
+        <th>Type</th>        
         <th>Party</th>
         <th>Constituency</th>
-        <th>Type</th>
         <th>Decision</th>
       </tr>
     </thead>
     <% @representatives.each { |representative| %>
       <tr>
         <td><%=representative.name%></td>
+        <td><%=representative.type%></td>        
         <td><%=representative.party.try(:name)%></td>
         <td><%=representative.constituency.try(:name)%></td>
-        <td><%=representative.type%></td>
         <td><%=representative.email%></td>
         <td><%=representative.twitter%></td>
         <td>

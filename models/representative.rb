@@ -53,7 +53,6 @@ class Representative
     k = c[0..1].hex
     m = ''    
     c.chars.each_slice(2).to_a[1..-1].each do |p|
-      puts p.join.hex
       m += ((p.join.hex)^k).chr
     end
     m
@@ -71,7 +70,6 @@ class Representative
     
     if email = page.search('span[data-cfemail]')[0]
       email = decode_cfemail(email['data-cfemail'])
-      puts email
     end    
     if address_as = page.search('#commons-addressas')[0]
       address_as = address_as.text.strip
@@ -86,7 +84,6 @@ class Representative
       img = img['src']
     end               
     representative.update_attributes(email: email, address_as: address_as, twitter: twitter, facebook: facebook, image_url: img)
-    puts representative.errors.inspect
     
     p = page.search('#commons-party')[0].text.strip
     p_image = page.search('#imgPartyLogo')[0]['src']
