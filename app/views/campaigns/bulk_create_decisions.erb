@@ -15,6 +15,12 @@
     <%= select_tag :type, :class => 'form-control', :options => Representative.order('name asc').pluck(:type).uniq, :selected => params[:type] %>
   </div>
   <div class="form-group">
+    <%= check_box_tag :email, :class => 'form-control', :value => 1 %> Has email
+  </div>
+  <div class="form-group">
+    <%= check_box_tag :twitter, :class => 'form-control', :value => 1 %> Has twitter
+  </div>
+  <div class="form-group">
     <button class="btn btn-default" name="search" value="1">Search</button>
   </div>
 <% end %>
@@ -37,7 +43,9 @@
         <td><%=representative.name%></td>
         <td><%=representative.party.try(:name)%></td>
         <td><%=representative.constituency.try(:name)%></td>
-        <td><%=representative.type%></td>        
+        <td><%=representative.type%></td>
+        <td><%=representative.email%></td>
+        <td><%=representative.twitter%></td>
         <td>
           <% if @campaign.decisions.find_by(representative: representative) %>
             <a class="btn btn-default btn-sm disabled" href="javascript:;" data-representative-id="<%=representative.id%>">            

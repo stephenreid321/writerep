@@ -31,7 +31,7 @@ ActivateApp::App.controller do
         @email = @decision.emails.new subject: @campaign.email_subject, body: @campaign.email_body, from_postcode: params[:postcode]
         erb :'campaigns/email'
       elsif @campaign.tweet?
-        @tweet = @decision.tweets.new body: "#{@decision.representative.twitter} #{@campaign.tweet_body}", from_postcode: params[:postcode]
+        @tweet = @decision.tweets.new body: ".#{@decision.representative.twitter} #{@campaign.tweet_body}", from_postcode: params[:postcode]
         erb :'campaigns/tweet'
       end        
     end
@@ -77,6 +77,8 @@ ActivateApp::App.controller do
     @campaign = Campaign.find_by(slug: params[:slug]) || not_found  
     if params[:search]
       @representatives = Representative.all
+      @representatives = @representatives.where(:email.ne => nil) if params[:email]
+      @representatives = @representatives.where(:twitter.ne => nil) if params[:twitter]
       @representatives = @representatives.where(name: /#{Regexp.escape(params[:name])}/i) if params[:name]
       @representatives = @representatives.where(:party_id => params[:party_id]) if params[:party_id]
       @representatives = @representatives.where(:constituency_id.in => Constituency.where(name: /#{Regexp.escape(params[:constituency])}/i).pluck(:id)) if params[:constituency]
