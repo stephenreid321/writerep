@@ -1,5 +1,5 @@
 ActivateApp::App.controller do
-  
+    
   get '/campaigns/:slug' do
     @campaign = Campaign.find_by(slug: params[:slug]) || not_found
       
