@@ -126,7 +126,7 @@ module ActivateApp
     end
   
     get '/campaigns/:slug/bulk_create_decisions' do
-      admins_only!    
+      sign_in_required!
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found  
       if params[:search]
         @representatives = Representative.all
@@ -141,7 +141,7 @@ module ActivateApp
     end 
   
     post '/campaigns/:slug/create_decisions/:representative_id' do
-      admins_only!    
+      sign_in_required!  
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found  
       @campaign.decisions.create! representative_id: params[:representative_id]
       200

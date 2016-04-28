@@ -4,7 +4,6 @@ class Account
             
   field :name, :type => String
   field :email, :type => String
-  field :admin, :type => Boolean
   field :time_zone, :type => String
   field :crypted_password, :type => String
               
@@ -22,11 +21,13 @@ class Account
     {
       :name => :text,
       :email => :text,
-      :admin => :check_box,
       :time_zone => :select,
-      :password => {:type => :password, :new_hint => 'Leave blank to keep existing password'},
-      :provider_links => :collection
+      :password => {:type => :password, :new_hint => 'Leave blank to keep existing password'}
     }
+  end
+  
+  def admin?
+    true
   end
                  
   def self.time_zones

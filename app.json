@@ -5,7 +5,7 @@
     "mongolab",
     "sendgrid"
   ],
-  "success_url": "/admin",
+  "success_url": "/admin/new/Account",
   "scripts": {
     "postdeploy": "bundle exec rake representatives:import"
   }
