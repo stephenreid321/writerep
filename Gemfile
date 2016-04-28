@@ -15,15 +15,9 @@ gem 'activate-admin', github: 'wordsandwriting/activate-admin'
 
 # Data storage
 gem 'mongoid'
-gem 'delayed_job_mongoid'
-gem 'dragonfly'
-gem 'dragonfly-s3_data_store'
 
 # Authentication
 gem 'bcrypt'
-gem 'omniauth'
-gem 'omniauth-facebook'
-gem 'omniauth-google-oauth2'
 
 # Email
 gem 'mail'
