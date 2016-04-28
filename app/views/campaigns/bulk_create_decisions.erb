@@ -27,7 +27,7 @@
 
 <% if @representatives %>
   <p><%= pluralize(@representatives.count, 'representative') %></p>
-  <a class="btn btn-primary" href="javascript:;" onclick="$('.create-decision').click()">Create decisions for these representatives</a>
+  <a id="create-decisions" class="btn btn-primary" href="javascript:;" onclick="$('.create-decision').click()">Create decisions for these representatives</a>
   <table class="table" data-sortlist="[[4,0],[0,0]]" style="font-size: 12px">
     <thead>
       <tr>
@@ -88,19 +88,27 @@
       });
     };
 
+    var i = 0;
     $('.create-decision').click(function () {
       var a = this;
       $.ajaxQueue({
         url: '/campaigns/<%=@campaign.slug%>/create_decisions/' + $(a).attr('data-representative-id'),
         type: 'POST',
         success: function (data) {
+          i++;
           $(a).removeClass('create-decision').addClass('disabled').html('<i class=\'fa fa-check\'></i>')
+          $('#create-decisions').text($('.create-decision').length + ' remaining')
+          if ($('.create-decision').length == 0)
+            $('#create-decisions').text('Done!')
         },
         error: function (data) {
           $(a).html('<i class=\'fa fa-exclamation\'></i>')
         }
       });
     });
+
+    if ($('.create-decision').length == 0)
+      $('#create-decisions').text('Done!')
 
   })
 </script>
