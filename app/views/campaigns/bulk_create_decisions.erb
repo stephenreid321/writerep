@@ -6,7 +6,7 @@
     <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Name', :value => params[:name] %>
   </div>
   <div class="form-group">
-    <%= select_tag :party_id, :class => 'form-control', :options => [['Select a party','']] + Party.order('name asc').map { |party| [party.name, party.id] }, :selected => params[:party_id] %>
+    <%= select_tag :party_id, :class => 'form-control', :options => [['All parties','']] + Party.order('name asc').map { |party| [party.name, party.id] }, :selected => params[:party_id] %>
   </div>
   <div class="form-group">
     <%= text_field_tag :constituency, :class => 'form-control', :placeholder => 'Constituency', :value => params[:constituency] %>
