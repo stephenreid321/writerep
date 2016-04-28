@@ -8,7 +8,7 @@ ActivateApp::App.helpers do
     unless current_account
       flash[:notice] = 'You must sign in to access that page'
       session[:return_to] = request.url
-      request.xhr? ? halt : redirect(url(:accounts, :sign_in))
+      request.xhr? ? halt : redirect('/admin')
     end
   end  
        
