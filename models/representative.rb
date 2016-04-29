@@ -143,11 +143,7 @@ class Representative
     }           
     import_finished!(type)
   end
-  
-  def self.import_hackney_councillors
-    import_london_borough_councillors(b: 'Hackney')
-  end
-  
+    
   def self.import_london_borough_councillors(b: nil)
     type = 'London Borough Councillor'
     agent = Mechanize.new
@@ -161,7 +157,7 @@ class Representative
           name = tr.search('td')[0].text.strip.gsub('Cllr ','') 
           email = tr.search('td')[1].text.strip 
           p = tr.search('td')[3].text.strip 
-          representative = Representative.create! name: name, identifier: "#{borough.parameterize}:#{name.parameterize}", type: type
+          representative = Representative.create! name: name, identifier: "#{borough.parameterize}-borough-council:#{name.parameterize}", type: type
           representative.update_attributes(email: email)        
           if party = Party.find_by(name: p) || Party.create(name: p)
             representative.update_attributes(party: party)
@@ -172,11 +168,15 @@ class Representative
     import_finished!(type)
   end
   
+  def self.import_hackney_councillors
+    import_london_borough_councillors(b: 'Hackney')
+  end  
+  
   def self.import_finished!(type)
     mail = Mail.new
     mail.to = Account.all.map(&:email)
     mail.from = 'no-reply@stephenreid.me'
-    mail.subject = "Import of #{type} finished"
+    mail.subject = "Import of #{type.pluralize} finished"
     mail.deliver    
   end
       
