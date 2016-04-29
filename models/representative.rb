@@ -155,6 +155,14 @@ class Representative
     import_finished!(type)
   end
   
+  def self.import_hackney_councillors
+    type = 'Hackney Borough Councillor'
+    agent = Mechanize.new    
+    page = agent.get("http://www.directory.londoncouncils.gov.uk/directory/hackney/")   
+    import_london_table(page, type)
+    import_finished!(type)
+  end    
+  
   def self.import_london_table(page, type)
     borough = page.title.split('London Borough of ').last.strip
     puts borough    
@@ -169,15 +177,7 @@ class Representative
       end
     }    
   end
-  
-  def self.import_hackney_councillors
-    type = 'Hackney Borough Councillor'
-    agent = Mechanize.new    
-    page = agent.get("http://www.directory.londoncouncils.gov.uk/directory/hackney/")   
-    import_london_table(page, type)
-    import_finished!(type)
-  end  
-  
+    
   def self.import_finished!(type)
     mail = Mail.new
     mail.to = Account.all.map(&:email)

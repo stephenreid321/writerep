@@ -9,11 +9,12 @@ campaign-kit
 
   * mps
   * ams
+  * hackney_borough_councillors
   * london_borough_councillors
   * bristol_city_councillors
   * north_somerset_councillors
 
-  The page will probably time out, that's OK. You'll get an email when the import is finished.
+  The page will probably time out, but that's OK. You'll get an email when the import is finished.
 
 4. Visit /admin, click 'Campaigns' and create a campaign
 5. Click 'View/edit' to return to the campaign, scroll to the bottom and add some decisions (you'll probably want to use the 'Bulk create decisions' tool)
