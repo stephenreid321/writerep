@@ -144,7 +144,11 @@ class Representative
     import_finished!(type)
   end
   
-  def self.import_london_borough_councillors
+  def self.import_hackney_councillors
+    import_london_borough_councillors(b: 'Hackney')
+  end
+  
+  def self.import_london_borough_councillors(b: nil)
     type = 'London Borough Councillor'
     agent = Mechanize.new
     index_page = agent.get('http://www.directory.londoncouncils.gov.uk/')
@@ -152,16 +156,18 @@ class Representative
       page = agent.get("http://www.directory.londoncouncils.gov.uk#{a['href']}")   
       borough = page.title.split('London Borough of ').last.strip
       puts borough
-      page.search('.text table tr')[1..-1].each { |tr|
-        name = tr.search('td')[0].text.strip.gsub('Cllr ','') 
-        email = tr.search('td')[1].text.strip 
-        p = tr.search('td')[3].text.strip 
-        representative = Representative.create! name: name, identifier: "#{borough.parameterize}:#{name.parameterize}", type: type
-        representative.update_attributes(email: email)        
-        if party = Party.find_by(name: p) || Party.create(name: p)
-          representative.update_attributes(party: party)
-        end              
-      }      
+      if !b or b == borough
+        page.search('.text table tr')[1..-1].each { |tr|
+          name = tr.search('td')[0].text.strip.gsub('Cllr ','') 
+          email = tr.search('td')[1].text.strip 
+          p = tr.search('td')[3].text.strip 
+          representative = Representative.create! name: name, identifier: "#{borough.parameterize}:#{name.parameterize}", type: type
+          representative.update_attributes(email: email)        
+          if party = Party.find_by(name: p) || Party.create(name: p)
+            representative.update_attributes(party: party)
+          end
+        }      
+      end
     }      
     import_finished!(type)
   end
