@@ -8,7 +8,7 @@ campaign-kit
 3. Import some representatives. Visit /import/x, where x is one of
 
   * mps
-  * hackney_borough_councillors
+  * hackney_councillors
   * london_borough_councillors
   * bristol_city_councillors
   * north_somerset_councillors
