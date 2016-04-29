@@ -146,6 +146,11 @@ module ActivateApp
       @campaign.decisions.create! representative_id: params[:representative_id]
       200
     end    
+    
+    get '/import/:representatives' do
+      Representative.send(:"import_#{params[:representatives]}")
+      redirect '/admin/index/Representative'
+    end
    
   end         
 end

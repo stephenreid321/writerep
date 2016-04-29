@@ -33,11 +33,15 @@ class Representative
     }
   end
   
-  def self.import
-    import_mps
-    import_london_borough_councillors
-  end
-  
+  def self.decode_cfemail(c)  
+    k = c[0..1].hex
+    m = ''    
+    c.chars.each_slice(2).to_a[1..-1].each do |p|
+      m += ((p.join.hex)^k).chr
+    end
+    m
+  end  
+    
   def self.import_mps
     agent = Mechanize.new
     index_page = agent.get('http://www.parliament.uk/mps-lords-and-offices/mps/')
@@ -50,15 +54,6 @@ class Representative
     }      
   end
   
-  def self.decode_cfemail(c)  
-    k = c[0..1].hex
-    m = ''    
-    c.chars.each_slice(2).to_a[1..-1].each do |p|
-      m += ((p.join.hex)^k).chr
-    end
-    m
-  end
-
   def self.import_mp(url)
     agent = Mechanize.new
     page = agent.get(url)
