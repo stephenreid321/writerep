@@ -7,13 +7,13 @@ campaign-kit
 2. Create an account. Log in with the account details.
 3. Import some representatives. Visit /import/x, where x is one of
 
-* mps
-* ams
-* london_borough_councillors
-* bristol_city_councillors
-* north_somerset_councillors
+  * mps
+  * ams
+  * london_borough_councillors
+  * bristol_city_councillors
+  * north_somerset_councillors
 
-The page will probably time out, that's OK. You'll get an email when the import is finished.
+  The page will probably time out, that's OK. You'll get an email when the import is finished.
 
 4. Visit /admin, click 'Campaigns' and create a campaign
 5. Click 'View/edit' to return to the campaign, scroll to the bottom and add some decisions (you'll probably want to use the 'Bulk create decisions' tool)
