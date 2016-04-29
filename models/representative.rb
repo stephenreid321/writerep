@@ -150,12 +150,12 @@ class Representative
     index_page = agent.get('http://www.directory.londoncouncils.gov.uk/')
     index_page.search('#main-content ul a').each { |a| 
       page = agent.get("http://www.directory.londoncouncils.gov.uk#{a['href']}")   
-      import_london_table(page)
+      import_london_table(page, type)
     }      
     import_finished!(type)
   end
   
-  def self.import_london_table(page)
+  def self.import_london_table(page, type)
     borough = page.title.split('London Borough of ').last.strip
     puts borough    
     page.search('.text table tr')[1..-1].each { |tr|
@@ -174,7 +174,7 @@ class Representative
     type = 'Hackney Borough Councillor'
     agent = Mechanize.new    
     page = agent.get("http://www.directory.londoncouncils.gov.uk/directory/hackney/")   
-    import_london_table(page)
+    import_london_table(page, type)
     import_finished!(type)
   end  
   
