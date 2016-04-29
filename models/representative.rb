@@ -35,6 +35,7 @@ class Representative
   
   def self.import
     import_mps
+    import_london_borough_councillors
   end
   
   def self.import_mps
@@ -71,6 +72,8 @@ class Representative
     if email = page.search('span[data-cfemail]')[0]
       email = decode_cfemail(email['data-cfemail'])
     end    
+    representative.update_attributes(email: email)
+    
     if address_as = page.search('#commons-addressas')[0]
       address_as = address_as.text.strip
     end    
@@ -82,8 +85,8 @@ class Representative
     end      
     if img = page.search('#member-image img')[0]
       img = img['src']
-    end               
-    representative.update_attributes(email: email, address_as: address_as, twitter: twitter, facebook: facebook, image_url: img)
+    end                   
+    representative.update_attributes(address_as: address_as, twitter: twitter, facebook: facebook, image_url: img)
     
     p = page.search('#commons-party')[0].text.strip
     p_image = page.search('#imgPartyLogo')[0]['src']
@@ -104,7 +107,8 @@ class Representative
       name = page.search('.gla--key-person-profile--header h1')[0].text.strip
       puts name
       representative = Representative.create! name: name, identifier: "am:#{name.parameterize}", type: 'AM'
-      representative.update_attributes(email: page.search('li.social-email')[0].text, image_url: page.search('img.gla-2-1-medium')[0]['src'])
+      representative.update_attributes(email: page.search('li.social-email')[0].text)
+      representative.update_attributes(image_url: page.search('img.gla-2-1-medium')[0]['src'])
     
       p = page.search('li.political-group')[0].text.gsub('Party:','').strip
       if party = Party.find_by(name: p) || Party.create(name: p)
@@ -135,6 +139,26 @@ class Representative
       representative = Representative.create! name: name, identifier: "north-somerset-council:#{name.parameterize}", type: 'North Somerset Councillor'
       representative.update_attributes(email: page.search('.service-details a[href^=mailto]')[0].text.strip)
     }           
+  end
+  
+  def self.import_london_borough_councillors
+    agent = Mechanize.new
+    index_page = agent.get('http://www.directory.londoncouncils.gov.uk/')
+    index_page.search('#main-content ul a').each { |a| 
+      page = agent.get("http://www.directory.londoncouncils.gov.uk#{a['href']}")   
+      borough = page.title.split('London Borough of ').last.strip
+      puts borough
+      page.search('.text table tr')[1..-1].each { |tr|
+        name = tr.search('td')[0].text.strip.gsub('Cllr ','') 
+        email = tr.search('td')[1].text.strip 
+        p = tr.search('td')[3].text.strip 
+        representative = Representative.create! name: name, identifier: "#{borough.parameterize}:#{name.parameterize}", type: "London Borough Councillor"
+        representative.update_attributes(email: email)        
+        if party = Party.find_by(name: p) || Party.create(name: p)
+          representative.update_attributes(party: party)
+        end              
+      }      
+    }      
   end
       
 end
