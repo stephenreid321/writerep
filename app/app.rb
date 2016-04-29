@@ -148,6 +148,7 @@ module ActivateApp
     end    
     
     get '/import/:representatives' do
+      sign_in_required!
       Representative.send(:"import_#{params[:representatives]}")
       redirect '/admin/index/Representative'
     end
