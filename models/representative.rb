@@ -150,26 +150,29 @@ class Representative
     index_page = agent.get('http://www.directory.londoncouncils.gov.uk/')
     index_page.search('#main-content ul a').each { |a| 
       page = agent.get("http://www.directory.londoncouncils.gov.uk#{a['href']}")   
-      borough = page.title.split('London Borough of ').last.strip
-      puts borough
-      if !b or b == borough
-        page.search('.text table tr')[1..-1].each { |tr|
-          name = tr.search('td')[0].text.strip.gsub('Cllr ','') 
-          email = tr.search('td')[1].text.strip 
-          p = tr.search('td')[3].text.strip 
-          representative = Representative.create! name: name, identifier: "#{borough.parameterize}-borough-council:#{name.parameterize}", type: type
-          representative.update_attributes(email: email)        
-          if party = Party.find_by(name: p) || Party.create(name: p)
-            representative.update_attributes(party: party)
-          end
-        }      
-      end
+      import_london_table(page)
     }      
     import_finished!(type)
   end
   
+  def self.import_london_table(page)
+    borough = page.title.split('London Borough of ').last.strip
+    puts borough    
+    page.search('.text table tr')[1..-1].each { |tr|
+      name = tr.search('td')[0].text.strip.gsub('Cllr ','') 
+      email = tr.search('td')[1].text.strip 
+      p = tr.search('td')[3].text.strip 
+      representative = Representative.create! name: name, identifier: "#{borough.parameterize}-borough-council:#{name.parameterize}", type: type
+      representative.update_attributes(email: email)        
+      if party = Party.find_by(name: p) || Party.create(name: p)
+        representative.update_attributes(party: party)
+      end
+    }    
+  end
+  
   def self.import_hackney_councillors
-    import_london_borough_councillors(b: 'Hackney')
+    page = agent.get("http://www.directory.londoncouncils.gov.uk/directory/hackney/")   
+    import_london_table(page)
   end  
   
   def self.import_finished!(type)
