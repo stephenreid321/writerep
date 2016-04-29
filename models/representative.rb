@@ -144,7 +144,7 @@ class Representative
     import_finished!(type)
   end
     
-  def self.import_london_borough_councillors(b: nil)
+  def self.import_london_borough_councillors
     type = 'London Borough Councillor'
     agent = Mechanize.new
     index_page = agent.get('http://www.directory.londoncouncils.gov.uk/')
@@ -171,8 +171,11 @@ class Representative
   end
   
   def self.import_hackney_councillors
+    type = 'Hackney Borough Councillor'
+    agent = Mechanize.new    
     page = agent.get("http://www.directory.londoncouncils.gov.uk/directory/hackney/")   
     import_london_table(page)
+    import_finished!(type)
   end  
   
   def self.import_finished!(type)
