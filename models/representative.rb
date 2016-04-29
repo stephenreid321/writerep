@@ -57,7 +57,6 @@ class Representative
   end
   
   def self.import_mp(url)
-    type = 'MP'
     agent = Mechanize.new
     page = agent.get(url)
     name = page.search('h1')[0].text.strip
@@ -65,7 +64,7 @@ class Representative
       name = name.gsub(x,'')
     }
     puts name
-    representative = Representative.create! name: name, identifier: page.uri.to_s.split('/').last, type: type
+    representative = Representative.create! name: name, identifier: page.uri.to_s.split('/').last, type: 'MP'
     
     if email = page.search('span[data-cfemail]')[0]
       email = decode_cfemail(email['data-cfemail'])
@@ -167,11 +166,11 @@ class Representative
     import_finished!(type)
   end
   
-  def import_finished!(representatives)
+  def self.import_finished!(type)
     mail = Mail.new
     mail.to = Account.all.map(&:email)
     mail.from = 'no-reply@stephenreid.me'
-    mail.subject = "Import of #{representatives} finished"
+    mail.subject = "Import of #{type} finished"
     mail.deliver    
   end
       
