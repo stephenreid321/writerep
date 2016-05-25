@@ -5,7 +5,7 @@ campaign-kit
 
 1. Create a new instance of the app by clicking the 'Deploy to Heroku' button above. When it says 'Your app was successfully deployed', click View.
 2. Create an account. Log in with the account details.
-3. Import some representatives. Visit /import/x, where x is one of
+3. Import some representatives: Visit /import/x, where x is one of
 
   * mps
   * hackney_councillors

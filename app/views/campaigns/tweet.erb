@@ -1,10 +1,10 @@
 <h1>Tweet <%=@representative.name%> <% if @campaign.display_representative_type %><small><%=@representative.type%></small><% end%></h1></h1>
 
 <div class="row" style="margin-top: 20px">
-  <div class="col-md-6 col-md-push-6" style="margin-bottom: 20px">
+  <div class="col-sm-6 col-sm-push-6" style="margin-bottom: 20px">
     <%=@campaign.advice%>
   </div>            
-  <div class="col-md-6 col-md-pull-6">                      
+  <div class="col-sm-6 col-sm-pull-6">                      
     <% form_for @tweet, "/campaigns/#{@campaign.slug}/#{@decision.id}/tweet", :onsubmit => "window.open('http://twitter.com/intent/tweet?text='+encodeURIComponent($('#tweet_body').val()), null, 'scrollbars=yes,width=600,height=600,left=150,top=150').focus();" do |f| %>
       <%= f.text_area_block :body, :div_class => '', :label_class => '' %>
       <%= f.text_block :from_name, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_name) %>
