@@ -5,7 +5,6 @@ class Campaign
   field :name, :type => String
   field :slug, :type => String
   field :background_image_url, :type => String
-  field :postcode_lookup_url, :type => String, :default => 'http://www.parliament.uk/mps-lords-and-offices/mps/?search_term='  
   field :facebook_share_text, :type => String  
   field :action, :type => String
   field :intro, :type => String
@@ -26,8 +25,7 @@ class Campaign
     {
       :name => :text,
       :slug => :slug,
-      :background_image_url => :text,
-      :postcode_lookup_url => :text,      
+      :background_image_url => :text,      
       :facebook_share_text => :text_area,
       :action => :select,
       :intro => :wysiwyg,
@@ -52,5 +50,9 @@ class Campaign
   def tweet?
     action == 'tweet'
   end
-    
+
+  def decisions_for_postcode(postcode)
+    decisions.where(:representative_id.in => Representative.for_postcode(postcode))
+  end
+  
 end

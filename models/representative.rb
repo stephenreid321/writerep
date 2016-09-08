@@ -3,31 +3,32 @@ class Representative
   include Mongoid::Timestamps
 
   field :name, :type => String
+  field :type, :type => String  
+  field :slug, :type => String  
   field :address_as, :type => String
   field :email, :type => String  
   field :twitter, :type => String
   field :facebook, :type => String
-  field :image_url, :type => String
-  field :identifier, :type => String
-  field :type, :type => String
+  field :image_url, :type => String 
   
   has_many :decisions, :dependent => :destroy
   belongs_to :party
   belongs_to :constituency
   
   validates_presence_of :name, :type
+  validates_uniqueness_of :slug
   validates_format_of :email, :with => /\A[^@\s]+@[^@\s]+\.[^@\s]+\Z/i, :allow_nil => true
         
   def self.admin_fields
     {
       :name => :text,
+      :type => :text,      
+      :slug => :text,               
       :address_as => :text,   
       :email => :email,
       :twitter => :text,
       :facebook => :text,
       :image_url => :text,
-      :identifier => :text,         
-      :type => :text,
       :party_id => :lookup,
       :decisions => :collection      
     }
@@ -41,7 +42,7 @@ class Representative
     end
     m
   end  
-    
+      
   def self.import_mps
     type = 'MP'
     agent = Mechanize.new
@@ -64,7 +65,7 @@ class Representative
       name = name.gsub(x,'')
     }
     puts name
-    representative = Representative.create! name: name, identifier: page.uri.to_s.split('/').last, type: 'MP'
+    representative = Representative.create! name: name, slug: "mp:#{name.parameterize}", type: 'MP'
     
     if email = page.search('span[data-cfemail]')[0]
       email = decode_cfemail(email['data-cfemail'])
@@ -104,7 +105,7 @@ class Representative
       page = agent.get("https://www.london.gov.uk#{a['href']}")   
       name = page.search('.gla--key-person-profile--header h1')[0].text.strip
       puts name
-      representative = Representative.create! name: name, identifier: "am:#{name.parameterize}", type: type
+      representative = Representative.create! name: name, slug: "am:#{name.parameterize}", type: type
       representative.update_attributes(email: page.search('li.social-email')[0].text)
       representative.update_attributes(image_url: page.search('img.gla-2-1-medium')[0]['src'])
     
@@ -125,7 +126,7 @@ class Representative
       name_parts = name.gsub('Dr.','').gsub('D.R.', '').split(' - ').first.split(' ').map(&:capitalize)
       name = "#{name_parts[0]} #{name_parts[-1]}"
       email = email1.split(' ').last
-      representative = Representative.create! name: name, identifier: "bristol-city-council:#{name.parameterize}", type: type
+      representative = Representative.create! name: name, slug: "bristol-city-council:#{name.parameterize}", type: type
       representative.update_attributes(email: email)
     }    
     import_finished!(type)
@@ -138,7 +139,7 @@ class Representative
     index_page.search('.main-content p a').each { |a| 
       page = agent.get("http://www.n-somerset.gov.uk/#{a['href']}")   
       name = page.search('.service-details .col-sm-8')[0].text.strip
-      representative = Representative.create! name: name, identifier: "north-somerset-council:#{name.parameterize}", type: type
+      representative = Representative.create! name: name, slug: "north-somerset-council:#{name.parameterize}", type: type
       representative.update_attributes(email: page.search('.service-details a[href^=mailto]')[0].text.strip)
     }           
     import_finished!(type)
@@ -170,7 +171,7 @@ class Representative
       name = tr.search('td')[0].text.strip.gsub('Cllr ','') 
       email = tr.search('td')[1].text.strip 
       p = tr.search('td')[3].text.strip 
-      representative = Representative.create! name: name, identifier: "#{borough.parameterize}-borough-council:#{name.parameterize}", type: type
+      representative = Representative.create! name: name, slug: "#{borough.parameterize}-borough-council:#{name.parameterize}", type: type
       representative.update_attributes(email: email)        
       if party = Party.find_by(name: p) || Party.create(name: p)
         representative.update_attributes(party: party)
@@ -184,6 +185,23 @@ class Representative
     mail.from = 'no-reply@stephenreid.me'
     mail.subject = "Import of #{type.pluralize} finished"
     mail.deliver    
+  end
+  
+  def self.slugs_for_postcode(postcode)
+    agent = Mechanize.new
+    page = agent.get("https://www.writetothem.com/who?pc=#{postcode}")    
+    slugs = []
+    slugs += page.search('ul.mps li a').map(&:text).map { |mp| "mp:#{mp.parameterize}" }
+    slugs += page.search('ul.london-assembly-members li a')[0..0].map(&:text).map { |am| "am:#{am.parameterize}" }    
+    if rep_blurb = page.search('.rep-blurb')[0]        
+      key = rep_blurb.text.match(/councillors? represents? you on( the)? ([\w ]+)/)[-1].parameterize      
+      slugs += page.search('ul.councillors li a').map(&:text).map { |councillor| "#{key}:#{councillor.parameterize}" }
+    end    
+    slugs
+  end  
+  
+  def self.for_postcode(postcode)
+    Representative.where(:slug.in => slugs_for_postcode(postcode))
   end
       
 end

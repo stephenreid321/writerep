@@ -63,16 +63,12 @@ module ActivateApp
       if @campaign.decisions.count == 1
         @decision = @campaign.decisions.first
       elsif params[:postcode]
-        agent = Mechanize.new
-        uri = agent.get("#{@campaign.postcode_lookup_url}#{params[:postcode]}").uri
-        uri.to_s.split('/').last.split(',').shuffle.each { |identifier|        
-          if !@decision and representative = Representative.find_by(identifier: identifier)
-            @decision = @campaign.decisions.find_by(representative_id: representative.id)
-          end
-        }
-        if !@decision
+        @decisions = @campaign.decisions_for_postcode(params[:postcode])
+        if @decisions.empty?
           flash[:error] = "No representatives of that postcode are part of this campaign"
           redirect "/campaigns/#{@campaign.slug}"
+        else
+          @decision = @decisions.shuffle.first  
         end
       end  
       
