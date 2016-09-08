@@ -52,7 +52,7 @@ class Campaign
   end
 
   def decisions_for_postcode(postcode)
-    decisions.where(:representative_id.in => Representative.for_postcode(postcode))
+    decisions.where(:representative_id.in => Representative.for_postcode(postcode).pluck(:id))
   end
   
 end

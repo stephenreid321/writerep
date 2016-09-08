@@ -15,7 +15,7 @@ class Representative
   belongs_to :party
   belongs_to :constituency
   
-  validates_presence_of :name, :type
+  validates_presence_of :name, :type, :slug
   validates_uniqueness_of :slug
   validates_format_of :email, :with => /\A[^@\s]+@[^@\s]+\.[^@\s]+\Z/i, :allow_nil => true
         
