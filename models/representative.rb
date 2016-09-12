@@ -102,11 +102,18 @@ class Representative
     agent = Mechanize.new
     index_page = agent.get('https://www.london.gov.uk/people/assembly')
     index_page.search('a[data-mh=view--related-content]').each { |a| 
-      page = agent.get("https://www.london.gov.uk#{a['href']}")   
-      name = page.search('.gla--key-person-profile--header h1')[0].text.strip
+      url = "https://www.london.gov.uk#{a['href'].gsub('-0','')}"
+      puts url
+      page = agent.get(url) 
+      if !page.search('li.social-email')[0]
+        url = "https://www.london.gov.uk#{a['href'].gsub('-0','')}/more-about"
+        puts url
+        page = agent.get(url) 
+      end
+      name = page.search('h1.node__title')[0].text.strip
       puts name
       representative = Representative.create! name: name, slug: "am:#{name.parameterize}", type: type
-      representative.update_attributes(email: page.search('li.social-email')[0].text)
+      representative.update_attributes(email: decode_cfemail(page.search('li.social-email a')[0]['data-cfemail']))
       representative.update_attributes(image_url: page.search('img.gla-2-1-medium')[0]['src'])
     
       p = page.search('li.political-group')[0].text.gsub('Party:','').strip
