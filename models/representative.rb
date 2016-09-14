@@ -33,6 +33,17 @@ class Representative
       :decisions => :collection      
     }
   end
+ 
+  def self.importables
+{
+    'MPs' => 'mps',
+    'London Assembly Members' => 'ams',
+    'Hackney Councillors' => 'hackney_councillors',
+    'All London Councillors' => 'london_borough_councillors',
+    'Bristol City Councillors' => 'bristol_city_councillors',
+    'North Somerset Councillors' => 'north_somerset_councillors' 
+    }  
+  end
   
   def self.decode_cfemail(c)  
     k = c[0..1].hex
@@ -187,11 +198,13 @@ class Representative
   end
     
   def self.import_finished!(type)
-    mail = Mail.new
-    mail.to = Account.all.map(&:email)
-    mail.from = 'no-reply@stephenreid.me'
-    mail.subject = "Import of #{type.pluralize} finished"
-    mail.deliver    
+    if ENV['SENDGRID_USERNAME']
+      mail = Mail.new
+      mail.to = Account.all.map(&:email)
+      mail.from = 'no-reply@stephenreid.me'
+      mail.subject = "Import of #{type.pluralize} finished"
+      mail.deliver   
+    end
   end
   
   def self.slugs_for_postcode(postcode)

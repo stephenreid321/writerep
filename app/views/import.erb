@@ -1,0 +1,22 @@
+
+<h1>Import representatives</h1>
+
+<% if params[:imported] %>
+  <div class="alert alert-success">
+    Successfully imported <%=Representative.importables.invert[params[:imported]]%>!
+  </div>
+<% end %>
+
+<script>
+  $(function () {
+    $('form').submit(function () {
+      alert("The import will now begin. Please be patient. If you the next page you see is an 'Application Error', don't worry, the import is still going on in the background. You'll get an email when the import is finished.")
+      $(this).attr('action', '/import/' + $('select[name=x]').val())
+    })
+  })
+</script>
+
+<% form_tag '/import/x', :class => 'form-inline' do %>
+  <%= select_tag :x, :class => 'form-control', :options => Representative.importables %>
+  <button class="btn btn-primary" type="submit">Import</button>
+<% end %>

@@ -144,10 +144,15 @@ module ActivateApp
       200
     end    
     
-    get '/import/:representatives' do
+    get '/import' do
+      sign_in_required!
+      erb :import
+    end
+    
+    post '/import/:representatives' do
       sign_in_required!
       Representative.send(:"import_#{params[:representatives]}")
-      redirect '/admin/index/Representative'
+      redirect "/import?imported=#{params[:representatives]}"
     end
    
   end         
