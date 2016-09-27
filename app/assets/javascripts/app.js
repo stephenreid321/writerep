@@ -1,6 +1,4 @@
 
-webshims.polyfill();
-
 $(function () {
 
   $(document).on('click', 'a[data-confirm]', function (e) {
