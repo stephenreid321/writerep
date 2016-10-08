@@ -9,3 +9,5 @@ campaign-kit
 4. Return to the admin interface at `http://[APP NAME].herokuapp.com/admin`, click 'Campaigns' and create a campaign.
 5. Click 'View/edit' to return to the campaign, scroll to the bottom and add some decisions (you'll probably want to use the 'Bulk create decisions' tool). Decisions are what link campaigns to representatives; a Decision implies 'this representative has to make a decision on this campaign issue', and thus the representative should be included in the postcode search for this campaign.
 6. View your campaign at `http://[APP NAME].herokuapp.com/campaigns/[CAMPAIGN SLUG]`, replacing [CAMPAIGN SLUG] with your campaign slug.
+
+Found this app useful? [Donate via Paypal](https://www.paypal.me/wordsandwriting)
