@@ -35,13 +35,13 @@ class Representative
   end
  
   def self.importables
-{
-    'MPs' => 'mps',
-    'London Assembly Members' => 'ams',
-    'Hackney Councillors' => 'hackney_councillors',
-    'All London Councillors' => 'london_borough_councillors',
-    'Bristol City Councillors' => 'bristol_city_councillors',
-    'North Somerset Councillors' => 'north_somerset_councillors' 
+    {
+      'MPs' => 'mps',
+      'London Assembly Members' => 'ams',
+      'Hackney Councillors' => 'hackney_councillors',
+      'All London Councillors' => 'london_borough_councillors',
+      'Bristol City Councillors' => 'bristol_city_councillors',
+      'North Somerset Councillors' => 'north_somerset_councillors' 
     }  
   end
   
@@ -69,14 +69,17 @@ class Representative
   end
   
   def self.import_mp(url)
+    type = 'MP'
     agent = Mechanize.new
     page = agent.get(url)
     name = page.search('h1')[0].text.strip
     ['Rt Hon ', 'Dr ', 'Sir ', 'Mr ', 'Ms ', 'Mrs ', ' MP', ' QC'].each { |x|
       name = name.gsub(x,'')
-    }
+    }    
     puts name
-    representative = Representative.create! name: name, slug: "mp:#{name.parameterize}", type: 'MP'
+    
+    slug = "mp:#{name.parameterize}"    
+    representative = Representative.find_by(slug: slug) || Representative.create!(name: name, slug: slug, type: type)
     
     if email = page.search('span[data-cfemail]')[0]
       email = decode_cfemail(email['data-cfemail'])
@@ -123,7 +126,10 @@ class Representative
       end
       name = page.search('h1.node__title')[0].text.strip
       puts name
-      representative = Representative.create! name: name, slug: "am:#{name.parameterize}", type: type
+      
+      slug = "am:#{name.parameterize}"
+      representative = Representative.find_by(slug: slug) || Representative.create!(name: name, slug: slug, type: type)
+   
       representative.update_attributes(email: decode_cfemail(page.search('li.social-email a')[0]['data-cfemail']))
       representative.update_attributes(image_url: page.search('img.gla-2-1-medium')[0]['src'])
     
@@ -144,7 +150,10 @@ class Representative
       name_parts = name.gsub('Dr.','').gsub('D.R.', '').split(' - ').first.split(' ').map(&:capitalize)
       name = "#{name_parts[0]} #{name_parts[-1]}"
       email = email1.split(' ').last
-      representative = Representative.create! name: name, slug: "bristol-city-council:#{name.parameterize}", type: type
+      
+      slug = "bristol-city-council:#{name.parameterize}"
+      representative = Representative.find_by(slug: slug) || Representative.create!(name: name, slug: slug, type: type)    
+
       representative.update_attributes(email: email)
     }    
     import_finished!(type)
@@ -157,7 +166,10 @@ class Representative
     index_page.search('.main-content p a').each { |a| 
       page = agent.get("http://www.n-somerset.gov.uk/#{a['href']}")   
       name = page.search('.service-details .col-sm-8')[0].text.strip
-      representative = Representative.create! name: name, slug: "north-somerset-council:#{name.parameterize}", type: type
+      
+      slug = "north-somerset-council:#{name.parameterize}"
+      representative = Representative.find_by(slug: slug) || Representative.create!(name: name, slug: slug, type: type)      
+      
       representative.update_attributes(email: page.search('.service-details a[href^=mailto]')[0].text.strip)
     }           
     import_finished!(type)
@@ -189,7 +201,10 @@ class Representative
       name = tr.search('td')[0].text.strip.gsub('Cllr ','') 
       email = tr.search('td')[1].text.strip 
       p = tr.search('td')[3].text.strip 
-      representative = Representative.create! name: name, slug: "#{borough.parameterize}-borough-council:#{name.parameterize}", type: type
+      
+      slug = "#{borough.parameterize}-borough-council:#{name.parameterize}"
+      representative = Representative.find_by(slug: slug) || Representative.create!(name: name, slug: slug, type: type)
+      
       representative.update_attributes(email: email)        
       if party = Party.find_by(name: p) || Party.create(name: p)
         representative.update_attributes(party: party)

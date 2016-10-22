@@ -77,22 +77,24 @@ module ActivateApp
         erb :'campaigns/intro'
       else
         @representative = @decision.representative
-        if @campaign.email?
-          @email = @decision.emails.new subject: @campaign.email_subject, body: @campaign.email_body, from_postcode: params[:postcode]
-          erb :'campaigns/email'
-        elsif @campaign.tweet?
-          @tweet = @decision.tweets.new body: ".#{@decision.representative.twitter} #{@campaign.tweet_body}", from_postcode: params[:postcode]
+        action = params[:action] || @campaign.action_order_a.first
+        case action
+        when 'email'
+          @email = @decision.emails.new subject: @campaign.email_subject, body: @campaign.email_body, from_name: params[:name], from_email: params[:email], from_postcode: params[:postcode]
+          erb :'campaigns/email'                    
+        when 'tweet'
+          @tweet = @decision.tweets.new body: ".#{@decision.representative.twitter} #{@campaign.tweet_body}", from_name: params[:name], from_email: params[:email], from_postcode: params[:postcode]
           erb :'campaigns/tweet'
-        end        
+        end
       end
     end
     
     post '/campaigns/:slug/:decision_id/email' do
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found
       @decision = @campaign.decisions.find(params[:decision_id])
-      @email = @decision.emails.new(params[:email])
+      @resource = @email = @decision.emails.new(params[:email])
       if @email.save
-        redirect "/campaigns/#{@campaign.slug}/thanks"
+        next_action
       else
         flash[:error] = 'Some errors prevented the email from being sent'
         erb :'campaigns/email'
@@ -102,9 +104,9 @@ module ActivateApp
     post '/campaigns/:slug/:decision_id/tweet' do
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found
       @decision = @campaign.decisions.find(params[:decision_id])
-      @tweet = @decision.tweets.new(params[:tweet])
+      @resource = @tweet = @decision.tweets.new(params[:tweet])
       if @tweet.save
-        redirect "/campaigns/#{@campaign.slug}/thanks"
+        next_action
       else
         flash[:error] = 'Some errors prevented the tweet from being saved'
         erb :'campaigns/tweet'

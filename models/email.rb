@@ -36,13 +36,16 @@ class Email
   
   after_create :send_email
   def send_email
-    mail = Mail.new
-    mail.to = decision.representative.email
-    mail.from = from_email
-    mail.bcc = from_email
-    mail.subject = subject
-    mail.body = body_with_additions
-    mail.deliver 
+    if Padrino.env == :production
+      mail = Mail.new
+      mail.to = decision.representative.email
+      mail.bcc = decision.campaign.email_bcc
+      mail.from = from_email
+      mail.bcc = from_email
+      mail.subject = subject
+      mail.body = body_with_additions
+      mail.deliver 
+    end
   end
     
 end
