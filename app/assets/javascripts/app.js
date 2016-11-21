@@ -25,8 +25,6 @@ $(function () {
         ['font', ['bold', 'italic', 'underline', 'clear']],
         ['color', ['color']],
         ['para', ['ul', 'ol', 'paragraph']],
-        ['height', ['height']],
-        ['table', ['table']],
         ['insert', ['picture', 'link', 'video']],
       ],
       height: 200,
