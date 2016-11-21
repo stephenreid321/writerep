@@ -37,7 +37,7 @@ class Campaign
       :thanks => :wysiwyg,            
       :email_subject => :text_area,
       :email_bcc => :text,      
-      :email_body => :text_area,
+      :email_body => :wysiwyg,
       :tweet_body => :text_area,    
       :display_representative_type => :check_box,
       :action_order => {:type => :text, :new_hint => (new_hint = 'Comma-separated list from {email, tweet}'), :edit_hint => new_hint},
