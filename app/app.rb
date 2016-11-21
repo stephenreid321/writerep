@@ -80,9 +80,11 @@ module ActivateApp
         action = params[:action] || @campaign.action_order_a.first
         case action
         when 'email'
+          next_action(current_action: action) unless @decision.representative.email
           @email = @decision.emails.new subject: @campaign.email_subject, body: @campaign.email_body, from_name: params[:name], from_email: params[:email], from_postcode: params[:postcode]
           erb :'campaigns/email'                    
         when 'tweet'
+          next_action(current_action: action) unless @decision.representative.twitter
           @tweet = @decision.tweets.new body: ".#{@decision.representative.twitter} #{@campaign.tweet_body}", from_name: params[:name], from_email: params[:email], from_postcode: params[:postcode]
           erb :'campaigns/tweet'
         end

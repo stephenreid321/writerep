@@ -4,8 +4,8 @@ ActivateApp::App.helpers do
     @current_account ||= Account.find(session[:account_id]) if session[:account_id]
   end
   
-  def next_action
-    next_action = @campaign.action_order_a[@campaign.action_order_a.index(uri.split('/').last)+1]
+  def next_action(current_action: uri.split('/').last)
+    next_action = @campaign.action_order_a[@campaign.action_order_a.index(current_account)+1]
     next_action ? redirect("/campaigns/#{@campaign.slug}?action=#{next_action}&name=#{@resource.from_name}&email=#{@resource.from_email}&postcode=#{@resource.from_postcode}") : redirect("/campaigns/#{@campaign.slug}/thanks")  
   end
    
