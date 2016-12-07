@@ -8,6 +8,8 @@ class Email
   field :from_email, :type => String
   field :from_address1, :type => String
   field :from_postcode, :type => String
+  field :delivered_at, :type => Time
+  field :message_id, :type => String
   
   belongs_to :decision
   
@@ -20,7 +22,9 @@ class Email
       :from_name => :text,
       :from_email => :email,
       :from_address1 => :text,
-      :from_postcode => :text      
+      :from_postcode => :text,
+      :delivered_at => :datetime,
+      :message_id => :text      
     }
   end
   
@@ -51,7 +55,9 @@ class Email
         body email.body_with_additions
       end
       mail.html_part = html_part     
-      mail.deliver 
+      mail = mail.deliver
+      update_attribute(:message_id, mail.message_id)
+      update_attribute(:delivered_at, Time.now)
     end
   end
     
