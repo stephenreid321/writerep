@@ -9,6 +9,7 @@
       <%= f.text_area_block :body, :div_class => '', :label_class => '' %>
       <%= f.text_block :from_name, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_name) %>
       <%= f.email_block :from_email, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_email) %>
+      <%= f.text_block :from_address1, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_address1) %>
       <%= f.text_block :from_postcode, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_postcode) %>
       <%= f.submit_block button_text: 'Tweet', :div_class => '' %>
     <% end %>
@@ -17,7 +18,7 @@
 
 <script>
   $(function () {
-    $('#tweet_from_name, #tweet_from_email, #tweet_from_postcode').each(function () {
+    $('#tweet_from_name, #tweet_from_email, #tweet_from_address1, #tweet_from_postcode').each(function () {
       if ($(this).val().length > 0)
         $(this).hide()
     })

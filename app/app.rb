@@ -85,11 +85,11 @@ module ActivateApp
         case action
         when 'email'          
           next_action(current_action: action) unless @representative.email
-          @resource = @email = @decision.emails.new subject: @campaign.email_subject, body: @campaign.email_body, from_name: params[:name], from_email: params[:email], from_postcode: params[:postcode]          
+          @resource = @email = @decision.emails.new subject: @campaign.email_subject, body: @campaign.email_body, from_name: params[:name], from_email: params[:email], from_address1: params[:address1], from_postcode: params[:postcode]          
           erb :'campaigns/email'                    
         when 'tweet'
           next_action(current_action: action) unless @representative.twitter
-          @resource = @tweet = @decision.tweets.new body: ".#{@decision.representative.twitter} #{@campaign.tweet_body}", from_name: params[:name], from_email: params[:email], from_postcode: params[:postcode]          
+          @resource = @tweet = @decision.tweets.new body: ".#{@decision.representative.twitter} #{@campaign.tweet_body}", from_name: params[:name], from_email: params[:email], from_address1: params[:address1], from_postcode: params[:postcode]          
           erb :'campaigns/tweet'
         end
       end

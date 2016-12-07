@@ -6,11 +6,12 @@ class Email
   field :body, :type => String
   field :from_name, :type => String  
   field :from_email, :type => String
+  field :from_address1, :type => String
   field :from_postcode, :type => String
   
   belongs_to :decision
   
-  validates_presence_of :subject, :body, :from_name, :from_email, :from_postcode, :decision
+  validates_presence_of :subject, :body, :from_name, :from_email, :from_address1, :from_postcode, :decision
         
   def self.admin_fields
     {
@@ -18,7 +19,8 @@ class Email
       :body => :text_area,
       :from_name => :text,
       :from_email => :email,
-      :from_postcode => :text
+      :from_address1 => :text,
+      :from_postcode => :text      
     }
   end
   
@@ -26,12 +28,13 @@ class Email
     {
       :from_name => 'Your name',
       :from_email => 'Your email address',
+      :from_address1 => 'First line of address',
       :from_postcode => 'Your postcode',
     }[attr.to_sym] || super  
   end   
   
   def body_with_additions
-    "Dear #{decision.representative.address_as || decision.representative.name},<br /><br />#{body}<br /><br />Yours sincerely,<br /><br />#{from_name}<br />#{from_postcode.upcase}"
+    "Dear #{decision.representative.address_as || decision.representative.name},<br /><br />#{body}<br /><br />Yours sincerely,<br /><br />#{from_name}<br />#{from_address1}<br />#{from_postcode.upcase}"
   end
   
   after_create :send_email
