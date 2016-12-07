@@ -40,9 +40,8 @@ class Email
       email = self
       mail = Mail.new
       mail.to = decision.representative.email
-      mail.bcc = decision.campaign.email_bcc
       mail.from = "#{from_name} <#{from_email}>"
-      mail.bcc = from_email
+      mail.bcc = [from_email, decision.campaign.email_bcc].compact
       mail.subject = subject      
       html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
