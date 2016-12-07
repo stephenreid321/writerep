@@ -14,3 +14,12 @@
     <% end %>
   </div>
 </div>  
+
+<script>
+  $(function () {
+    $('#tweet_from_name, #tweet_from_email, #tweet_from_postcode').each(function () {
+      if ($(this).val().length > 0)
+        $(this).hide()
+    })
+  })
+</script>  
