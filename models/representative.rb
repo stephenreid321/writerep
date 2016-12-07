@@ -30,6 +30,7 @@ class Representative
       :facebook => :text,
       :image_url => :text,
       :party_id => :lookup,
+      :constituency_id => :lookup,
       :decisions => :collection      
     }
   end
