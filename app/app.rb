@@ -98,6 +98,7 @@ module ActivateApp
     post '/campaigns/:slug/:decision_id/email' do
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found
       @decision = @campaign.decisions.find(params[:decision_id])
+      @representative = @decision.representative
       @resource = @email = @decision.emails.new(params[:email])
       if @email.save
         next_action
@@ -110,6 +111,7 @@ module ActivateApp
     post '/campaigns/:slug/:decision_id/tweet' do
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found
       @decision = @campaign.decisions.find(params[:decision_id])
+      @representative = @decision.representative
       @resource = @tweet = @decision.tweets.new(params[:tweet])
       if @tweet.save
         next_action
