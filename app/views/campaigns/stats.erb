@@ -2,7 +2,7 @@
 
 <p style="font-weight: bold">Total emails: <%=@campaign.emails.count%></p>
 <p style="font-weight: bold">Total tweets: <%=@campaign.tweets.count%></p>
-<p style="font-weight: bold">Number of representatives contacted: <%=@campaign.contacted_decisions.count%>/<%=@campaign.decisions.count%>(<%=100*(@campaign.contacted_decisions.count.to_f/@campaign.decisions.count).round(2)%>&percnt;)</p>
+<p style="font-weight: bold">Number of representatives contacted: <%=@campaign.contacted_decisions.count%>/<%=@campaign.decisions.count%> (<%=100*(@campaign.contacted_decisions.count.to_f/@campaign.decisions.count).round(2)%>&percnt;)</p>
 
 <table class="table" data-sortlist="[[4,1],[0,0]]" style="font-size: 12px">
   <thead>
