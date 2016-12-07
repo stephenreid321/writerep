@@ -49,4 +49,12 @@ class Campaign
     decisions.where(:representative_id.in => Representative.for_postcode(postcode).pluck(:id))
   end
   
+  def emails
+    Email.where(:decision_id.in => decisions.pluck(:id))
+  end
+  
+  def tweets
+    Tweet.where(:decision_id.in => decisions.pluck(:id))
+  end  
+  
 end

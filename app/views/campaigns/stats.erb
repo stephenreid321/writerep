@@ -1,0 +1,37 @@
+<h1><%=@campaign.name%></h1>
+
+<p>Total emails: <%=@campaign.emails.count%></p>
+<p>Total tweets: <%=@campaign.tweets.count%></p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Emails</th>
+      <th>Tweets</th>
+    </tr>
+  </thead>
+  <% @campaign.decisions.each { |decision| %>
+    <tr>
+      <td>
+        <%=decision.representative.name%>
+      </td>
+      <td>
+        <%=decision.emails.count%>
+      </td>
+      <td>
+        <%=decision.tweets.count%>
+      </td>    
+    </tr>
+  <% } %>
+</table>
+
+
+<script>
+  $(function () {
+
+    $('table').tablesorter({})
+
+  });
+
+</script>

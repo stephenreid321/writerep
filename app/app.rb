@@ -127,6 +127,13 @@ module ActivateApp
       erb :'campaigns/thanks'
     end    
     
+    get '/campaigns/:slug/stats' do
+      sign_in_required!
+      @campaign = Campaign.find_by(slug: params[:slug]) || not_found  
+      @title = @campaign.name            
+      erb :'campaigns/stats'
+    end
+    
     get '/bulk_create_decisions' do    
       @campaign = Campaign.find(request.referrer.split('/').last)   
       redirect "/campaigns/#{@campaign.slug}/bulk_create_decisions"
