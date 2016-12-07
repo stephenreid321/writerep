@@ -57,4 +57,8 @@ class Campaign
     Tweet.where(:decision_id.in => decisions.pluck(:id))
   end  
   
+  def contacted_decisions
+    decisions.where(:id.in => (emails.pluck(:decision_id) + tweets.pluck(:decision_id)).uniq)
+  end
+  
 end
