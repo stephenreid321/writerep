@@ -9,7 +9,7 @@
       <p>Email subject line (please customise):</p> 
       <%= f.text_block :subject, :div_class => '', :label_class => '' %>
       <p>Dear <%=@decision.representative.address_as || @decision.representative.name%>,</p>    
-      <div style="background: white; color: black; font-size: 14px">
+      <div style="background: white;">
         <%= f.wysiwyg_block :body, :div_class => '', :label_class => '' %>
       </div>
       <p>Yours sincerely,</p>    
