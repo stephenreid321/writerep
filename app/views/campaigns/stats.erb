@@ -1,8 +1,10 @@
 <h1><%=@campaign.name%></h1>
 
-<p style="font-weight: bold">Total emails: <%=@campaign.emails.count%></p>
-<p style="font-weight: bold">Total tweets: <%=@campaign.tweets.count%></p>
-<p style="font-weight: bold">Number of representatives contacted: <%=@campaign.contacted_decisions.count%>/<%=@campaign.decisions.count%> (<%=100*(@campaign.contacted_decisions.count.to_f/@campaign.decisions.count).round(2)%>&percnt;)</p>
+<ul class="fa-ul">
+  <li><i title="Number of emails sent" class="fa fa-li fa-envelope"></i> <%=@campaign.emails.count%></li>
+  <li><i title="Number of tweets sent" class="fa fa-li fa-twitter"></i> <%=@campaign.tweets.count%></li>
+  <li><i title="Number of representatives contacted" class="fa fa-li fa-user"></i> <%=@campaign.contacted_decisions.count%>/<%=@campaign.decisions.count%> (<%=100*(@campaign.contacted_decisions.count.to_f/@campaign.decisions.count).round(2)%>&percnt;)</li>
+</ul>
 
 <table class="table" data-sortlist="[[4,1],[0,0]]" style="font-size: 12px">
   <thead>
