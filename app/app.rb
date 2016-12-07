@@ -42,6 +42,10 @@ module ActivateApp
       erb :not_found, :layout => :application
     end
     
+    get '/raise' do
+      raise '/raise'
+    end
+    
     get '/' do
       redirect "/campaigns/#{Campaign.order_by('created_at desc').limit(1).first.slug}"
     end
