@@ -24,7 +24,8 @@ class Email
       :from_address1 => :text,
       :from_postcode => :text,
       :delivered_at => :datetime,
-      :message_id => :text      
+      :message_id => :text,
+      :decision_id => :lookup      
     }
   end
   
