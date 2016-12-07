@@ -41,7 +41,7 @@ class Email
       mail = Mail.new
       mail.to = decision.representative.email
       mail.bcc = decision.campaign.email_bcc
-      mail.from = from_email
+      mail.from = "#{from_name} <#{from_email}>"
       mail.bcc = from_email
       mail.subject = subject      
       html_part = Mail::Part.new do
