@@ -4,6 +4,12 @@
   <%= @campaign.intro %>
 </div>
 
+<% if params[:decisions_empty] %>
+  <div class="alert alert-danger">
+    Sorry, no representatives of that postcode are part of this campaign.
+  </div>
+<% end %>
+
 <% form_tag '', method: :get do %>
   <%= text_field_tag :postcode, :class => 'form-control', :placeholder => 'Enter your postcode' %>
 <% end %>

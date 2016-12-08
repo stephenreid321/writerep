@@ -70,8 +70,7 @@ module ActivateApp
       elsif params[:postcode]
         @decisions = @campaign.decisions_for_postcode(params[:postcode])
         if @decisions.empty?
-          flash[:error] = "No representatives of that postcode are part of this campaign"
-          redirect "/campaigns/#{@campaign.slug}"
+          redirect "/campaigns/#{@campaign.slug}?decisions_empty=1"
         else
           @decision = @decisions.shuffle.first  
         end

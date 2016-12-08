@@ -58,10 +58,18 @@ class Representative
   def self.import_mps
     type = 'MP'
     agent = Mechanize.new
+    
+    twfy_page = agent.get('https://www.theyworkforyou.com/mps/')
+    twfy_map = Hash[twfy_page.search('.people-list__person').map { |div|
+        [div.search('.people-list__person__constituency').text.parameterize,
+          div.search('.people-list__person__name').text,
+        ]
+      }]    
+    
     index_page = agent.get('http://www.parliament.uk/mps-lords-and-offices/mps/')
     index_page.search('#pnlListing table td a[id]').each { |a| 
       begin
-        import_mp(a['href'])
+        import_mp(a['href'], name: twfy_map[a.parent.parent.search('td').last.text.parameterize])
       rescue
         puts "failed to import #{a['href']}"
       end       
@@ -69,16 +77,18 @@ class Representative
     import_finished!(type)
   end
   
-  def self.import_mp(url)
+  def self.import_mp(url, name: nil)
     type = 'MP'
     agent = Mechanize.new
     page = agent.get(url)
-    name = page.search('h1')[0].text.strip
-    ['Rt Hon ', 'Dr ', 'Sir ', 'Mr ', 'Ms ', 'Mrs ', ' MP', ' QC'].each { |x|
-      name = name.gsub(x,'')
-    }    
-    puts name
+    if !name
+      name = page.search('h1')[0].text.strip
+      ['Rt Hon ', 'Dr ', 'Sir ', 'Mr ', 'Ms ', 'Mrs ', ' MP', ' QC'].each { |x|
+        name = name.gsub(x,'')
+      }    
+    end
     
+    puts name
     slug = "mp:#{name.parameterize}"    
     representative = Representative.find_by(slug: slug) || Representative.create!(name: name, slug: slug, type: type)
     
