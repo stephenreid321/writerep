@@ -17,7 +17,7 @@ class Email
   def self.admin_fields
     {
       :subject => :text,
-      :body => :text_area,
+      :body => :wysiwyg,
       :from_name => :text,
       :from_email => :email,
       :from_address1 => :text,
