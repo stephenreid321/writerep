@@ -224,7 +224,7 @@ class Representative
   end
     
   def self.import_finished!(type)
-    if ENV['SENDGRID_USERNAME']
+    if (ENV['SMTP_USERNAME'] || ENV['SENDGRID_USERNAME'])
       mail = Mail.new
       mail.to = Account.all.map(&:email)
       mail.from = 'no-reply@stephenreid.me'
