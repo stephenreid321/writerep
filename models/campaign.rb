@@ -6,12 +6,13 @@ class Campaign
   field :slug, :type => String
   field :background_image_url, :type => String
   field :facebook_share_text, :type => String  
-  field :intro, :type => String
-  field :advice, :type => String
+  field :intro, :type => String  
   field :thanks, :type => String 
+  field :email_advice, :type => String
   field :email_subject, :type => String
   field :email_bcc, :type => String
   field :email_body, :type => String
+  field :tweet_advice, :type => String
   field :tweet_body, :type => String  
   field :display_representative_type, :type => Boolean
   field :action_order, :type => String, :default => 'email, tweet'
@@ -32,12 +33,13 @@ class Campaign
       :slug => :slug,
       :background_image_url => :text,      
       :facebook_share_text => :text_area,
-      :intro => :wysiwyg,
-      :advice => :wysiwyg,
+      :intro => :wysiwyg,      
       :thanks => :wysiwyg,            
+      :email_advice => :wysiwyg,      
       :email_subject => :text,
       :email_bcc => :text,      
       :email_body => :wysiwyg,
+      :tweet_advice => :wysiwyg,      
       :tweet_body => :text_area,    
       :display_representative_type => :check_box,
       :action_order => {:type => :text, :new_hint => (new_hint = 'Comma-separated list from {email, tweet}'), :edit_hint => new_hint},
