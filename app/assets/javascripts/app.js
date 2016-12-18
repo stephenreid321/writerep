@@ -13,6 +13,10 @@ $(function () {
     window.open(this.href, null, 'scrollbars=yes,width=600,height=600,left=150,top=150').focus();
     return false;
   });
+  
+  $('form').submit(function () {
+    $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');
+  });  
 
   $('textarea.wysiwyg').not('textarea.wysified').each(function () {
     var textarea = this;
