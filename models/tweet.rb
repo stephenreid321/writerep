@@ -35,8 +35,8 @@ class Tweet
   after_create :post_user_info
   def post_user_info
     if ENV['POST_ENDPOINT']
-      agent= Mechanize.new
-      agent.post ENV['POST_ENDPOINT'], {account: {name: from_name, email: from_email, address1: from_address1, postcode: from_postcode, source: "#{ENV['DOMAIN']}:#{decision.campaign.slug}"}}
+      agent = Mechanize.new
+      agent.post ENV['POST_ENDPOINT'], {account: {name: from_name, email: from_email, postcode: from_postcode, source: "#{ENV['DOMAIN']}:#{decision.campaign.slug}"}}
     end
   end  
     
