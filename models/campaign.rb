@@ -35,7 +35,7 @@ class Campaign
       :intro => :wysiwyg,
       :advice => :wysiwyg,
       :thanks => :wysiwyg,            
-      :email_subject => :text_area,
+      :email_subject => :text,
       :email_bcc => :text,      
       :email_body => :wysiwyg,
       :tweet_body => :text_area,    

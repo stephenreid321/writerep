@@ -1,10 +1,10 @@
 <h1>Email <%=@representative.name%> <% if @campaign.display_representative_type %><small><%=@representative.type%></small><% end%></h1>
 
 <div class="row" style="margin-top: 20px">
-  <div class="col-sm-6 col-sm-push-6" style="margin-bottom: 20px">
+  <div class="col-sm-4 col-sm-push-8" style="margin-bottom: 20px">
     <%=@campaign.advice%>
   </div>            
-  <div class="col-sm-6 col-sm-pull-6">
+  <div class="col-sm-8 col-sm-pull-4">
     <% form_for @email, "/campaigns/#{@campaign.slug}/#{@decision.id}/email" do |f| %>
       <p>Email subject line (please customise):</p> 
       <%= f.text_block :subject, :div_class => '', :label_class => '' %>
