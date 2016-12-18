@@ -58,5 +58,13 @@ class Email
       update_attribute(:message_id, mail.message_id)
     end
   end
-    
+  
+  after_create :post_user_info
+  def post_user_info
+    if ENV['POST_ENDPOINT']
+      agent= Mechanize.new
+      agent.post ENV['POST_ENDPOINT'], {account: {name: from_name, email: from_email, address1: from_address1, postcode: from_postcode, source: "#{ENV['DOMAIN']}:#{decision.campaign.slug}"}}
+    end
+  end
+  
 end
