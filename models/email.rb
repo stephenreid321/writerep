@@ -37,7 +37,7 @@ class Email
   end   
   
   def body_with_additions
-    "Dear #{decision.representative.address_as || decision.representative.name},<br /><br />#{body}<br /><br />Yours sincerely,<br /><br />#{from_name}<br />#{from_address1}<br />#{from_postcode.upcase}"
+    "Dear #{decision.representative.firstname},<br /><br />#{body}<br /><br />Yours sincerely,<br /><br />#{from_name}<br />#{from_address1}<br />#{from_postcode.upcase}"
   end
   
   after_create :send_email

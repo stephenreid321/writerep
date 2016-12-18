@@ -249,5 +249,9 @@ class Representative
   def self.for_postcode(postcode)
     Representative.where(:slug.in => slugs_for_postcode(postcode))
   end
+  
+  def firstname
+    name.split(' ').first
+  end
       
 end
