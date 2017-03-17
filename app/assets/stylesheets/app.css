@@ -1,10 +1,10 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic);
-@import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:700);
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,700,700i,900,900i');
 
 html, body { min-height: 100% }
 
-body, p, input, select, textarea, .form-control, .btn { font-family: 'Open Sans'; font-size: 16px }
-h1, h2, h3, h4, h5, h6 { font-family: 'Open Sans Condensed'; text-transform: uppercase; font-weight: 700 }
+p, ul, ol, input, select, .form-control, body { font-family: 'Raleway', 'Helvetica Neue',Helvetica,Arial,sans-serif }
+h1, h2, h3, h4, h5, h6, .h { font-family: 'Raleway'; text-transform: uppercase; font-weight: 900 }
+
 body, p, h1, h2, h3, h4, h5, h6 { color: white;  }
 .note-editor, .note-editor p { font-size: 16px; color: #555 }
 .note-editor button { font-size: 14px }
