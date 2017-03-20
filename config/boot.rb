@@ -7,8 +7,6 @@ require 'rubygems' unless defined?(Gem)
 require 'bundler/setup'
 Bundler.require(:default, RACK_ENV)
 
-Rack::Timeout.timeout = 25
-
 Padrino.load!
 
 Mongoid.load!("#{PADRINO_ROOT}/config/mongoid.yml")

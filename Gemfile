@@ -1,12 +1,9 @@
 source 'https://rubygems.org'
 
-ruby '2.3.0'
+ruby '2.3.3'
+gem 'padrino', '0.13.3.2'
 gem 'puma'
-gem 'padrino'
 gem 'rake'
-gem 'erubis'
-gem 'rack'
-gem 'rack-timeout'
 
 # Admin
 gem 'will_paginate', github: 'mislav/will_paginate'
@@ -23,6 +20,6 @@ gem 'bcrypt'
 gem 'mail'
 
 # Interacting with other websites
-gem 'airbrake', '4.3.5'
+gem 'airbrake'
 gem 'mechanize'
 

@@ -1,12 +1,12 @@
 GIT
   remote: git://github.com/mislav/will_paginate.git
-  revision: 5d92ee219d4a941a18c0de8a24a11973548495ac
+  revision: 18626f5285b284c14fbf1be3e8f49e166b222218
   specs:
-    will_paginate (3.1.0)
+    will_paginate (3.1.5)
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: b03f7004cdeb82dbe562a739048eec696f2baa10
+  revision: 6f4836d3b37060ede7830fdd84c45e52a7181fd3
   specs:
     activate-admin (0.0.1)
       activate-tools
@@ -15,7 +15,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-tools.git
-  revision: 45a2cc498a6001d05d2717be259c38bc98a62e32
+  revision: 11473378865624cff7d457a57d245309dc716fa9
   specs:
     activate-tools (0.0.1)
       padrino
@@ -23,108 +23,99 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (4.2.6)
-      activesupport (= 4.2.6)
-      builder (~> 3.1)
-    activesupport (4.2.6)
+    activemodel (5.0.2)
+      activesupport (= 5.0.2)
+    activesupport (5.0.2)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (~> 0.7)
-      json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
-      thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    airbrake (4.3.5)
-      builder
-      multi_json
+    airbrake (5.8.1)
+      airbrake-ruby (~> 1.8)
+    airbrake-ruby (1.8.0)
     bcrypt (3.1.11)
-    bson (4.1.1)
-    builder (3.2.2)
-    domain_name (0.5.20160310)
+    bson (4.2.1)
+    concurrent-ruby (1.0.5)
+    domain_name (0.5.20170223)
       unf (>= 0.0.5, < 1.0.0)
-    enumerable-lazy (0.0.1)
-    erubis (2.7.0)
-    http-cookie (1.0.2)
+    enumerable-lazy (0.0.2)
+    http-cookie (1.0.3)
       domain_name (~> 0.5)
-    i18n (0.7.0)
-    json (1.8.3)
+    i18n (0.8.1)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
-    mechanize (2.7.4)
+    mechanize (2.7.5)
       domain_name (~> 0.5, >= 0.5.1)
       http-cookie (~> 1.0)
-      mime-types (>= 1.17.2, < 3)
+      mime-types (>= 1.17.2)
       net-http-digest_auth (~> 1.1, >= 1.1.1)
       net-http-persistent (~> 2.5, >= 2.5.2)
       nokogiri (~> 1.6)
       ntlm-http (~> 0.1, >= 0.1.1)
       webrobots (>= 0.0.9, < 0.2)
-    mime-types (2.99.2)
-    mini_portile2 (2.0.0)
-    minitest (5.9.0)
-    moneta (0.7.20)
-    mongo (2.2.5)
-      bson (~> 4.0)
-    mongoid (5.1.3)
-      activemodel (~> 4.0)
-      mongo (~> 2.1)
-      origin (~> 2.2)
-      tzinfo (>= 0.3.37)
-    multi_json (1.12.1)
-    mustermann19 (0.4.3)
+    mime-types (2.99.3)
+    mini_portile2 (2.1.0)
+    minitest (5.10.1)
+    moneta (0.8.1)
+    mongo (2.4.1)
+      bson (>= 4.2.1, < 5.0.0)
+    mongoid (6.1.0)
+      activemodel (~> 5.0)
+      mongo (>= 2.4.1, < 3.0.0)
+    mustermann19 (0.4.4)
       enumerable-lazy
-    net-http-digest_auth (1.4)
+    net-http-digest_auth (1.4.1)
     net-http-persistent (2.9.4)
-    nokogiri (1.6.7.2)
-      mini_portile2 (~> 2.0.0.rc2)
+    nokogiri (1.7.1)
+      mini_portile2 (~> 2.1.0)
     ntlm-http (0.1.1)
-    origin (2.2.0)
-    padrino (0.13.2)
-      padrino-admin (= 0.13.2)
-      padrino-cache (= 0.13.2)
-      padrino-core (= 0.13.2)
-      padrino-gen (= 0.13.2)
-      padrino-helpers (= 0.13.2)
-      padrino-mailer (= 0.13.2)
-      padrino-support (= 0.13.2)
-    padrino-admin (0.13.2)
-      padrino-core (= 0.13.2)
-      padrino-helpers (= 0.13.2)
-    padrino-cache (0.13.2)
-      moneta (~> 0.7.0)
-      padrino-core (= 0.13.2)
-      padrino-helpers (= 0.13.2)
-    padrino-core (0.13.2)
+    padrino (0.13.3.2)
+      padrino-admin (= 0.13.3.2)
+      padrino-cache (= 0.13.3.2)
+      padrino-core (= 0.13.3.2)
+      padrino-gen (= 0.13.3.2)
+      padrino-helpers (= 0.13.3.2)
+      padrino-mailer (= 0.13.3.2)
+      padrino-support (= 0.13.3.2)
+    padrino-admin (0.13.3.2)
+      padrino-core (= 0.13.3.2)
+      padrino-helpers (= 0.13.3.2)
+    padrino-cache (0.13.3.2)
+      moneta (~> 0.8.0)
+      padrino-core (= 0.13.3.2)
+      padrino-helpers (= 0.13.3.2)
+    padrino-core (0.13.3.2)
       activesupport (>= 3.1)
       mustermann19
-      padrino-support (= 0.13.2)
+      padrino-support (= 0.13.3.2)
       rack-protection (>= 1.5.0)
-      sinatra (~> 1.4.6)
+      sinatra (>= 1.4.6)
       thor (~> 0.18)
-    padrino-gen (0.13.2)
+    padrino-gen (0.13.3.2)
       bundler (~> 1.0)
-      padrino-core (= 0.13.2)
-    padrino-helpers (0.13.2)
+      padrino-core (= 0.13.3.2)
+    padrino-helpers (0.13.3.2)
       i18n (~> 0.6, >= 0.6.7)
-      padrino-support (= 0.13.2)
+      padrino-support (= 0.13.3.2)
       tilt (>= 1.4.1, < 3)
-    padrino-mailer (0.13.2)
+    padrino-mailer (0.13.3.2)
       mail (~> 2.5)
       mime-types (< 3)
-      padrino-core (= 0.13.2)
-    padrino-support (0.13.2)
+      padrino-core (= 0.13.3.2)
+    padrino-support (0.13.3.2)
       activesupport (>= 3.1)
-    puma (3.4.0)
-    rack (1.6.4)
+    puma (3.8.2)
+    rack (1.6.5)
     rack-protection (1.5.3)
       rack
-    rack-timeout (0.4.2)
-    rake (11.1.2)
-    sinatra (1.4.7)
+    rake (12.0.0)
+    sinatra (1.4.8)
       rack (~> 1.5)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
-    thor (0.19.1)
-    thread_safe (0.3.5)
-    tilt (2.0.4)
+    thor (0.19.4)
+    thread_safe (0.3.6)
+    tilt (2.0.7)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     unf (0.1.4)
@@ -138,18 +129,18 @@ PLATFORMS
 DEPENDENCIES
   activate-admin!
   activate-tools!
-  airbrake (= 4.3.5)
+  airbrake
   bcrypt
-  erubis
   mail
   mechanize
   mongoid
-  padrino
+  padrino (= 0.13.3.2)
   puma
-  rack
-  rack-timeout
   rake
   will_paginate!
 
+RUBY VERSION
+   ruby 2.3.3p222
+
 BUNDLED WITH
-   1.11.2
+   1.14.6

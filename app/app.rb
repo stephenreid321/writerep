@@ -7,7 +7,7 @@ module ActivateApp
     helpers Activate::ParamHelpers
     helpers Activate::NavigationHelpers
             
-    use Airbrake::Rack    
+    use Airbrake::Rack::Middleware
     
     set :sessions, :expire_after => 1.year    
     set :public_folder, Padrino.root('app', 'assets')
