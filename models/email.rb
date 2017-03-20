@@ -7,12 +7,14 @@ class Email
   field :from_name, :type => String  
   field :from_email, :type => String
   field :from_address1, :type => String
+  field :from_city, :type => String
   field :from_postcode, :type => String
+  field :from_country, :type => String, default: 'United Kingdom'
   field :message_id, :type => String
   
   belongs_to :decision
   
-  validates_presence_of :subject, :body, :from_name, :from_email, :from_address1, :from_postcode, :decision
+  validates_presence_of :subject, :body, :from_name, :from_email, :from_address1, :from_city, :from_postcode, :decision
         
   def self.admin_fields
     {
@@ -21,7 +23,9 @@ class Email
       :from_name => :text,
       :from_email => :email,
       :from_address1 => :text,
+      :from_city => :text,
       :from_postcode => :text,
+      :from_country => :text,
       :message_id => :text,
       :decision_id => :lookup      
     }
@@ -32,7 +36,9 @@ class Email
       :from_name => 'Your name',
       :from_email => 'Your email address',
       :from_address1 => 'First line of address',
+      :from_city => 'Your city',
       :from_postcode => 'Your postcode',
+      :from_country => 'Country',
     }[attr.to_sym] || super  
   end   
   
@@ -63,7 +69,7 @@ class Email
   def post_user_info
     if ENV['POST_ENDPOINT']
       agent = Mechanize.new
-      agent.post ENV['POST_ENDPOINT'], {account: {name: from_name, email: from_email, postcode: from_postcode, source: "#{ENV['DOMAIN']}:#{decision.campaign.slug}"}}
+      agent.post ENV['POST_ENDPOINT'], {account: {name: from_name, email: from_email, city: from_city, postcode: from_postcode, country: from_country, source: "#{ENV['DOMAIN']}:#{decision.campaign.slug}"}}
     end
   end
   
