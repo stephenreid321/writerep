@@ -12,6 +12,7 @@ gem 'activate-admin', github: 'wordsandwriting/activate-admin'
 
 # Data storage
 gem 'mongoid'
+gem 'activemodel', '~>4.2'
 
 # Authentication
 gem 'bcrypt'

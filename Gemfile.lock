@@ -23,19 +23,20 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (5.0.2)
-      activesupport (= 5.0.2)
-    activesupport (5.0.2)
-      concurrent-ruby (~> 1.0, >= 1.0.2)
+    activemodel (4.2.8)
+      activesupport (= 4.2.8)
+      builder (~> 3.1)
+    activesupport (4.2.8)
       i18n (~> 0.7)
       minitest (~> 5.1)
+      thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     airbrake (5.8.1)
       airbrake-ruby (~> 1.8)
     airbrake-ruby (1.8.0)
     bcrypt (3.1.11)
     bson (4.2.1)
-    concurrent-ruby (1.0.5)
+    builder (3.2.3)
     domain_name (0.5.20170223)
       unf (>= 0.0.5, < 1.0.0)
     enumerable-lazy (0.0.2)
@@ -59,9 +60,11 @@ GEM
     moneta (0.8.1)
     mongo (2.4.1)
       bson (>= 4.2.1, < 5.0.0)
-    mongoid (6.1.0)
-      activemodel (~> 5.0)
+    mongoid (5.2.0)
+      activemodel (~> 4.0)
       mongo (>= 2.4.1, < 3.0.0)
+      origin (~> 2.3)
+      tzinfo (>= 0.3.37)
     mustermann19 (0.4.4)
       enumerable-lazy
     net-http-digest_auth (1.4.1)
@@ -69,6 +72,7 @@ GEM
     nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
     ntlm-http (0.1.1)
+    origin (2.3.0)
     padrino (0.13.3.2)
       padrino-admin (= 0.13.3.2)
       padrino-cache (= 0.13.3.2)
@@ -129,6 +133,7 @@ PLATFORMS
 DEPENDENCIES
   activate-admin!
   activate-tools!
+  activemodel (~> 4.2)
   airbrake
   bcrypt
   mail
