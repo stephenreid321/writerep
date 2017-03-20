@@ -16,6 +16,7 @@
       <%= f.text_block :from_name, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_name) %>
       <%= f.email_block :from_email, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_email) %>
       <%= f.text_block :from_address1, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_address1) %>
+      <%= f.text_block :from_city, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_city) %>
       <%= f.text_block :from_postcode, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_postcode) %>
       <%= f.submit_block button_text: 'Send', :div_class => '' %>
     <% end %>
