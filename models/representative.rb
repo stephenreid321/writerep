@@ -10,7 +10,7 @@ class Representative
   field :image_url, :type => String 
     
   belongs_to :constituency
-  belongs_to :party, optional: true
+  belongs_to :party
   
   has_many :decisions, :dependent => :destroy
   
