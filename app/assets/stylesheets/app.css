@@ -6,8 +6,7 @@ p, ul, ol, input, select, .form-control, body { font-family: 'Raleway', 'Helveti
 h1, h2, h3, h4, h5, h6, .h { font-family: 'Raleway'; text-transform: uppercase; font-weight: 900 }
 
 body, p, h1, h2, h3, h4, h5, h6 { color: white;  }
-.note-editor, .note-editor p { font-size: 16px; color: #555 }
-.note-editor button { font-size: 14px }
+.note-editor, .note-editor p { color: #555 }
 
 h1 { font-size: 48px; margin-top: 0; margin-bottom: 10px }
 #alert-wrap { margin-top: 20px; position: absolute; z-index: 1040; width: 40%; margin-left: -20%; left: 50%; }

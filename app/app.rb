@@ -133,8 +133,6 @@ module ActivateApp
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found  
       if params[:search]
         @representatives = Representative.all
-        @representatives = @representatives.where(:email.ne => nil) if params[:email]
-        @representatives = @representatives.where(:twitter.ne => nil) if params[:twitter]
         @representatives = @representatives.where(name: /#{Regexp.escape(params[:name])}/i) if params[:name]
         @representatives = @representatives.where(:constituency_id.in => Constituency.where(name: /#{Regexp.escape(params[:constituency])}/i).pluck(:id)) if params[:constituency]
         @representatives = @representatives.where(:party_id => params[:party_id]) if params[:party_id]        

@@ -12,12 +12,6 @@
     <%= text_field_tag :constituency, :class => 'form-control', :placeholder => 'Constituency', :value => params[:constituency] %>
   </div>
   <div class="form-group">
-    <label><%= check_box_tag :email, :value => 1, :checked => params[:email] %> Has email</label>
-  </div>
-  <div class="form-group">
-    <label><%= check_box_tag :twitter, :value => 1, :checked => params[:twitter] %> Has Twitter</label>
-  </div>
-  <div class="form-group">
     <button class="btn btn-default" name="search" value="1">Search</button>
   </div>
 <% end %>
