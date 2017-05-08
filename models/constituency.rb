@@ -29,7 +29,9 @@ class Constituency
     council_matches = page.body.match(/Your \d+ ([\w ]+) councillors? represents? you on( the)? ([\w ]+)/)
     ward = council_matches[1]
     council = council_matches[-1]
-    london = page.body.match(/Your ([\w ]+) London Assembly Member represents you/)[1]
+    if london_matches = page.body.match(/Your ([\w ]+) London Assembly Member represents you/)
+      london = london_matches[1]
+    end
     westminster = page.body.match(/Your ([\w ]+) MP represents you/)[1]
     euro = page.body.match(/Your \d+ ([\w ]+) MEPs? represents? you/)[1]    
     
@@ -37,7 +39,11 @@ class Constituency
   end
   
   def self.for_postcode(postcode)
-    where(:id.in => lookup(postcode).map { |type, name| find_by(type: type, name: name) }.compact.map(&:id))
+    where(:id.in => lookup(postcode).map { |type, name|
+      if type and name
+        find_by(type: type, name: name)
+      end
+    }.compact.map(&:id))
   end
     
 end
