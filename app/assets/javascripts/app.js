@@ -1,5 +1,9 @@
 
 $(function () {
+  
+  $('form').submit(function () {
+    $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');
+  });
 
   $(document).on('click', 'a[data-confirm]', function (e) {
     var message = $(this).data('confirm');
