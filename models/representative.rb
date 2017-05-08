@@ -16,6 +16,12 @@ class Representative
   
   validates_presence_of :name
   validates_format_of :email, :with => /\A[^@\s]+@[^@\s]+\.[^@\s]+\Z/i, :allow_nil => true
+  
+  before_validation do
+    if self.twitter and !self.twitter.starts_with?('@')
+      self.twitter = "@#{self.twitter}" 
+    end
+  end
         
   def self.admin_fields
     {
