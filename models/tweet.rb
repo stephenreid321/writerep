@@ -20,6 +20,7 @@ class Tweet
       :from_email => :email,
       :from_address1 => :text,
       :from_postcode => :text,
+      :campaign_id => :lookup,
       :tweet_recipients => :collection
     }
   end
