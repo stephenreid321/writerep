@@ -37,8 +37,8 @@ class Constituency
     
     {council_ward: "#{ward}, #{council}", london: london, westminster: westminster, euro: euro}      
     
-    rescue; {}
-  end
+    rescue; {}    
+  end 
   
   def self.for_postcode(postcode)
     where(:id.in => lookup(postcode).map { |type, name|
