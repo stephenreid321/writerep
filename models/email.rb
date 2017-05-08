@@ -24,6 +24,7 @@ class Email
       :from_address1 => :text,
       :from_postcode => :text,
       :message_id => :text,
+      :campaign_id => :lookup,
       :email_recipients => :collection
     }
   end
