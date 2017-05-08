@@ -52,6 +52,10 @@ class Representative
     name.split(' ').first
   end
   
+  def name_with_party
+    "#{name} (#{party.name})"
+  end
+  
   def self.for_postcode(postcode)
     where(:constituency_id.in => Constituency.for_postcode(postcode).pluck(:id))
   end

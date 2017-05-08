@@ -1,13 +1,4 @@
-<h1>Email <%=@relevant_decisions.map { |decision| decision.representative.name }.to_sentence%></h1>
-
-<% if @diff.count > 0 %>
-  <p>
-    <%= @diff.map { |decision| decision.representative.name }.to_sentence %>
-    also 
-    <%= @diff.count == 1 ? "represents" : "represent" %>
-    you, but we don't have their details.
-  </p>
-<% end %>
+<%= partial :'campaigns/action_header' %>
 
 <div class="row" style="margin-top: 20px">
   <div class="col-sm-4 col-sm-push-8" style="margin-bottom: 20px">

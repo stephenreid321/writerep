@@ -1,0 +1,12 @@
+<h1><%=@campaign.name%></h1>
+
+<p class="lead"><%=@action.capitalize%> <%=@relevant_decisions.map { |decision| decision.representative.name_with_party }.to_sentence%></p>
+
+<% if @diff.count > 0 %>
+  <p>
+    <%= @diff.map { |decision| decision.representative.name_with_party }.to_sentence %>
+    also 
+    <%= @diff.count == 1 ? "represents" : "represent" %>
+    you, but we don't have their details.
+  </p>
+<% end %>
