@@ -8,6 +8,7 @@ class Representative
   field :twitter, :type => String
   field :facebook, :type => String
   field :image_url, :type => String 
+  field :archived, :type => Boolean
     
   belongs_to :constituency
   belongs_to :party
@@ -33,7 +34,8 @@ class Representative
       :image_url => :text,
       :constituency_id => :lookup,
       :party_id => :lookup,
-      :decisions => :collection      
+      :decisions => :collection,
+      :archived => :check_box
     }
   end
    

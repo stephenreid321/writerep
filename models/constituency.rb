@@ -6,6 +6,7 @@ class Constituency
   field :type, :type => String
   
   validates_presence_of :name, :type
+  validates_uniqueness_of :name, :scope => :type
   
   has_many :representatives, :dependent => :destroy
         

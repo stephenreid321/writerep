@@ -132,7 +132,7 @@ module ActivateApp
       sign_in_required!
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found  
       if params[:search]
-        @representatives = Representative.all
+        @representatives = Representative.where(:archived.ne => true)
         @representatives = @representatives.where(name: /#{Regexp.escape(params[:name])}/i) if params[:name]
         @representatives = @representatives.where(:constituency_id.in => Constituency.where(name: /#{Regexp.escape(params[:constituency])}/i).pluck(:id)) if params[:constituency]
         @representatives = @representatives.where(:party_id => params[:party_id]) if params[:party_id]        
