@@ -36,6 +36,8 @@ class Constituency
     euro = page.body.match(/Your \d+ ([\w ]+) MEPs? represents? you/)[1]    
     
     {council_ward: "#{ward}, #{council}", london: london, westminster: westminster, euro: euro}      
+    
+    rescue; {}
   end
   
   def self.for_postcode(postcode)
