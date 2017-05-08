@@ -21,6 +21,8 @@ class Campaign
   end
   
   has_many :decisions, :dependent => :destroy
+  has_many :emails, :dependent => :destroy
+  has_many :tweets, :dependent => :destroy
   
   validates_presence_of :name, :slug
   validates_uniqueness_of :slug

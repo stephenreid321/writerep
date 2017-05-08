@@ -97,7 +97,7 @@ module ActivateApp
     
     post '/campaigns/:slug/email' do
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found
-      @resource = @email = @campaign.emails.create!(params[:email].merge({campaign_id: @campaign.id}))
+      @resource = @email = @campaign.emails.create!(params[:email])
       params[:decision_ids].each { |decision_id| @email.email_recipients.create! :decision_id => decision_id }
       @email.send_email
       next_action
@@ -105,7 +105,7 @@ module ActivateApp
         
     post '/campaigns/:slug/tweet' do
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found
-      @resource = @tweet = @campaign.tweets.create!(params[:tweet].merge({campaign_id: @campaign.id}))
+      @resource = @tweet = @campaign.tweets.create!(params[:tweet])
       params[:decision_ids].each { |decision_id| @tweet.tweet_recipients.create! :decision_id => decision_id }
       next_action
     end   
