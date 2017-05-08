@@ -10,9 +10,10 @@ class Email
   field :from_postcode, :type => String
   field :message_id, :type => String
   
-  belongs_to :decision
+  belongs_to :campaign
+  has_many :email_recipients, :dependent => :destroy
   
-  validates_presence_of :subject, :body, :from_name, :from_email, :from_address1, :from_postcode, :decision
+  validates_presence_of :subject, :body, :from_name, :from_email, :from_address1, :from_postcode
         
   def self.admin_fields
     {
@@ -23,7 +24,7 @@ class Email
       :from_address1 => :text,
       :from_postcode => :text,
       :message_id => :text,
-      :decision_id => :lookup      
+      :email_recipients => :collection
     }
   end
   
@@ -37,17 +38,16 @@ class Email
   end   
   
   def body_with_additions
-    "Dear #{decision.representative.firstname},<br /><br />#{body}<br /><br />Yours sincerely,<br /><br />#{from_name}<br />#{from_address1}<br />#{from_postcode.upcase}"
+    "Dear #{email_recipients.map { |email_recipient| email_recipient.decision.representative.firstname }.to_sentence},<br /><br />#{body}<br /><br />Yours sincerely,<br /><br />#{from_name}<br />#{from_address1}<br />#{from_postcode.upcase}"
   end
-  
-  after_create :send_email
+    
   def send_email
-    if Padrino.env == :production
+    if ENV['SMTP_USERNAME'] or ENV['SENDGRID_USERNAME']
       email = self
       mail = Mail.new
-      mail.to = decision.representative.email
+      mail.to = email_recipients.map { |email_recipient| "#{email_recipient.decision.representative.name} <#{email_recipient.decision.representative.email}>" }
       mail.from = "#{from_name} <#{from_email}>"
-      mail.bcc = [from_email, decision.campaign.email_bcc].compact
+      mail.bcc = [from_email, campaign.email_bcc].compact
       mail.subject = subject      
       html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
@@ -63,7 +63,7 @@ class Email
   def post_user_info
     if ENV['POST_ENDPOINT']
       agent = Mechanize.new
-      agent.post ENV['POST_ENDPOINT'], {account: {name: from_name, email: from_email, postcode: from_postcode, source: "#{ENV['DOMAIN']}:#{decision.campaign.slug}"}}
+      agent.post ENV['POST_ENDPOINT'], {account: {name: from_name, email: from_email, postcode: from_postcode, source: "#{ENV['DOMAIN']}:#{campaign.slug}"}}
     end
   end
   

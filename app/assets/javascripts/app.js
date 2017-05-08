@@ -14,10 +14,6 @@ $(function () {
     return false;
   });
   
-  $('form').submit(function () {
-    $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');
-  });  
-
   $('textarea.wysiwyg').not('textarea.wysified').each(function () {
     var textarea = this;
     var summernote = $('<div class="summernote"></div>');

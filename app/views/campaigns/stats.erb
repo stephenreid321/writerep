@@ -6,13 +6,12 @@
   <li><i title="Number of representatives contacted" class="fa fa-li fa-user"></i> <%=@campaign.contacted_decisions.count%>/<%=@campaign.decisions.count%> (<%=100*(@campaign.contacted_decisions.count.to_f/@campaign.decisions.count).round(2)%>&percnt;)</li>
 </ul>
 
-<table class="table" data-sortlist="[[4,1],[0,0]]" style="font-size: 12px">
+<table class="table" data-sortlist="[[3,1],[0,0]]" style="font-size: 12px">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Type</th>        
+      <th>Name</th>        
+      <th>Constituency</th>
       <th>Party</th>
-      <th>Constituency</th>      
       <th>Emails</th>
       <th>Tweets</th>
     </tr>
@@ -20,9 +19,8 @@
   <% @campaign.decisions.each { |decision| representative = decision.representative %>
     <tr>
       <td><%=representative.name%></td>
-      <td><%=representative.type%></td>        
-      <td><%=representative.party.try(:name)%></td>
       <td><%=representative.constituency.try(:name)%></td>      
+      <td><%=representative.party.try(:name)%></td>
       <td><%=decision.emails.count%></td>
       <td><%=decision.tweets.count%></td>    
     </tr>

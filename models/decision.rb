@@ -8,8 +8,8 @@ class Decision
   validates_presence_of :campaign, :representative
   validates_uniqueness_of :campaign, :scope => :representative
   
-  has_many :emails, :dependent => :destroy
-  has_many :tweets, :dependent => :destroy
+  has_many :email_recipients, :dependent => :destroy
+  has_many :tweet_recipients, :dependent => :destroy
         
   def self.admin_fields
     {
@@ -17,6 +17,10 @@ class Decision
       :campaign_id => :lookup,
       :representative_id => :lookup
     }
+  end
+  
+  def self.for_postcode(postcode)
+    where(:representative_id.in => Representative.for_postcode(postcode).pluck(:id))
   end
   
   def summary

@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 ruby '2.3.3'
+gem 'sinatra', '1.4.8'
 gem 'padrino', '0.13.3.2'
 gem 'puma'
 gem 'rake'
@@ -12,7 +13,6 @@ gem 'activate-admin', github: 'wordsandwriting/activate-admin'
 
 # Data storage
 gem 'mongoid'
-gem 'activemodel', '~>4.2'
 
 # Authentication
 gem 'bcrypt'

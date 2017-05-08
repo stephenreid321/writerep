@@ -8,9 +8,10 @@ class Tweet
   field :from_address1, :type => String
   field :from_postcode, :type => String
   
-  belongs_to :decision
+  belongs_to :campaign
+  has_many :tweet_recipients, :dependent => :destroy
   
-  validates_presence_of :body, :from_name, :from_email, :from_address1, :from_postcode, :decision
+  validates_presence_of :body, :from_name, :from_email, :from_address1, :from_postcode
         
   def self.admin_fields
     {
@@ -18,7 +19,8 @@ class Tweet
       :from_name => :text,
       :from_email => :email,
       :from_address1 => :text,
-      :from_postcode => :text
+      :from_postcode => :text,
+      :tweet_recipients => :collection
     }
   end
   
@@ -36,7 +38,7 @@ class Tweet
   def post_user_info
     if ENV['POST_ENDPOINT']
       agent = Mechanize.new
-      agent.post ENV['POST_ENDPOINT'], {account: {name: from_name, email: from_email, postcode: from_postcode, source: "#{ENV['DOMAIN']}:#{decision.campaign.slug}"}}
+      agent.post ENV['POST_ENDPOINT'], {account: {name: from_name, email: from_email, postcode: from_postcode, source: "#{ENV['DOMAIN']}:#{campaign.slug}"}}
     end
   end  
     

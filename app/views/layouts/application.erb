@@ -11,7 +11,7 @@
       'font-awesome/4.3.0' => 'css/font-awesome.min.css',
       'jquery.tablesorter/2.25.5' => 'js/jquery.tablesorter.min.js',
       'codemirror/5.0.0' => 'codemirror.min.css theme/monokai.min.css codemirror.min.js mode/xml/xml.min.js',      
-      'summernote/0.6.1' => 'summernote.min.css summernote.min.js',      
+      'summernote/0.6.1' => 'summernote.min.css summernote.min.js',
       }.each { |k,v| %>    
       <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
         <% case f.split('.').last.to_sym; when :js %>

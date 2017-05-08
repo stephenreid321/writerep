@@ -1,11 +1,23 @@
-<h1>Tweet <%=@representative.name%> <% if @campaign.display_representative_type %><small><%=@representative.type%></small><% end%></h1></h1>
+<h1>Tweet <%=@relevant_decisions.map { |decision| decision.representative.name }.to_sentence%></h1>
+
+<% if @diff.count > 0 %>
+  <p>
+    <%= @diff.map { |decision| decision.representative.name }.to_sentence %>
+    also 
+    <%= @diff.count == 1 ? "represents" : "represent" %>
+    you, but we don't have their details.
+  </p>
+<% end %>
 
 <div class="row" style="margin-top: 20px">
   <div class="col-sm-6 col-sm-push-6" style="margin-bottom: 20px">
     <%=@campaign.tweet_advice%>
   </div>            
   <div class="col-sm-6 col-sm-pull-6">                      
-    <% form_for @tweet, "/campaigns/#{@campaign.slug}/#{@decision.id}/tweet", :onsubmit => "window.open('http://twitter.com/intent/tweet?text='+encodeURIComponent($('#tweet_body').val()), null, 'scrollbars=yes,width=600,height=600,left=150,top=150').focus();" do |f| %>
+    <% form_for @tweet, "/campaigns/#{@campaign.slug}/tweet", :onsubmit => "window.open('http://twitter.com/intent/tweet?text='+encodeURIComponent($('#tweet_body').val()), null, 'scrollbars=yes,width=600,height=600,left=150,top=150').focus();" do |f| %>
+      <% @relevant_decisions.each { |decision| %>
+        <%= hidden_field_tag :'decision_ids[]', :value => decision.id %>
+      <% } %>    
       <%= f.text_area_block :body, :div_class => '', :label_class => '' %>
       <%= f.text_block :from_name, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_name) %>
       <%= f.email_block :from_email, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_email) %>

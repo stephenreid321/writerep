@@ -14,7 +14,6 @@ class Campaign
   field :email_body, :type => String
   field :tweet_advice, :type => String
   field :tweet_body, :type => String  
-  field :display_representative_type, :type => Boolean
   field :action_order, :type => String, :default => 'email, tweet'
   
   def action_order_a
@@ -41,16 +40,11 @@ class Campaign
       :email_body => :wysiwyg,
       :tweet_advice => :wysiwyg,      
       :tweet_body => :text_area,    
-      :display_representative_type => :check_box,
       :action_order => {:type => :text, :new_hint => (new_hint = 'Comma-separated list from {email, tweet}'), :edit_hint => new_hint},
       :decisions => {:type => :collection, :edit_hint => '<a class="btn btn-default" href="/bulk_create_decisions">Bulk create decisions</a>'}
     }
   end
-        
-  def decisions_for_postcode(postcode)
-    decisions.where(:representative_id.in => Representative.for_postcode(postcode).pluck(:id))
-  end
-  
+          
   def emails
     Email.where(:decision_id.in => decisions.pluck(:id))
   end

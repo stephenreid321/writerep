@@ -66,58 +66,48 @@ module ActivateApp
       @og_desc = @campaign.facebook_share_text
       
       if @campaign.decisions.count == 1
-        @decision = @campaign.decisions.first
+        @decisions = @campaign.decisions
       elsif params[:postcode]
-        @decisions = @campaign.decisions_for_postcode(params[:postcode])
+        @decisions = @campaign.decisions.for_postcode(params[:postcode])
         if @decisions.empty?
           redirect "/campaigns/#{@campaign.slug}?decisions_empty=1"
-        else
-          @decision = @decisions.shuffle.first  
         end
       end  
       
-      if !@decision
+      if !@decisions
         erb :'campaigns/intro'
       else
-        @representative = @decision.representative
         action = params[:action] || @campaign.action_order_a.first
         case action
         when 'email'                    
-          @resource = @email = @decision.emails.new subject: @campaign.email_subject, body: @campaign.email_body, from_name: params[:name], from_email: params[:email], from_address1: params[:address1], from_postcode: params[:postcode].try(:upcase)          
-          next_action(current_action: action) unless @representative.email
+          @relevant_decisions = Decision.where(:id.in => @decisions.select { |decision| decision.representative.email }.map(&:id))      
+          @diff = @decisions.where(:id.nin => @relevant_decisions.pluck(:id))
+          @resource = @email = Email.new subject: @campaign.email_subject, body: @campaign.email_body, from_name: params[:name], from_email: params[:email], from_address1: params[:address1], from_postcode: params[:postcode].try(:upcase) # for next_action
+          next_action(current_action: action) unless @relevant_decisions.count > 0
           erb :'campaigns/email'                    
-        when 'tweet'          
-          @resource = @tweet = @decision.tweets.new body: ".#{@decision.representative.twitter} #{@campaign.tweet_body}", from_name: params[:name], from_email: params[:email], from_address1: params[:address1], from_postcode: params[:postcode].try(:upcase)
-          next_action(current_action: action) unless @representative.twitter
+        when 'tweet'         
+          @relevant_decisions = Decision.where(:id.in => @decisions.select { |decision| decision.representative.twitter }.map(&:id))
+          @diff = @decisions.where(:id.nin => @relevant_decisions.pluck(:id))
+          @resource = @tweet = Tweet.new body: ".#{@relevant_decisions.map { |decision| decision.representative.twitter }.join(' ')} #{@campaign.tweet_body}", from_name: params[:name], from_email: params[:email], from_address1: params[:address1], from_postcode: params[:postcode].try(:upcase) # for next_action
+          next_action(current_action: action) unless @relevant_decisions.count > 0
           erb :'campaigns/tweet'
         end
       end
     end
     
-    post '/campaigns/:slug/:decision_id/email' do
+    post '/campaigns/:slug/email' do
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found
-      @decision = @campaign.decisions.find(params[:decision_id])
-      @representative = @decision.representative
-      @resource = @email = @decision.emails.new(params[:email])
-      if @email.save
-        next_action
-      else
-        flash[:error] = 'Some errors prevented the email from being sent'
-        erb :'campaigns/email'
-      end
+      @resource = @email = @campaign.emails.create!(params[:email].merge({campaign_id: @campaign.id}))
+      params[:decision_ids].each { |decision_id| @email.email_recipients.create! :decision_id => decision_id }
+      @email.send_email
+      next_action
     end  
         
-    post '/campaigns/:slug/:decision_id/tweet' do
+    post '/campaigns/:slug/tweet' do
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found
-      @decision = @campaign.decisions.find(params[:decision_id])
-      @representative = @decision.representative
-      @resource = @tweet = @decision.tweets.new(params[:tweet])
-      if @tweet.save
-        next_action
-      else
-        flash[:error] = 'Some errors prevented the tweet from being saved'
-        erb :'campaigns/tweet'
-      end
+      @resource = @tweet = @campaign.tweets.create!(params[:tweet].merge({campaign_id: @campaign.id}))
+      params[:decision_ids].each { |decision_id| @tweet.tweet_recipients.create! :decision_id => decision_id }
+      next_action
     end   
     
     get '/campaigns/:slug/thanks' do
@@ -146,9 +136,8 @@ module ActivateApp
         @representatives = @representatives.where(:email.ne => nil) if params[:email]
         @representatives = @representatives.where(:twitter.ne => nil) if params[:twitter]
         @representatives = @representatives.where(name: /#{Regexp.escape(params[:name])}/i) if params[:name]
-        @representatives = @representatives.where(:party_id => params[:party_id]) if params[:party_id]
         @representatives = @representatives.where(:constituency_id.in => Constituency.where(name: /#{Regexp.escape(params[:constituency])}/i).pluck(:id)) if params[:constituency]
-        @representatives = @representatives.where(type: params[:type]) if params[:type]      
+        @representatives = @representatives.where(:party_id => params[:party_id]) if params[:party_id]        
       end
       erb :'campaigns/bulk_create_decisions'
     end 

@@ -6,7 +6,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: 6f4836d3b37060ede7830fdd84c45e52a7181fd3
+  revision: eaf15be315b68f77e3755000b92f5dc1fc0225ba
   specs:
     activate-admin (0.0.1)
       activate-tools
@@ -15,7 +15,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-tools.git
-  revision: 11473378865624cff7d457a57d245309dc716fa9
+  revision: a45cd2a8d9f79b16dcee4aa2378e780259511d96
   specs:
     activate-tools (0.0.1)
       padrino
@@ -23,27 +23,26 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (4.2.8)
-      activesupport (= 4.2.8)
-      builder (~> 3.1)
-    activesupport (4.2.8)
+    activemodel (5.1.0)
+      activesupport (= 5.1.0)
+    activesupport (5.1.0)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (~> 0.7)
       minitest (~> 5.1)
-      thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    airbrake (5.8.1)
-      airbrake-ruby (~> 1.8)
-    airbrake-ruby (1.8.0)
+    airbrake (6.0.0)
+      airbrake-ruby (~> 2.0)
+    airbrake-ruby (2.2.2)
     bcrypt (3.1.11)
     bson (4.2.1)
-    builder (3.2.3)
-    domain_name (0.5.20170223)
+    concurrent-ruby (1.0.5)
+    domain_name (0.5.20170404)
       unf (>= 0.0.5, < 1.0.0)
     enumerable-lazy (0.0.2)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (0.8.1)
-    mail (2.6.4)
+    mail (2.6.5)
       mime-types (>= 1.16, < 4)
     mechanize (2.7.5)
       domain_name (~> 0.5, >= 0.5.1)
@@ -60,11 +59,9 @@ GEM
     moneta (0.8.1)
     mongo (2.4.1)
       bson (>= 4.2.1, < 5.0.0)
-    mongoid (5.2.0)
-      activemodel (~> 4.0)
+    mongoid (6.1.0)
+      activemodel (~> 5.0)
       mongo (>= 2.4.1, < 3.0.0)
-      origin (~> 2.3)
-      tzinfo (>= 0.3.37)
     mustermann19 (0.4.4)
       enumerable-lazy
     net-http-digest_auth (1.4.1)
@@ -72,7 +69,6 @@ GEM
     nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
     ntlm-http (0.1.1)
-    origin (2.3.0)
     padrino (0.13.3.2)
       padrino-admin (= 0.13.3.2)
       padrino-cache (= 0.13.3.2)
@@ -120,11 +116,11 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.6)
     tilt (2.0.7)
-    tzinfo (1.2.2)
+    tzinfo (1.2.3)
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.2)
+    unf_ext (0.0.7.4)
     webrobots (0.1.2)
 
 PLATFORMS
@@ -133,7 +129,6 @@ PLATFORMS
 DEPENDENCIES
   activate-admin!
   activate-tools!
-  activemodel (~> 4.2)
   airbrake
   bcrypt
   mail
@@ -142,6 +137,7 @@ DEPENDENCIES
   padrino (= 0.13.3.2)
   puma
   rake
+  sinatra (= 1.4.8)
   will_paginate!
 
 RUBY VERSION
