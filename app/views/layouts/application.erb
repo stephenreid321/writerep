@@ -44,6 +44,8 @@
     <meta name="twitter:title" content="<%=@title%>">
     <meta name="twitter:description" content="<%=@og_desc%>">
     <meta name="twitter:image" content="<%=@og_image%>">    
+    
+    <%= eval(f('head')) %>
 
   </head>
   <body style="background-image: url('<%=@campaign.try(:background_image_url)%>'); background-size: cover; background-position: center; background-repeat: no-repeat">
