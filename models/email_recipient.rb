@@ -3,12 +3,12 @@ class EmailRecipient
   include Mongoid::Timestamps
   
 	belongs_to :email
-	belongs_to :decision
+	belongs_to :representative
         
   def self.admin_fields
     {
       :email_id => :lookup,
-      :decision_id => :lookup
+      :representative_id => :lookup
     }
   end
   

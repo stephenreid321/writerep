@@ -39,14 +39,14 @@ class Email
   end   
   
   def body_with_additions
-    "Dear #{email_recipients.map { |email_recipient| email_recipient.decision.representative.firstname }.to_sentence},<br /><br />#{body}<br /><br />Yours sincerely,<br /><br />#{from_name}<br />#{from_address1}<br />#{from_postcode.upcase}"
+    "Dear #{email_recipients.map { |email_recipient| email_recipient.representative.firstname }.to_sentence},<br /><br />#{body}<br /><br />Yours sincerely,<br /><br />#{from_name}<br />#{from_address1}<br />#{from_postcode.upcase}"
   end
     
   def send_email
     if ENV['SMTP_USERNAME'] or ENV['SENDGRID_USERNAME']
       email = self
       mail = Mail.new
-      mail.to = email_recipients.map { |email_recipient| "#{email_recipient.decision.representative.name} <#{email_recipient.decision.representative.email}>" }
+      mail.to = email_recipients.map { |email_recipient| "#{email_recipient.representative.name} <#{email_recipient.decision.representative.email}>" }
       mail.from = "#{from_name} <#{from_email}>"
       mail.bcc = [from_email, campaign.email_bcc].compact
       mail.subject = subject      

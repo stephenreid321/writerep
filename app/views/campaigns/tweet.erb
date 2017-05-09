@@ -7,7 +7,7 @@
   <div class="col-sm-6 col-sm-pull-6">                      
     <% form_for @tweet, "/campaigns/#{@campaign.slug}/tweet", :onsubmit => "window.open('http://twitter.com/intent/tweet?text='+encodeURIComponent($('#tweet_body').val()), null, 'scrollbars=yes,width=600,height=600,left=150,top=150').focus();" do |f| %>
       <% @relevant_decisions.each { |decision| %>
-        <%= hidden_field_tag :'decision_ids[]', :value => decision.id %>
+        <%= hidden_field_tag :'representative_ids[]', :value => decision.representative_id %>
       <% } %>    
       <%= f.text_area_block :body, :div_class => '', :label_class => '' %>
       <%= f.text_block :from_name, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_name) %>

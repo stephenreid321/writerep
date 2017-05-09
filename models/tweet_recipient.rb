@@ -3,12 +3,12 @@ class TweetRecipient
   include Mongoid::Timestamps
   
 	belongs_to :tweet
-	belongs_to :decision
+	belongs_to :representative
         
   def self.admin_fields
     {
       :tweet_id => :lookup,
-      :decision_id => :lookup
+      :representative_id => :lookup
     }
   end
   

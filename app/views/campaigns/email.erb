@@ -7,7 +7,7 @@
   <div class="col-sm-8 col-sm-pull-4">
     <% form_for @email, "/campaigns/#{@campaign.slug}/email" do |f| %>
       <% @relevant_decisions.each { |decision| %>
-        <%= hidden_field_tag :'decision_ids[]', :value => decision.id %>
+        <%= hidden_field_tag :'representative_ids[]', :value => decision.representative_id %>
       <% } %>
       <p>Email subject line (please customise):</p> 
       <%= f.text_block :subject, :div_class => '', :label_class => '' %>

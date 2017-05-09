@@ -82,13 +82,13 @@ module ActivateApp
         when 'email'                    
           @relevant_decisions = Decision.where(:id.in => @decisions.select { |decision| decision.representative.email }.map(&:id))      
           @diff = @decisions.where(:id.nin => @relevant_decisions.pluck(:id))
-          @resource = @email = Email.new subject: @campaign.email_subject, body: @campaign.email_body, from_name: params[:name], from_email: params[:email], from_address1: params[:address1], from_postcode: params[:postcode].try(:upcase) # for next_action
+          @resource = @email = @campaign.emails.new subject: @campaign.email_subject, body: @campaign.email_body, from_name: params[:name], from_email: params[:email], from_address1: params[:address1], from_postcode: params[:postcode].try(:upcase) # for next_action
           next_action(current_action: @action) unless @relevant_decisions.count > 0
           erb :'campaigns/email'                    
         when 'tweet'         
           @relevant_decisions = Decision.where(:id.in => @decisions.select { |decision| decision.representative.twitter }.map(&:id))
           @diff = @decisions.where(:id.nin => @relevant_decisions.pluck(:id))
-          @resource = @tweet = Tweet.new body: ".#{@relevant_decisions.map { |decision| decision.representative.twitter }.join(' ')} #{@campaign.tweet_body}", from_name: params[:name], from_email: params[:email], from_address1: params[:address1], from_postcode: params[:postcode].try(:upcase) # for next_action
+          @resource = @tweet = @campaign.tweets.new body: ".#{@relevant_decisions.map { |decision| decision.representative.twitter }.join(' ')} #{@campaign.tweet_body}", from_name: params[:name], from_email: params[:email], from_address1: params[:address1], from_postcode: params[:postcode].try(:upcase) # for next_action
           next_action(current_action: @action) unless @relevant_decisions.count > 0
           erb :'campaigns/tweet'
         end
@@ -98,7 +98,7 @@ module ActivateApp
     post '/campaigns/:slug/email' do
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found
       @resource = @email = @campaign.emails.create!(params[:email])
-      params[:decision_ids].each { |decision_id| @email.email_recipients.create! :decision_id => decision_id }
+      params[:representative_ids].each { |representative_id| @email.email_recipients.create! :representative_id => representative_id }
       @email.send_email
       next_action
     end  
@@ -106,7 +106,7 @@ module ActivateApp
     post '/campaigns/:slug/tweet' do
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found
       @resource = @tweet = @campaign.tweets.create!(params[:tweet])
-      params[:decision_ids].each { |decision_id| @tweet.tweet_recipients.create! :decision_id => decision_id }
+      params[:representative_id].each { |representative_id| @tweet.tweet_recipients.create! :representative_id => representative_id }
       next_action
     end   
     
