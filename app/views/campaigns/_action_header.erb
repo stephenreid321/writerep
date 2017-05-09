@@ -1,6 +1,8 @@
 <h1><%=@campaign.name%></h1>
 
-<p class="lead"><%=@action.capitalize%> <%=@relevant_decisions.map { |decision| decision.representative.name_with_party }.to_sentence%></p>
+<% if @relevant_decisions.count > 1
+	<p class="lead"><%=@action.capitalize%> <%=@relevant_decisions.map { |decision| decision.representative.name_with_party }.to_sentence%></p>
+<% end %>
 
 <% if @diff.count > 0 %>
   <p>
