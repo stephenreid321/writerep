@@ -1,3 +1,5 @@
+<h1><%=@campaign.name%></h1>
 
 <%=@campaign.thanks%>
-<%= partial :share_big, :locals => {:url => "http://#{request.host_with_port}/campaigns/#{@campaign.slug}"} %>
+
+<%= partial :share_big, :locals => {:url => "http://#{ENV['DOMAIN']}/campaigns/#{@campaign.slug}"} %>
