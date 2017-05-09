@@ -3,3 +3,7 @@
 <%=@campaign.thanks%>
 
 <%= partial :share_big, :locals => {:url => "http://#{ENV['DOMAIN']}/campaigns/#{@campaign.slug}"} %>
+
+<p style="margin-top: 15px">
+	Share URL: <a href="/campaigns/<%=@campaign.slug%>" style="text-decoration:none; color: white; border-bottom: 1px dotted white"><%= "http://#{ENV['DOMAIN']}/campaigns/#{@campaign.slug}" %></span>
+</p>
