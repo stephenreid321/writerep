@@ -12,3 +12,20 @@ h1 { font-size: 48px; margin-top: 0; margin-bottom: 10px }
 #alert-wrap { margin-top: 20px; position: absolute; z-index: 1040; width: 40%; margin-left: -20%; left: 50%; }
 .control-label { display: none }
 #tweet_body { height: 6em }
+
+a, a:hover, a:focus, a:active { color: rgb(34,141,255) }
+
+.btn-primary, .btn-primary:hover, .btn-primary:focus, .btn-group.open .dropdown-toggle.btn-primary {
+  background-color: rgb(34,141,255);
+  border-color: rgb(26, 106, 191);
+  color: #ffffff;
+}
+
+.alert-info {
+  background-color: rgb(34,141,255);
+  border-color: rgb(26, 106, 191);
+}
+
+.badge {
+  background-color: rgb(34,141,255);
+}
