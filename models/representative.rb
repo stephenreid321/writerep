@@ -10,8 +10,8 @@ class Representative
   field :image_url, :type => String 
   field :archived, :type => Boolean
     
-  belongs_to :constituency
-  belongs_to :party
+  belongs_to :constituency, optional: true
+  belongs_to :party, optional: true
   
   has_many :decisions, :dependent => :destroy
   
@@ -53,7 +53,11 @@ class Representative
   end
   
   def name_with_party
-    "#{name} (#{party.name})"
+    if party
+      "#{name} (#{party.name})"
+    else
+      name
+    end
   end
   
   def self.for_postcode(postcode)
