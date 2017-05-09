@@ -25,7 +25,8 @@ class Constituency
   def self.lookup(postcode)
     agent = Mechanize.new
     page = agent.get("https://www.writetothem.com/who?pc=#{postcode}")    
-        
+    return {} unless page.body.include?('Choose your representative')
+    
     council_matches = page.body.match(/Your \d+ ([\w ]+) councillors? represents? you on( the)? ([\w ]+)/)
     ward = council_matches[1]
     council = council_matches[-1]
