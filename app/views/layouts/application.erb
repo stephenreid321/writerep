@@ -49,12 +49,18 @@
 
   </head>
   <body style="background-image: url('<%=@campaign.try(:background_image_url)%>'); background-size: cover; background-position: center; background-repeat: no-repeat">
-
+  
     <%= partial :alert %>
 
     <div class="container">
       <div style="background: rgba(0,0,0,0.7); padding: 20px">    
+      
+        <% if @campaign %>
+          <h1><a style="color: white" href="/campaigns/<%=@campaign.slug%>"><%=@campaign.name%></a></h1>
+        <% end %>
+    
         <%= yield %>
+        
       </div>
     </div>
 
