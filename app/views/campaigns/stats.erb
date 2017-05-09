@@ -21,8 +21,8 @@
       <td><%=representative.name%></td>
       <td><%=representative.constituency.try(:name)%></td>      
       <td><%=representative.party.try(:name)%></td>
-      <td><%=decision.emails.count%></td>
-      <td><%=decision.tweets.count%></td>    
+      <td><%=representative.emails_for(@campaign).count%></td>
+      <td><%=representative.tweets_for(@campaign).count%></td>    
     </tr>
   <% } %>
 </table>

@@ -7,10 +7,7 @@ class Decision
   
   validates_presence_of :campaign, :representative
   validates_uniqueness_of :campaign, :scope => :representative
-  
-  has_many :email_recipients, :dependent => :destroy
-  has_many :tweet_recipients, :dependent => :destroy
-        
+          
   def self.admin_fields
     {
       :summary => {:type => :text, :edit => false},

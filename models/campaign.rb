@@ -46,9 +46,17 @@ class Campaign
       :decisions => {:type => :collection, :edit_hint => '<a class="btn btn-default" href="/bulk_create_decisions">Bulk create decisions</a>'}
     }
   end
+  
+  def email_recipients
+    EmailRecipient.where(:email_id.in => emails.pluck(:id))
+  end
+  
+  def tweet_recipients
+    TweetRecipient.where(:tweet_id.in => tweets.pluck(:id))
+  end
             
   def contacted_decisions
-    decisions.where(:id.in => (emails.pluck(:decision_id) + tweets.pluck(:decision_id)).uniq)
+    decisions.where(:representative_id.in => (email_recipients.pluck(:representative_id) + tweet_recipients.pluck(:representative_id)).uniq)
   end
   
 end

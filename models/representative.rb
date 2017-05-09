@@ -14,6 +14,8 @@ class Representative
   belongs_to :party, optional: true
   
   has_many :decisions, :dependent => :destroy
+  has_many :email_recipients, :dependent => :destroy
+  has_many :tweet_recipients, :dependent => :destroy  
   
   validates_presence_of :name
   validates_format_of :email, :with => /\A[^@\s]+@[^@\s]+\.[^@\s]+\Z/i, :allow_nil => true
@@ -63,5 +65,13 @@ class Representative
   def self.for_postcode(postcode)
     where(:constituency_id.in => Constituency.for_postcode(postcode).pluck(:id))
   end
+  
+  def emails_for(campaign)
+    campaign.emails.where(:id.in => email_recipients.pluck(:email_id))
+  end
+  
+  def tweets_for(campaign)
+    campaign.tweets.where(:id.in => tweet_recipients.pluck(:tweet_id))
+  end  
       
 end
