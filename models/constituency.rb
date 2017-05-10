@@ -24,17 +24,22 @@ class Constituency
   
   def self.lookup(postcode)
     agent = Mechanize.new
-    page = agent.get("https://www.writetothem.com/who?pc=#{postcode}")    
-    return {} unless page.body.include?('Choose your representative')
+    page = begin; agent.get("https://www.writetothem.com/who?pc=#{postcode}"); rescue; nil; end
+    return {} unless page and page.body.include?('Choose your representative')
     
-    council_matches = page.body.match(/Your \d+ ([\w ]+) councillors? represents? you on( the)? ([\w ]+)/)
-    ward = council_matches[1]
-    council = council_matches[-1]
+    if council_matches = page.body.match(/Your \d+ ([\w ]+) councillors? represents? you on( the)? ([\w ]+)/)
+      ward = council_matches[1]
+      council = council_matches[-1]
+    end
     if london_matches = page.body.match(/Your ([\w ]+) London Assembly Member represents you/)
       london = london_matches[1]
     end
-    westminster = page.body.match(/Your ([\w ]+) MP represents you/)[1]
-    euro = page.body.match(/Your \d+ ([\w ]+) MEPs? represents? you/)[1]    
+    if westminster_matches = page.body.match(/Your ([\w ]+) MP represents you/)
+      westminster = westminster_matches[1]
+    end
+    if euro_matches = page.body.match(/Your \d+ ([\w ]+) MEPs? represents? you/)
+      euro = euro_matches[1]  
+    end
     
     {council_ward: "#{ward}, #{council}", london: london, westminster: westminster, euro: euro}    
   end 
