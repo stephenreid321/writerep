@@ -27,17 +27,17 @@ class Constituency
     page = begin; agent.get("https://www.writetothem.com/who?pc=#{postcode}"); rescue; nil; end
     return {} unless page and page.body.include?('Choose your representative')
     
-    if council_matches = page.body.match(/Your \d+ ([\w ]+) councillors? represents? you on( the)? ([\w ]+)/)
+    if council_matches = page.body.match(/Your \d+ ([\w ,]+) councillors? represents? you on( the)? ([\w ]+)/)
       ward = council_matches[1]
       council = council_matches[-1]
     end
-    if london_matches = page.body.match(/Your ([\w ]+) London Assembly Member represents you/)
+    if london_matches = page.body.match(/Your ([\w ,]+) London Assembly Member represents you/)
       london = london_matches[1]
     end
-    if westminster_matches = page.body.match(/Your ([\w ]+) MP represents you/)
+    if westminster_matches = page.body.match(/Your ([\w ,]+) MP represents you/)
       westminster = westminster_matches[1]
     end
-    if euro_matches = page.body.match(/Your \d+ ([\w ]+) MEPs? represents? you/)
+    if euro_matches = page.body.match(/Your \d+ ([\w ,]+) MEPs? represents? you/)
       euro = euro_matches[1]  
     end
     
