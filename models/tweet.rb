@@ -46,5 +46,6 @@ class Tweet
       end
     end
   end  
+  handle_asynchronously :post_user_info
     
 end

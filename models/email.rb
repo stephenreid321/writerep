@@ -59,6 +59,7 @@ class Email
       update_attribute(:message_id, mail.message_id)
     end
   end
+  handle_asynchronously :send_email
   
   after_create :post_user_info
   def post_user_info
@@ -71,5 +72,6 @@ class Email
       end    
     end
   end
+  handle_asynchronously :post_user_info
   
 end
