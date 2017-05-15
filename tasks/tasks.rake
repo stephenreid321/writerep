@@ -8,6 +8,7 @@ namespace :import do
       party = Party.find_or_create_by!(name: row['party_name'])
       constituency = Constituency.find_or_create_by!(name: row['post_label'].gsub('-Super','-super'), type: 'westminster')
       representative = Representative.find_or_create_by!(name: row['name'], party: party, constituency: constituency)
+      representative.archived = nil
       if representative.email != row['email']
         puts "*** email changed: #{representative.email} -> #{row['email']}"
         representative.email = row['email']
