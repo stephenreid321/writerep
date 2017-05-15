@@ -4,8 +4,8 @@
   <li><i title="Number of representatives contacted" class="fa fa-li fa-user"></i> <%=@campaign.contacted_decisions.count%>/<%=@campaign.decisions.count%> (<%=100*(@campaign.contacted_decisions.count.to_f/@campaign.decisions.count).round(2)%>&percnt;)</li>
 </ul>
 
-<% form_for '', :method => :get do %>
-  <%= text_field_tag :q, :placeholder => 'Search representatives', :class => 'form-control', :style => 'display: inline-block; width: auto' %>
+<% form_tag '', :method => :get do %>
+  <%= text_field_tag :q, :placeholder => 'Search representatives', :class => 'form-control', :style => 'display: inline-block; width: auto', :value => params[:q] %>
 <% end %>
 
 <% if params[:q] %>
@@ -20,7 +20,7 @@
         <th>Tweets</th>
       </tr>
     </thead>
-    <% @campaign.decisions.where(:representative_id.in => Representative.where(name: /^#{Regexp.escape(params[:q])}$/i)).each { |decision| representative = decision.representative %>
+    <% @campaign.decisions.where(:representative_id.in => Representative.where(name: /#{Regexp.escape(params[:q])}/i).pluck(:id)).each { |decision| representative = decision.representative %>
       <tr>
         <td><%=representative.name%></td>
         <td><%=representative.constituency.try(:name)%></td>      
