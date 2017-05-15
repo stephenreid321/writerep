@@ -1,6 +1,25 @@
 
 namespace :import do
   
+  task :ppcs => :environment do
+    csv = CSV.parse(open('https://candidates.democracyclub.org.uk/media/candidates-parl.2017-06-08.csv').read, headers: true)
+    csv.each { |row|
+      puts row['name']
+      party = Party.find_or_create_by!(name: row['party_name'])
+      constituency = Constituency.find_or_create_by!(name: row['post_label'].gsub('-Super','-super'), type: 'westminster')
+      representative = Representative.find_or_create_by!(name: row['name'], party: party, constituency: constituency)
+      if representative.email != row['email']
+        puts "*** email changed: #{representative.email} -> #{row['email']}"
+        representative.email = row['email']
+      end
+      if representative.twitter != row['twitter_username']
+        puts "*** twitter changed: #{representative.twitter} -> #{row['twitter_username']}"
+        representative.twitter = row['twitter_username']
+      end
+      representative.save
+    }    
+  end
+  
   task :mps => :environment do
 
     agent = Mechanize.new
