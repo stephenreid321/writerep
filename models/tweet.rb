@@ -41,7 +41,9 @@ class Tweet
       agent = Mechanize.new
       begin
         agent.post ENV['POST_ENDPOINT'], {redirect: "http://#{ENV['DOMAIN']}", account: {name: from_name, email: from_email, postcode: from_postcode, source: "#{ENV['DOMAIN']}:#{campaign.slug}"}}
-      rescue; end
+      rescue => e
+        Airbrake.notify(e)
+      end
     end
   end  
     
