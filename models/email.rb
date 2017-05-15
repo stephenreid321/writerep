@@ -64,7 +64,9 @@ class Email
   def post_user_info
     if ENV['POST_ENDPOINT']
       agent = Mechanize.new
-      agent.post ENV['POST_ENDPOINT'], {redirect: "http://#{ENV['DOMAIN']}", account: {name: from_name, email: from_email, postcode: from_postcode, source: "#{ENV['DOMAIN']}:#{campaign.slug}"}}
+      begin
+        agent.post ENV['POST_ENDPOINT'], {redirect: "http://#{ENV['DOMAIN']}", account: {name: from_name, email: from_email, postcode: from_postcode, source: "#{ENV['DOMAIN']}:#{campaign.slug}"}}
+      rescue; end      
     end
   end
   
