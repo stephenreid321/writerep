@@ -12,8 +12,9 @@ namespace :import do
         puts "*** email changed: #{representative.email} -> #{row['email']}"
         representative.email = row['email']
       end
-      if representative.twitter != row['twitter_username']
-        puts "*** twitter changed: #{representative.twitter} -> #{row['twitter_username']}"
+      t = representative.twitter ? representative.twitter.gsub('@','') : nil
+      if t != row['twitter_username']
+        puts "*** twitter changed: #{t} -> #{row['twitter_username']}"
         representative.twitter = row['twitter_username']
       end
       representative.save
