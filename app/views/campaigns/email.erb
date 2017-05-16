@@ -1,11 +1,24 @@
 <%= partial :'campaigns/action_header' %>
 
+<script>
+  $(function() {
+    $('#emailForm').submit(function() {
+      var emailRe = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+      if ($('#email_subject').val().match(emailRe)) {
+        alert("It appears your browser has autofilled the 'Email subject' field with an email address. Please enter a proper subject.")
+        $('#email_subject').val('').focus()
+        return false
+      }
+    })
+  });
+</script>
+
 <div class="row" style="margin-top: 20px">
   <div class="col-sm-4 col-sm-push-8" style="margin-bottom: 20px">
     <%=@campaign.email_advice%>
   </div>            
   <div class="col-sm-8 col-sm-pull-4">
-    <% form_for @email, "/campaigns/#{@campaign.slug}/email" do |f| %>
+    <% form_for @email, "/campaigns/#{@campaign.slug}/email", :id => 'emailForm' do |f| %>
       <% @relevant_decisions.each { |decision| %>
         <%= hidden_field_tag :'representative_ids[]', :value => decision.representative_id %>
       <% } %>
