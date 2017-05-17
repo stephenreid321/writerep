@@ -12,9 +12,9 @@ gem 'activate-tools', github: 'wordsandwriting/activate-tools'
 gem 'activate-admin', github: 'wordsandwriting/activate-admin'
 
 # Data storage
+gem 'activemodel'
 gem 'mongoid'
 gem 'delayed_job_mongoid', '2.3.0'
-gem 'activemodel'
 
 # Authentication
 gem 'bcrypt'
