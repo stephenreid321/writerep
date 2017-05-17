@@ -1,5 +1,5 @@
 
-<p class="lead"><a style="color: white; text-decoration: none" href="/campaigns/<%=@campaign.slug%>/bulk_create_decisions"><%=@campaign.name%>: create decisions</a></p>
+<p class="lead">Bulk create decisions</p>
 
 <% form_tag "/campaigns/#{@campaign.slug}/bulk_create_decisions", :method => :get do %>
   <div class="form-group">
@@ -33,8 +33,8 @@
     <% @representatives.each { |representative| %>
       <tr>
         <td><%=representative.name%></td>
-        <td><%=representative.constituency.try(:name)%></td>
-        <td><%=representative.party.try(:name)%></td>
+        <td></td>
+        <td></td>
         <td><%=representative.email%></td>
         <td><%=representative.twitter%></td>
         <td>
