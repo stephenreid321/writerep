@@ -14,7 +14,10 @@
       <%= f.email_block :from_email, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_email) %>
       <%= f.text_block :from_address1, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_address1) %>
       <%= f.text_block :from_postcode, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_postcode) %>
-      <%= f.submit_block button_text: 'Tweet', :div_class => '' %>
+      <div>
+        <button class="btn btn-primary">Tweet</button>
+        <a class="btn btn-default" href="/campaigns/<%=@campaign.slug%>/next_action/tweet?postcode=<%=params[:postcode]%>">Skip</a>
+      </div>
     <% end %>
   </div>
 </div>  

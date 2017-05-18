@@ -92,6 +92,11 @@ module ActivateApp
       end
     end
     
+    get '/campaigns/:slug/next_action/:action' do
+      @campaign = Campaign.find_by(slug: params[:slug]) || not_found
+      next_action(current_action: params[:action])
+    end
+    
     post '/campaigns/:slug/email' do
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found
       @resource = @email = @campaign.emails.create!(params[:email])
