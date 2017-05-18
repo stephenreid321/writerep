@@ -1,9 +1,0 @@
-{
-  "name": "Campaign Kit",
-  "repository": "https://github.com/wordsandwriting/campaign-kit",
-  "addons": [
-    "mongolab",
-    "sendgrid"
-  ],
-  "success_url": "/admin/new/Account"
-}

@@ -195,10 +195,10 @@ namespace :import do
   end
 
   def self.import_finished!(type)
-    if (ENV['SMTP_USERNAME'] or ENV['SENDGRID_USERNAME'])
+    if ENV['SMTP_USERNAME']
       mail = Mail.new
       mail.to = Account.all.map(&:email)
-      mail.from = "Campaign Kit <no-reply@#{ENV['DOMAIN']}>"
+      mail.from = "Writerep <no-reply@#{ENV['MAIL_DOMAIN']}>"
       mail.subject = "Import of #{type.pluralize} finished"
       mail.deliver
     end

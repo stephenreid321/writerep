@@ -14,15 +14,12 @@ module ActivateApp
     set :default_builder, 'ActivateFormBuilder'    
     set :protection, :except => :frame_options
     
-    Mail.defaults do            
-      delivery_method :smtp, {       
-        :address => ENV['SMTP_ADDRESS'] || 'smtp.sendgrid.net',
-        :port => ENV['SMTP_PORT'] || 587,
-        :domain => ENV['SMTP_DOMAIN'] || 'heroku.com',
-        :user_name => ENV['SMTP_USERNAME'] || ENV['SENDGRID_USERNAME'],
-        :password => ENV['SMTP_PASSWORD'] || ENV['SENDGRID_PASSWORD'],
-        :authentication => ENV['SMTP_AUTH']|| :plain,
-        :enable_starttls_auto => ENV['SMTP_STARTTLS'] == 'false' ? false : true
+    Mail.defaults do
+      delivery_method :smtp, {
+        :user_name => ENV['SMTP_USERNAME'],
+        :password => ENV['SMTP_PASSWORD'],
+        :address => ENV['SMTP_ADDRESS'],
+        :port => 587
       }   
     end 
        
