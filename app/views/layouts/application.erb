@@ -56,7 +56,10 @@
       <div style="background: rgba(0,0,0,0.7); padding: 20px">    
       
         <% if @campaign %>
-          <h1><a style="color: white" href="/campaigns/<%=@campaign.slug%>"><%=@campaign.name%></a></h1>
+          <style>
+            @media(max-width: 767px) { #campaign-name { font-size: 30px } }
+          </style>
+          <h1 id="campaign-name"><a style="color: white" href="/campaigns/<%=@campaign.slug%>"><%=@campaign.name%></a></h1>
         <% end %>
     
         <%= yield %>
