@@ -41,7 +41,7 @@ class Email
   end   
   
   def body_with_additions
-    "Dear #{email_recipients.map { |email_recipient| email_recipient.representative.firstname }.to_sentence},<br /><br />#{body}<br /><br />Yours sincerely,<br /><br />#{from_name}<br />#{from_address1}<br />#{from_postcode.upcase}"
+    "Dear #{email_recipients.map { |email_recipient| email_recipient.representative.firstname }.sort.to_sentence},<br /><br />#{body}<br /><br />Yours sincerely,<br /><br />#{from_name}<br />#{from_address1}<br />#{from_postcode.upcase}"
   end
     
   def send_email

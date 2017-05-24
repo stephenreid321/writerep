@@ -29,7 +29,7 @@
       <% } %>
       <p>Email subject line (please customise):</p> 
       <%= f.text_block :subject, :div_class => '', :label_class => '' %>
-      <p>Dear <%=@relevant_decisions.map { |decision| decision.representative.firstname }.to_sentence %>,</p>    
+      <p>Dear <%=@relevant_decisions.map { |decision| decision.representative.firstname }.sort.to_sentence %>,</p>    
       <div style="background: white;">
         <%= f.wysiwyg_block :body, :div_class => '', :label_class => '' %>
       </div>
