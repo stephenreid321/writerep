@@ -19,13 +19,22 @@ class Constituency
   end
   
   def self.types
-    %w{council_ward london westminster euro}
+    {
+      'council ward' => 'council_ward',
+      'London Assembly constituency' => 'london',
+      'United Kingdom Parliament constituency' => 'westminster',
+      'European Parliament constituency' => 'euro'
+    }
+  end
+  
+  def type_full
+    Constituency.types.invert[type]
   end
   
   def self.lookup(postcode)
     agent = Mechanize.new
-    page = begin; agent.get("https://www.writetothem.com/who?pc=#{postcode}"); rescue; nil; end
-    return {} unless page and page.body.include?('Choose your representative')
+    page = begin; agent.get("https://www.writetothem.com/who?pc=#{postcode}"); rescue; end
+   return {} unless page and page.body.include?('Choose your representative')
     
     if council_matches = page.body.match(/Your \d+ ([\w ,]+) councillors? represents? you on( the)? ([\w ]+)/)
       ward = council_matches[1]

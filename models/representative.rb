@@ -62,8 +62,8 @@ class Representative
     end
   end
   
-  def self.for_postcode(postcode)
-    where(:constituency_id.in => Constituency.for_postcode(postcode).pluck(:id))
+  def self.for_postcode(postcode, constituencies: nil)
+    where(:constituency_id.in => (constituencies or Constituency.for_postcode(postcode)).pluck(:id))
   end
   
   def emails_for(campaign)

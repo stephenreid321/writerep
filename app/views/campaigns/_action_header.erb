@@ -1,6 +1,17 @@
-<% if @decisions.count > 1 %>
-	<p class="lead"><%=@action.capitalize%> <%=@relevant_decisions.map { |decision| decision.representative.name_with_party }.to_sentence%></p>
-<% end %>
+
+<p>The following representatives are part of this campaign:</p>
+<ul>
+  <% @relevant_constituencies.each { |constituency| %>
+    <li>
+      <%= constituency.name %> (<%=constituency.type_full%>)
+      <ul>
+        <% @relevant_decisions.select { |decision| decision.representative.constituency == constituency }.each { |decision| %>
+          <li><%=decision.representative.name_with_party %></li>
+        <% } %>
+      </ul>
+    </li>
+  <% } %>
+</ul>
 
 <% if @diff.count > 0 %>
   <p>

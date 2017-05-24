@@ -16,8 +16,8 @@ class Decision
     }
   end
   
-  def self.for_postcode(postcode)
-    where(:representative_id.in => Representative.for_postcode(postcode).pluck(:id))
+  def self.for_postcode(postcode, constituencies: nil)
+    where(:representative_id.in => Representative.for_postcode(postcode, constituencies: constituencies).pluck(:id))
   end
   
   def summary
