@@ -77,15 +77,15 @@ module ActivateApp
         @action = params[:action] || @campaign.action_order_a.first
         case @action
         when 'email'                    
+          @relevant_constituencies = Constituency.where(:id.in => @decisions.map { |decision| decision.representative.constituency }.map(&:id))
           @relevant_decisions = Decision.where(:id.in => @decisions.select { |decision| decision.representative.email }.map(&:id))
-          @relevant_constituencies = Constituency.where(:id.in => @relevant_decisions.map { |decision| decision.representative.constituency }.map(&:id))
           @diff = @decisions.where(:id.nin => @relevant_decisions.pluck(:id))
           @resource = @email = @campaign.emails.new subject: @campaign.email_subject, body: @campaign.email_body, from_name: params[:name], from_email: params[:email], from_address1: params[:address1], from_postcode: params[:postcode].try(:upcase) # for next_action
           next_action(current_action: @action) unless @relevant_decisions.count > 0
           erb :'campaigns/email'                    
-        when 'tweet'         
+        when 'tweet'        
+          @relevant_constituencies = Constituency.where(:id.in => @decisions.map { |decision| decision.representative.constituency }.map(&:id))
           @relevant_decisions = Decision.where(:id.in => @decisions.select { |decision| decision.representative.twitter }.map(&:id))
-          @relevant_constituencies = Constituency.where(:id.in => @relevant_decisions.map { |decision| decision.representative.constituency }.map(&:id))
           @diff = @decisions.where(:id.nin => @relevant_decisions.pluck(:id))
           @resource = @tweet = @campaign.tweets.new body: ".#{@relevant_decisions.map { |decision| decision.representative.twitter }.join(' ')} #{@campaign.tweet_body}", from_name: params[:name], from_email: params[:email], from_address1: params[:address1], from_postcode: params[:postcode].try(:upcase) # for next_action
           next_action(current_action: @action) unless @relevant_decisions.count > 0
