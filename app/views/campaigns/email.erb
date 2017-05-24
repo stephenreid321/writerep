@@ -9,6 +9,11 @@
         $('#email_subject').val('').focus()
         return false
       }
+      if ($('#email_from_name').val().match(emailRe)) {
+        alert("It appears the 'Your name' field contains an email address. Please enter your actual name.")
+        $('#email_from_name').val('').focus()
+        return false
+      }      
     })
   });
 </script>
