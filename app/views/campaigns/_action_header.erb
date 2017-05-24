@@ -5,7 +5,7 @@
     <li>
       <%= constituency.name %> (<%=constituency.type_full%>)
       <ul>
-        <% @decisions.select { |decision| decision.representative.constituency == constituency }.each { |decision| %>
+        <% @decisions.select { |decision| decision.representative.constituency == constituency }.sort_by { |decision| decision.representative.name }.each { |decision| %>
           <li>
             <%=decision.representative.name_with_party %>            
             <% if @diff.include?(decision) %>
