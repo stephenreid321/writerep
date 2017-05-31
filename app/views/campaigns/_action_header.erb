@@ -1,19 +1,21 @@
 
-<p>The following representatives are part of this campaign:</p>
-<ul>
-  <% @relevant_constituencies.each { |constituency| %>
-    <li>
-      <%= constituency.name %> (<%=constituency.type_full%>)
-      <ul>
-        <% @decisions.select { |decision| decision.representative.constituency == constituency }.sort_by { |decision| decision.representative.name }.each { |decision| %>
-          <li>
-            <%=decision.representative.name_with_party %>            
-            <% if @diff.include?(decision) %>
-              <i class="fa fa-warning"></i> We don't have <%= case @action; when 'email'; 'an email address'; when 'tweet'; 'a Twitter username'; end %> for this person.
-            <% end %>
-          </li>
-        <% } %>
-      </ul>
-    </li>
-  <% } %>
-</ul>
+<% if @relevant_constituencies.count > 0 %>
+  <p>The following representatives are part of this campaign:</p>
+  <ul>
+    <% @relevant_constituencies.each { |constituency| %>
+      <li>
+        <%= constituency.name %> (<%=constituency.type_full%>)
+        <ul>
+          <% @decisions.select { |decision| decision.representative.constituency == constituency }.sort_by { |decision| decision.representative.name }.each { |decision| %>
+            <li>
+              <%=decision.representative.name_with_party %>            
+              <% if @diff.include?(decision) %>
+                <i class="fa fa-warning"></i> We don't have <%= case @action; when 'email'; 'an email address'; when 'tweet'; 'a Twitter username'; end %> for this person.
+              <% end %>
+            </li>
+          <% } %>
+        </ul>
+      </li>
+    <% } %>
+  </ul>
+<% end %>

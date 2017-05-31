@@ -45,7 +45,7 @@ class Email
   end
     
   def send_email
-    if ENV['SMTP_USERNAME'] and valid?
+    if ENV['SMTP_USERNAME'] and !message_id and valid?
       email = self
       mail = Mail.new
       mail.to = email_recipients.map { |email_recipient| "#{email_recipient.representative.name} <#{email_recipient.representative.email}>" }
