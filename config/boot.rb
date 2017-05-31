@@ -9,8 +9,17 @@ require 'open-uri'
 require 'active_support/time'
 Bundler.require(:default, RACK_ENV)
 
-Padrino.load!
+
 
 Mongoid.load!("#{PADRINO_ROOT}/config/mongoid.yml")
 Mongoid.raise_not_found_error = false
+
+
+
+Padrino.load!
+
+Delayed::Worker.max_attempts = 3
+Delayed::Worker.destroy_failed_jobs = false
+
+
 
