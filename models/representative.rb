@@ -73,5 +73,29 @@ class Representative
   def tweets_for(campaign)
     campaign.tweets.where(:id.in => tweet_recipients.pluck(:tweet_id))
   end  
+  
+  def self.import(rows)
+    rows.each { |row|      
+      
+      puts row[:name]
+      party = Party.find_or_create_by!(name: row[:party_name])
+      if row[:party_image_url] and row[:party_image_url] != party.image_url
+        puts "*** party_image_url changed: #{party.image_url} -> #{row[:party_image_url]}"
+        party.update_attribute(:image_url, row[:party_image_url])
+      end
+      constituency = Constituency.find_or_create_by!(name: row[:constituency_name], type: row[:constituency_type])
+      representative = Representative.find_or_create_by!(name: row[:name], party: party, constituency: constituency)
+            
+      %w{address_as email twitter facebook image_url}.each { |x|      
+        if row[x.to_sym] and row[x.to_sym] != representative.send(x)
+          puts "*** #{x} changed: #{representative.send(x)} -> #{row[x.to_sym]}"
+          representative.send("#{x}=", row[x.to_sym])
+        end      
+      }
+      
+      representative.archived = nil
+      representative.save
+    }
+  end
       
 end
