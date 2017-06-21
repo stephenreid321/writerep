@@ -92,7 +92,7 @@ class Representative
           representative.update_attribute(x, row[x.to_sym])
         end      
       }      
-      representative..update_attribute(:archived, nil)
+      representative.update_attribute(:archived, nil)
     }
   end
       
