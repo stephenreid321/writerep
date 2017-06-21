@@ -2,6 +2,12 @@
 namespace :import do
   
   task :mps => :environment do
+    
+    Constituency.where(type: 'westminster').each { |constituency|
+      constituency.representatives.each { |representative|
+        representative.update_attribute(:archived, true)
+      }
+    }    
 
     agent = Mechanize.new
     rows = [] 
