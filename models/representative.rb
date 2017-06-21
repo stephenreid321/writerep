@@ -89,12 +89,10 @@ class Representative
       %w{address_as email twitter facebook image_url}.each { |x|      
         if row[x.to_sym] and row[x.to_sym] != representative.send(x)
           puts "*** #{x} changed: #{representative.send(x)} -> #{row[x.to_sym]}"
-          representative.send("#{x}=", row[x.to_sym])
+          representative.update_attribute("#{x}=", row[x.to_sym])
         end      
-      }
-      
-      representative.archived = nil
-      representative.save
+      }      
+      representative..update_attribute(:archived, nil)
     }
   end
       
