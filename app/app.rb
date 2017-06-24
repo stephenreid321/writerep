@@ -62,33 +62,32 @@ module ActivateApp
       @og_image = @campaign.background_image_url
       @og_desc = @campaign.facebook_share_text
       
-      if @campaign.decisions.count == 1
-        @decisions = @campaign.decisions
+      if @campaign.representatives.count == 1
+        @representatives = @campaign.representatives
       elsif params[:postcode]
-        @decisions = @campaign.decisions.for_postcode(params[:postcode])
-        if @decisions.empty?
-          redirect "/campaigns/#{@campaign.slug}?decisions_empty=1"
+        @representatives = @campaign.representatives.for_postcode(params[:postcode])
+        if @representatives.empty?
+          redirect "/campaigns/#{@campaign.slug}?representatives_empty=1"
         end
       end  
       
-      if !@decisions
+      if !@representatives
         erb :'campaigns/intro'
       else
         @action = params[:action] || @campaign.action_order_a.first
+        @relevant_constituencies = Constituency.where(:id.in => @representatives.pluck(:constituency_id))
         case @action
-        when 'email'                    
-          @relevant_constituencies = Constituency.where(:id.in => @decisions.map { |decision| decision.representative.constituency }.compact.map(&:id))
-          @relevant_decisions = Decision.where(:id.in => @decisions.select { |decision| decision.representative.email }.compact.map(&:id))
-          @diff = @decisions.where(:id.nin => @relevant_decisions.pluck(:id))
+        when 'email'                              
+          @relevant_representatives = @representatives.where(:email.ne => nil)
+          @diff = @representatives.where(:id.nin => @relevant_representatives.pluck(:id))
           @resource = @email = @campaign.emails.new subject: (ERB.new(@campaign.email_subject).result(binding) if @campaign.email_subject), body: (ERB.new(@campaign.email_body).result(binding) if @campaign.email_body), from_name: params[:name], from_email: params[:email], from_address1: params[:address1], from_postcode: params[:postcode].try(:upcase) # for next_action
-          next_action(current_action: @action) unless @relevant_decisions.count > 0
+          next_action(current_action: @action) unless @relevant_representatives.count > 0
           erb :'campaigns/email'                    
         when 'tweet'        
-          @relevant_constituencies = Constituency.where(:id.in => @decisions.map { |decision| decision.representative.constituency }.compact.map(&:id))
-          @relevant_decisions = Decision.where(:id.in => @decisions.select { |decision| decision.representative.twitter }.compact.map(&:id))
-          @diff = @decisions.where(:id.nin => @relevant_decisions.pluck(:id))
-          @resource = @tweet = @campaign.tweets.new body: ".#{@relevant_decisions.map { |decision| decision.representative.twitter }.join(' ')} #{(ERB.new(@campaign.tweet_body).result(binding) if @campaign.tweet_body)}", from_name: params[:name], from_email: params[:email], from_address1: params[:address1], from_postcode: params[:postcode].try(:upcase) # for next_action
-          next_action(current_action: @action) unless @relevant_decisions.count > 0
+          @relevant_representatives = @representatives.where(:twitter.ne => nil)
+          @diff = @representatives.where(:id.nin => @relevant_representatives.pluck(:id))
+          @resource = @tweet = @campaign.tweets.new body: ".#{@relevant_representatives.pluck(:twitter).join(' ')} #{(ERB.new(@campaign.tweet_body).result(binding) if @campaign.tweet_body)}", from_name: params[:name], from_email: params[:email], from_address1: params[:address1], from_postcode: params[:postcode].try(:upcase) # for next_action
+          next_action(current_action: @action) unless @relevant_representatives.count > 0
           erb :'campaigns/tweet'
         end
       end
@@ -136,31 +135,7 @@ module ActivateApp
       @title = @campaign.name            
       erb :'campaigns/stats'
     end
-    
-    get '/bulk_create_decisions' do    
-      @campaign = Campaign.find(request.referrer.split('/').last)   
-      redirect "/campaigns/#{@campaign.slug}/bulk_create_decisions"
-    end
-  
-    get '/campaigns/:slug/bulk_create_decisions' do
-      sign_in_required!
-      @campaign = Campaign.find_by(slug: params[:slug]) || not_found  
-      if params[:search]
-        @representatives = Representative.where(:archived.ne => true)
-        @representatives = @representatives.where(name: /#{Regexp.escape(params[:name])}/i) if params[:name]
-        @representatives = @representatives.where(:constituency_id.in => Constituency.where(name: /#{Regexp.escape(params[:constituency])}/i).pluck(:id)) if params[:constituency]
-        @representatives = @representatives.where(:party_id => params[:party_id]) if params[:party_id]        
-      end
-      erb :'campaigns/bulk_create_decisions'
-    end 
-  
-    post '/campaigns/:slug/create_decisions/:representative_id' do
-      sign_in_required!  
-      @campaign = Campaign.find_by(slug: params[:slug]) || not_found  
-      @campaign.decisions.create! representative_id: params[:representative_id]
-      200
-    end    
-       
+               
   end         
 end
 

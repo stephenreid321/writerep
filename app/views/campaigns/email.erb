@@ -24,12 +24,12 @@
   </div>            
   <div class="col-sm-8 col-sm-pull-4">
     <% form_for @email, "/campaigns/#{@campaign.slug}/email", :id => 'emailForm' do |f| %>
-      <% @relevant_decisions.each { |decision| %>
-        <%= hidden_field_tag :'representative_ids[]', :value => decision.representative_id %>
+      <% @relevant_representatives.each { |representative| %>
+        <%= hidden_field_tag :'representative_ids[]', :value => representative.id %>
       <% } %>
       <p>Email subject line (please customise):</p> 
       <%= f.text_block :subject, :div_class => '', :label_class => '' %>
-      <p>Dear <%=@relevant_decisions.map { |decision| decision.representative.firstname }.sort.to_sentence %>,</p>    
+      <p>Dear <%=@relevant_representatives.pluck(:firstname).sort.to_sentence %>,</p>    
       <div style="background: white;">
         <%= f.wysiwyg_block :body, :div_class => '', :label_class => '' %>
       </div>

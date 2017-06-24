@@ -13,7 +13,6 @@ class Representative
   belongs_to :constituency, optional: true
   belongs_to :party, optional: true
   
-  has_many :decisions, :dependent => :destroy
   has_many :email_recipients, :dependent => :destroy
   has_many :tweet_recipients, :dependent => :destroy  
   
@@ -36,7 +35,6 @@ class Representative
       :image_url => :text,
       :constituency_id => :lookup,
       :party_id => :lookup,
-      :decisions => :collection,
       :archived => :check_box
     }
   end

@@ -15,12 +15,12 @@ class Campaign
   field :tweet_advice, :type => String
   field :tweet_body, :type => String  
   field :action_order, :type => String, :default => 'email, tweet'
+  field :representative_query, :type => String, :default => 'Representative.where(:archived.ne => true)'
   
   def action_order_a
     action_order.split(',').map(&:strip)
   end
   
-  has_many :decisions, :dependent => :destroy
   has_many :emails, :dependent => :destroy
   has_many :tweets, :dependent => :destroy
   
@@ -43,8 +43,12 @@ class Campaign
       :tweet_advice => :wysiwyg,      
       :tweet_body => :text_area,    
       :action_order => {:type => :text, :new_hint => (new_hint = 'Comma-separated list from {email, tweet}'), :edit_hint => new_hint},
-      :decisions => {:type => :collection, :edit_hint => '<a class="btn btn-default" href="/bulk_create_decisions">Bulk create decisions</a>'}
+      :representative_query => :text
     }
+  end
+  
+  def representatives
+    eval(representative_query)
   end
   
   def email_recipients
@@ -55,8 +59,8 @@ class Campaign
     TweetRecipient.where(:tweet_id.in => tweets.pluck(:id))
   end
             
-  def contacted_decisions
-    decisions.where(:representative_id.in => (email_recipients.pluck(:representative_id) + tweet_recipients.pluck(:representative_id)).uniq)
+  def contacted_representatives
+    representatives.where(:id.in => (email_recipients.pluck(:representative_id) + tweet_recipients.pluck(:representative_id)).uniq)
   end
   
 end
