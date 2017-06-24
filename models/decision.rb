@@ -5,6 +5,8 @@ class Decision
   belongs_to :campaign
   belongs_to :representative
   
+  field :verdict, :type => String
+  
   validates_presence_of :campaign, :representative
   validates_uniqueness_of :campaign, :scope => :representative
           
@@ -12,7 +14,8 @@ class Decision
     {
       :summary => {:type => :text, :edit => false},
       :campaign_id => :lookup,
-      :representative_id => :lookup
+      :representative_id => :lookup,
+      :verdict => :text
     }
   end
   

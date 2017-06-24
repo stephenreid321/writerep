@@ -20,7 +20,7 @@
 
 <div class="row" style="margin-top: 20px">
   <div class="col-sm-4 col-sm-push-8" style="margin-bottom: 20px">
-    <%=@campaign.email_advice%>
+    <%= ERB.new(@campaign.email_advice).result(binding) if @campaign.email_advice %>
   </div>            
   <div class="col-sm-8 col-sm-pull-4">
     <% form_for @email, "/campaigns/#{@campaign.slug}/email", :id => 'emailForm' do |f| %>
