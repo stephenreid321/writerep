@@ -16,6 +16,7 @@ class Campaign
   field :tweet_body, :type => String  
   field :action_order, :type => String, :default => 'email, tweet'
   field :representative_query, :type => String, :default => 'Representative.where(:archived.ne => true)'
+  field :metadata, :type => String
   
   def action_order_a
     action_order.split(',').map(&:strip)
@@ -43,7 +44,8 @@ class Campaign
       :tweet_advice => :wysiwyg,      
       :tweet_body => :text_area,    
       :action_order => {:type => :text, :new_hint => (new_hint = 'Comma-separated list from {email, tweet}'), :edit_hint => new_hint},
-      :representative_query => :text
+      :representative_query => :text,
+      :metadata => :text_area
     }
   end
   
