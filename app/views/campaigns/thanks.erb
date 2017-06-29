@@ -1,4 +1,4 @@
-<%=@campaign.thanks%>
+<%= ERB.new(@campaign.thanks).result(binding) if @campaign.thanks %>
 
 <div style="margin-top: 15px">
 	<%= partial :share_big, :locals => {:url => "http://#{ENV['DOMAIN']}/campaigns/#{@campaign.slug}"} %>
