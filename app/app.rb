@@ -105,8 +105,9 @@ module ActivateApp
         params[:representative_ids].each { |representative_id| @email.email_recipients.create! :representative_id => representative_id }
         @email.send_email      
         next_action
-      rescue
-        flash[:error] = 'There was an error sending the email. Please check your information and try again.'      
+      rescue => e
+        Airbrake.notify(e)
+        flash[:error] = 'There was an error sending the email. Please check your information and try again.'              
         redirect back
       end
     end  
@@ -117,7 +118,8 @@ module ActivateApp
         @resource = @tweet = @campaign.tweets.create!(params[:tweet])
         params[:representative_ids].each { |representative_id| @tweet.tweet_recipients.create! :representative_id => representative_id }
         next_action
-      rescue
+      rescue => e
+        Airbrake.notify(e)
         flash[:error] = 'There was an error saving the tweet. Please check your information and try again.'      
         redirect back
       end      
