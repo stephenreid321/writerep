@@ -13,7 +13,7 @@ class Tweet
   
   validates_presence_of :body, :from_name, :from_email, :from_address1, :from_postcode
   validates_format_of :from_email, :with => /\A[^@\s]+@[^@\s]+\.[^@\s]+\Z/i
-  validates_uniqueness_of :from_email, :scope => [:campaign, :from_postcode]
+  # validates_uniqueness_of :from_email, :scope => [:campaign, :from_postcode]
   
   def self.admin_fields
     {
