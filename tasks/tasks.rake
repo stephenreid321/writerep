@@ -12,7 +12,7 @@ namespace :import do
 
         row = {
           :name => mep.search('span').first.text,
-          :party_name => mep.inner_html.split('National party:').last.split('<').first.strip,
+          :party_name => (p = mep.inner_html.split('National party:').last.split('<').first.strip; !p.blank? ? p : 'Independent'),
           :constituency_name => region_page.title.split(/(Region)? -/).first.strip,
           :constituency_type => 'euro',
           :email => mep.inner_html.split('mailto:')[1].split('>')[1].split('<').first.split(' ').first.strip,
