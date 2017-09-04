@@ -20,7 +20,7 @@
         <th>Tweets</th>
       </tr>
     </thead>
-    <% @campaign.representatives.where(name: /#{Regexp.escape(params[:q])}/i).each { |representative| %>
+    <% @campaign.representatives.where(name: /#{::Regexp.escape(params[:q])}/i).each { |representative| %>
       <tr>
         <td><%=representative.name%></td>
         <td><%=representative.constituency.try(:name)%></td>      

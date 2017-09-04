@@ -35,7 +35,7 @@ class Account
   end  
         
   def self.authenticate(email, password)
-    account = find_by(email: /^#{Regexp.escape(email)}$/i) if email.present?
+    account = find_by(email: /^#{::Regexp.escape(email)}$/i) if email.present?
     account && account.has_password?(password) ? account : nil
   end
   

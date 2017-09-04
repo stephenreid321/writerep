@@ -6,7 +6,7 @@ namespace :import do
     agent = Mechanize.new
     rows = []    
     page = agent.get('http://www.europarl.europa.eu/unitedkingdom/en/your-meps/uk_meps.html')
-    page.links_with(:href => /#{Regexp.escape("/unitedkingdom/en/your-meps/uk_meps/")}/).each { |link|
+    page.links_with(:href => /#{::Regexp.escape("/unitedkingdom/en/your-meps/uk_meps/")}/).each { |link|
       region_page = agent.get(link.href)
       region_page.search('div.mep').each { |mep|
 
