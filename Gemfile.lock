@@ -1,12 +1,12 @@
 GIT
   remote: git://github.com/mislav/will_paginate.git
-  revision: 18626f5285b284c14fbf1be3e8f49e166b222218
+  revision: 0b93300d43f658bb15071f59486c92af06aca064
   specs:
-    will_paginate (3.1.5)
+    will_paginate (3.1.6)
 
 GIT
   remote: git://github.com/wordsandwriting/activate-admin.git
-  revision: eaf15be315b68f77e3755000b92f5dc1fc0225ba
+  revision: 77e2eecedbabc62032d8160e05e841799595cfdf
   specs:
     activate-admin (0.0.1)
       activate-tools
@@ -15,7 +15,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-tools.git
-  revision: a45cd2a8d9f79b16dcee4aa2378e780259511d96
+  revision: 7afd3a27229f66e48c5876df8570b7ee92c70fa5
   specs:
     activate-tools (0.0.1)
       padrino
@@ -23,21 +23,21 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (5.0.3)
-      activesupport (= 5.0.3)
-    activesupport (5.0.3)
+    activemodel (5.1.3)
+      activesupport (= 5.1.3)
+    activesupport (5.1.3)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    airbrake (6.1.0)
-      airbrake-ruby (~> 2.2, >= 2.2.3)
-    airbrake-ruby (2.2.3)
+    airbrake (6.2.1)
+      airbrake-ruby (~> 2.3, >= 2.3.1)
+    airbrake-ruby (2.3.2)
     bcrypt (3.1.11)
-    bson (4.2.1)
+    bson (4.2.2)
     concurrent-ruby (1.0.5)
-    delayed_job (4.1.2)
-      activesupport (>= 3.0, < 5.1)
+    delayed_job (4.1.3)
+      activesupport (>= 3.0, < 5.2)
     delayed_job_mongoid (2.3.0)
       delayed_job (>= 3.0, < 5)
       mongoid (>= 3.0, < 7)
@@ -47,8 +47,8 @@ GEM
     enumerable-lazy (0.0.2)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
-    i18n (0.8.1)
-    mail (2.6.5)
+    i18n (0.8.6)
+    mail (2.6.6)
       mime-types (>= 1.16, < 4)
     mechanize (2.7.5)
       domain_name (~> 0.5, >= 0.5.1)
@@ -60,13 +60,13 @@ GEM
       ntlm-http (~> 0.1, >= 0.1.1)
       webrobots (>= 0.0.9, < 0.2)
     mime-types (2.99.3)
-    mini_portile2 (2.1.0)
-    minitest (5.10.2)
+    mini_portile2 (2.2.0)
+    minitest (5.10.3)
     moneta (0.8.1)
-    mongo (2.4.1)
+    mongo (2.4.3)
       bson (>= 4.2.1, < 5.0.0)
-    mongoid (6.1.0)
-      activemodel (~> 5.0)
+    mongoid (6.2.1)
+      activemodel (~> 5.1)
       mongo (>= 2.4.1, < 3.0.0)
     mongoid-compatibility (0.4.1)
       activesupport
@@ -75,8 +75,8 @@ GEM
       enumerable-lazy
     net-http-digest_auth (1.4.1)
     net-http-persistent (2.9.4)
-    nokogiri (1.7.2)
-      mini_portile2 (~> 2.1.0)
+    nokogiri (1.8.0)
+      mini_portile2 (~> 2.2.0)
     ntlm-http (0.1.1)
     padrino (0.13.3.2)
       padrino-admin (= 0.13.3.2)
@@ -113,8 +113,8 @@ GEM
       padrino-core (= 0.13.3.2)
     padrino-support (0.13.3.2)
       activesupport (>= 3.1)
-    puma (3.8.2)
-    rack (1.6.6)
+    puma (3.10.0)
+    rack (1.6.8)
     rack-protection (1.5.3)
       rack
     rake (12.0.0)
@@ -122,9 +122,9 @@ GEM
       rack (~> 1.5)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
-    thor (0.19.4)
+    thor (0.20.0)
     thread_safe (0.3.6)
-    tilt (2.0.7)
+    tilt (2.0.8)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
     unf (0.1.4)

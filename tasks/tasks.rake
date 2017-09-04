@@ -1,6 +1,32 @@
 
 namespace :import do
   
+  task :meps => :environment do
+    
+    agent = Mechanize.new
+    rows = []    
+    page = agent.get('http://www.europarl.europa.eu/unitedkingdom/en/your-meps/uk_meps.html')
+    page.links_with(:href => /#{Regexp.escape("/unitedkingdom/en/your-meps/uk_meps/")}/).each { |link|
+      region_page = agent.get(link.href)
+      region_page.search('div.mep').each { |mep|
+
+        row = {
+          :name => mep.search('span').first.text,
+          :party_name => mep.inner_html.split('National party:').last.split('<').first.strip,
+          :constituency_name => region_page.title.split(/(Region)? -/).first.strip,
+          :constituency_type => 'euro',
+          :email => mep.inner_html.split('mailto:')[1].split('>')[1].split('<').first.split(' ').first.strip,
+          :image_url => "http://www.europarl.europa.eu#{mep.search('img').first['src']}"
+        }
+        puts row
+        rows << row        
+        
+      }
+    }   
+    Representative.import(rows)
+    
+  end
+  
   task :mps => :environment do
     
     Constituency.where(type: 'westminster').each { |constituency|
