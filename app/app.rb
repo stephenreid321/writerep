@@ -38,11 +38,7 @@ module ActivateApp
     not_found do
       erb :not_found, :layout => :application
     end
-    
-    get '/raise' do
-      raise '/raise'
-    end
-    
+        
     get '/' do
       redirect "/campaigns/#{Campaign.order_by('created_at desc').limit(1).first.slug}"
     end
@@ -100,29 +96,27 @@ module ActivateApp
     
     post '/campaigns/:slug/email' do
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found
-      begin
-        @resource = @email = @campaign.emails.create!(params[:email])
+      @resource = @email = @campaign.emails.build(params[:email])
+      if @email.save
         params[:representative_ids].each { |representative_id| @email.email_recipients.create! :representative_id => representative_id }
         @email.send_email      
         next_action
-      rescue => e
-        Airbrake.notify(e)
+      else
         flash[:error] = 'There was an error sending the email. Please check your information and try again.'              
         redirect back
       end
     end  
         
     post '/campaigns/:slug/tweet' do
-      @campaign = Campaign.find_by(slug: params[:slug]) || not_found
-      begin
-        @resource = @tweet = @campaign.tweets.create!(params[:tweet])
+      @campaign = Campaign.find_by(slug: params[:slug]) || not_found      
+      @resource = @tweet = @campaign.tweets.build(params[:tweet])
+      if @tweet.save
         params[:representative_ids].each { |representative_id| @tweet.tweet_recipients.create! :representative_id => representative_id }
-        next_action
-      rescue => e
-        Airbrake.notify(e)
+        next_action          
+      else
         flash[:error] = 'There was an error saving the tweet. Please check your information and try again.'      
-        redirect back
-      end      
+        redirect back        
+      end
     end   
     
     get '/campaigns/:slug/thanks' do
