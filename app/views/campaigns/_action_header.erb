@@ -1,5 +1,5 @@
 
-<% if @relevant_constituencies.count > 0 %>
+<% if @campaign.representatives.count > 1 and @relevant_constituencies.count > 0 %>
   <p>The following representatives are part of this campaign:</p>
   <ul>
     <% @relevant_constituencies.each { |constituency| %>
