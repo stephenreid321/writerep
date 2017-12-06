@@ -136,7 +136,7 @@ module ActivateApp
       sign_in_required!
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found  
       @campaign.send_email_recipients_csv(current_account)
-      redirect back
+      erb :'campaigns/email_recipients_csv'
     end
                
   end         
