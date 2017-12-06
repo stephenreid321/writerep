@@ -132,26 +132,11 @@ module ActivateApp
       erb :'campaigns/stats'
     end
     
-    get '/campaigns/:slug/email_recipients', :provides => :csv do
+    get '/campaigns/:slug/email_recipients_csv' do
       sign_in_required!
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found  
-      CSV.generate do |csv|
-        csv << %w{name email subject body address1 postcode representative_name representative_constituency representative_party}
-        @campaign.email_recipients.each do |email_recipient|
-          email = email_recipient.email
-          csv << [
-            email.from_name,
-            email.from_email,
-            email.subject,
-            email.body,            
-            email.from_address1,
-            email.from_postcode,
-            email_recipient.representative.name,
-            email_recipient.representative.try(:constituency).try(:name),
-            email_recipient.representative.try(:constituency).try(:party).try(:name),
-          ]
-        end      
-      end
+      @campaign.send_email_recipients_csv(current_account)
+      redirect back
     end
                
   end         

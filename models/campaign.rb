@@ -65,4 +65,33 @@ class Campaign
     representatives.where(:id.in => (email_recipients.pluck(:representative_id) + tweet_recipients.pluck(:representative_id)).uniq)
   end
   
+  def send_email_recipients_csv(account)
+    csv = CSV.generate do |csv|
+      csv << %w{name email subject body address1 postcode representative_name representative_constituency representative_party}
+      email_recipients.each do |email_recipient|
+        email = email_recipient.email
+        csv << [
+          email.from_name,
+          email.from_email,
+          email.subject,
+          email.body,            
+          email.from_address1,
+          email.from_postcode,
+          email_recipient.representative.name,
+          email_recipient.representative.try(:constituency).try(:name),
+          email_recipient.representative.try(:constituency).try(:party).try(:name),
+        ]
+      end
+    end
+    
+    mail = Mail.new
+    mail.to = account.email
+    mail.from = ENV['MAIL_FROM']
+    mail.subject = "CSV for #{name}"
+    mail.attachments['email_recipients.csv'] = csv
+    mail.deliver   
+        
+  end
+  handle_asynchronously :send_email_recipients_csv
+  
 end
