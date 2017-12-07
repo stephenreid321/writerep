@@ -73,8 +73,7 @@ class Campaign
         csv << [
           email.from_name,
           email.from_email,
-          email.subject,
-          email.body,            
+          email.subject,     
           email.from_address1,
           email.from_postcode,
           email_recipient.representative.name,
