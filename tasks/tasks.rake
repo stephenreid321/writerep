@@ -55,7 +55,7 @@ namespace :import do
         :constituency_name => page.search('#commons-constituency')[0].text.strip,
         :constituency_type => 'westminster',
         :address_as => (el = page.search('#commons-addressas')[0]) ? el.text.strip : nil,
-        :email => (el = page.search('span[data-cfemail]')[0]) ? Representative.decode_cfemail(el['data-cfemail']) : nil,
+        :email => (el = page.search('[data-generic-id=email-address] a')[0]) ? el.text : nil,
         :twitter => (el = page.search('[data-generic-id=twitter] a')[0]) ? el.text.strip.split('?').first : nil,
         :facebook => (el = page.search('[data-generic-id=facebook] a')[0]) ? el['href'] : nil,
         :image_url => (el = page.search('#member-image img')[0]) ? el['src'] : nil,          
