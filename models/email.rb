@@ -49,7 +49,7 @@ class Email
       email = self
       mail = Mail.new
       mail.to = email_recipients.map { |email_recipient| "#{email_recipient.representative.name} <#{email_recipient.representative.email}>" }
-      mail.from = "#{from_name} <#{from_email}>"
+      mail.from = "#{from_name.gsub(',','')} <#{from_email}>"
       mail.bcc = [from_email, campaign.email_bcc].compact
       mail.subject = subject      
       html_part = Mail::Part.new do
