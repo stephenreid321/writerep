@@ -1,10 +1,10 @@
 <%= partial :'campaigns/action_header' %>
 
 <div class="row" style="margin-top: 20px">
-  <div class="col-sm-6 col-sm-push-6" style="margin-bottom: 20px">
+  <div class="col-sm-6 order-sm-2" style="margin-bottom: 20px">
     <%= ERB.new(@campaign.tweet_advice).result(binding) if @campaign.tweet_advice %>
   </div>            
-  <div class="col-sm-6 col-sm-pull-6">                      
+  <div class="col-sm-6 order-sm-1">                      
     <% form_for @tweet, "/campaigns/#{@campaign.slug}/tweet", :onsubmit => "window.open('http://twitter.com/intent/tweet?text='+encodeURIComponent($('#tweet_body').val()), null, 'scrollbars=yes,width=600,height=600,left=150,top=150').focus();" do |f| %>
       <% @relevant_representatives.each { |representative| %>
         <%= hidden_field_tag :'representative_ids[]', :value => representative.id %>
