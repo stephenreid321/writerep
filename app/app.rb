@@ -6,6 +6,11 @@ module ActivateApp
     helpers Activate::DatetimeHelpers
     helpers Activate::ParamHelpers
     helpers Activate::NavigationHelpers
+    
+    require 'sass/plugin/rack'
+    Sass::Plugin.options[:template_location] = Padrino.root('app', 'assets', 'stylesheets')
+    Sass::Plugin.options[:css_location] = Padrino.root('app', 'assets', 'stylesheets')
+    use Sass::Plugin::Rack       
             
     use Airbrake::Rack::Middleware
     
@@ -27,7 +32,6 @@ module ActivateApp
       redirect "http://#{ENV['DOMAIN']}#{request.path}" if ENV['DOMAIN'] and request.env['HTTP_HOST'] != ENV['DOMAIN']
       Time.zone = current_account.time_zone if current_account and current_account.time_zone    
       fix_params!
-      @_params = params; def params; @_params; end # force controllers to inherit the fixed params
     end        
                 
     error do
@@ -38,20 +42,12 @@ module ActivateApp
     not_found do
       erb :not_found, :layout => :application
     end
-        
+            
     get '/' do
       redirect "/campaigns/#{Campaign.order_by('created_at desc').limit(1).first.slug}"
     end
     
-    get '/:slug' do
-      if @fragment = Fragment.find_by(slug: params[:slug], page: true)
-        erb :page
-      else
-        pass
-      end
-    end    
-    
-    get '/campaigns/:slug' do
+    get '/campaigns/:slug' do      
       @campaign = Campaign.find_by(slug: params[:slug]) || not_found
       
       @title = @campaign.name
@@ -138,6 +134,14 @@ module ActivateApp
       @campaign.send_email_recipients_csv(current_account)
       erb :'campaigns/email_recipients_csv'
     end
+    
+    get '/:slug' do
+      if @fragment = Fragment.find_by(slug: params[:slug], page: true)
+        erb :page
+      else
+        pass
+      end
+    end      
                
   end         
 end

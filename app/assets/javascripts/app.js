@@ -14,31 +14,26 @@ $(function () {
     return false;
   });
   
-  $('textarea.wysiwyg').not('textarea.wysified').each(function () {
-    var textarea = this;
-    var summernote = $('<div class="summernote"></div>');
-    $(summernote).insertAfter(this);
-    $(summernote).summernote({
-      toolbar: [
-        ['view', ['codeview', 'fullscreen']],
-        ['style', ['style']],
-        ['font', ['bold', 'italic', 'underline', 'clear']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['insert', ['picture', 'link', 'video']],
-      ],
-      height: 200,
-      codemirror: {
-        theme: 'monokai'
+  $('textarea.wysiwyg').each(function () {
+    var textarea = this
+    var editor = textboxio.replace(textarea, {
+      css: {
+        stylesheets: ['/stylesheets/app.css']
+      },
+      paste: {
+        style: 'plain'
+      },
+      images: {
+        allowLocal: false
       }
     });
-    $('.note-image-input').parent().hide();
-    $(textarea).prop('required', false);
-    $(summernote).code($(textarea).val());
-    $(textarea).addClass('wysified').hide();
-    $(textarea.form).submit(function () {
-      $(textarea).val($(summernote).code());
-    });
+    if (textarea.form)
+      $(textarea.form).submit(function () {
+        if ($(editor.content.get()).text().trim() == '') {
+          editor.content.set(' ')
+          $(textarea).val(' ')
+        }
+      })
   });
 
 });

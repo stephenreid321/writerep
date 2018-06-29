@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <% {            
-      'jquery/1.11.2' => 'jquery.min.js',    
-      'bootswatch/3.3.2' => 'lumen/bootstrap.min.css',      
-      'twitter-bootstrap/3.3.2' => 'js/bootstrap.min.js',
-      'font-awesome/4.3.0' => 'css/font-awesome.min.css',
-      'jquery.tablesorter/2.25.5' => 'js/jquery.tablesorter.min.js',
-      'codemirror/5.0.0' => 'codemirror.min.css theme/monokai.min.css codemirror.min.js mode/xml/xml.min.js',      
-      'summernote/0.6.1' => 'summernote.min.css summernote.min.js',
+      'jquery/3.2.0' => 'jquery.min.js',
+      'popper.js/1.11.0' => 'umd/popper.min.js',
+      'twitter-bootstrap/4.0.0-beta' => 'js/bootstrap.min.js',
+      'font-awesome/4.7.0' => 'css/font-awesome.min.css',
+      'select2/4.0.3' => 'js/select2.min.js css/select2.min.css',
+      'codemirror/5.0.0' => 'codemirror.min.css theme/monokai.min.css codemirror.min.js mode/xml/xml.min.js',
+      'jquery-timeago/1.4.3' => 'jquery.timeago.min.js',      
+      'flatpickr/3.0.7' => 'flatpickr.min.js flatpickr.min.css',
+      'jquery.tablesorter/2.25.5' => 'js/jquery.tablesorter.min.js'
       }.each { |k,v| %>    
       <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
         <% case f.split('.').last.to_sym; when :js %>
@@ -24,13 +26,17 @@
 
     <% [
       '/stylesheets/share.css',
-      '/stylesheets/app.css'
+      "/stylesheets/app.css?#{Time.now.to_i}"
       ].each { |f| %> 
       <link rel="stylesheet" href="<%=f%>" />    
     <% } %>
 
     <% [
-      '/javascripts/app.js'
+      "//maps.googleapis.com/maps/api/js?libraries=places&key=#{ENV['GOOGLE_MAPS_API_KEY']}",
+      '//cdn.rawgit.com/wordsandwriting/activate-tools/f39002fcc10a9a554c651543b3065847130c2811/js/jquery.geopicker.js',      
+      "//cdn.rawgit.com/wordsandwriting/activate-tools/7a73525b76c8234a4803e3196b4403ec6fd6ded7/js/textboxio/textboxio.js",      
+      "/javascripts/app.js?#{Time.now.to_i}",
+      '//cdn.rawgit.com/wordsandwriting/activate-tools/6681c1667d3fb4e28b2e31f2771a7c6d68392c97/js/pagelets.js'      
       ].each { |f| %>
       <script src="<%=f%>"></script>
     <% } %>  
@@ -44,33 +50,34 @@
     <meta name="twitter:title" content="<%=@title%>">
     <meta name="twitter:description" content="<%=@og_desc%>">
     <meta name="twitter:image" content="<%=@og_image%>">    
-    
+
     <%= eval(f('head')) %>
 
   </head>
-  <body style="background-image: url('<%=@campaign.try(:background_image_url)%>'); background-size: cover; background-position: center; background-repeat: no-repeat">
-  
+  <body>
+
     <%= partial :alert %>
 
-    <div class="container">
-      <div style="background: rgba(0,0,0,0.7); padding: 20px">    
-      
-        <% if @campaign %>
-          <style>
-            @media(max-width: 767px) { #campaign-name { font-size: 30px } }
-          </style>
-          <h1 id="campaign-name"><a style="color: white" href="/campaigns/<%=@campaign.slug%>"><%=@campaign.name%></a></h1>
-        <% end %>
-    
-        <%= yield %>
-                
-      </div>
-      
+    <div class="container-fluid">
+
+      <% if @campaign %>
+        <style>
+          @media(max-width: 767px) { #campaign-name { font-size: 30px } }
+        </style>
+        <h1 id="campaign-name"><a style="color: black" href="/campaigns/<%=@campaign.slug%>"><%=@campaign.name%></a></h1>
+      <% end %>
+
+      <%= yield %>
+
       <div style="font-size: 11px; margin: 10px 0">
         Powered by <a href="https://github.com/wordsandwriting/writerep/">Writerep</a>. PPC data provided by <a href="http://democracyclub.org.uk/">Democracy Club</a>
-      </div>      
-      
+      </div>            
+
     </div>
 
-  </body>
+
+
+  </div>
+
+</body>
 </html>

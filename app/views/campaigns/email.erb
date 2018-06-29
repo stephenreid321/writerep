@@ -1,8 +1,8 @@
 <%= partial :'campaigns/action_header' %>
 
 <script>
-  $(function() {
-    $('#emailForm').submit(function() {
+  $(function () {
+    $('#emailForm').submit(function () {
       var emailRe = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
       if ($('#email_subject').val().match(emailRe)) {
         alert("It appears your browser has autofilled the 'Email subject' field with an email address. Please enter a proper subject.")
@@ -13,16 +13,16 @@
         alert("It appears the 'Your name' field contains an email address. Please enter your actual name.")
         $('#email_from_name').val('').focus()
         return false
-      }      
+      }
     })
   });
 </script>
 
 <div class="row" style="margin-top: 20px">
-  <div class="col-sm-4 col-sm-push-8" style="margin-bottom: 20px">
+  <div class="col-sm-4 order-sm-2" style="margin-bottom: 20px">
     <%= ERB.new(@campaign.email_advice).result(binding) if @campaign.email_advice %>
   </div>            
-  <div class="col-sm-8 col-sm-pull-4">
+  <div class="col-sm-8 order-sm-1">
     <% form_for @email, "/campaigns/#{@campaign.slug}/email", :id => 'emailForm' do |f| %>
       <% @relevant_representatives.each { |representative| %>
         <%= hidden_field_tag :'representative_ids[]', :value => representative.id %>
@@ -30,14 +30,12 @@
       <p>Email subject line (please customise):</p> 
       <%= f.text_block :subject, :div_class => '', :label_class => '' %>
       <p>Dear <%=@relevant_representatives.map(&:firstname).sort.to_sentence %>,</p>    
-      <div style="background: white;">
-        <%= f.wysiwyg_block :body, :div_class => '', :label_class => '' %>
-      </div>
+      <%= f.wysiwyg_block :body, :div_class => '', :label_class => '' %>
       <p>Yours sincerely,</p>    
-      <%= f.text_block :from_name, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_name) %>
-      <%= f.email_block :from_email, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_email) %>
-      <%= f.text_block :from_address1, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_address1) %>
-      <%= f.text_block :from_postcode, :div_class => '', :label_class => '', :placeholder => Email.human_attribute_name(:from_postcode) %>
+      <%= f.text_block :from_name, :div_class => '', :label_class => 'd-none', :placeholder => Email.human_attribute_name(:from_name) %>
+      <%= f.email_block :from_email, :div_class => '', :label_class => 'd-none', :placeholder => Email.human_attribute_name(:from_email) %>
+      <%= f.text_block :from_address1, :div_class => '', :label_class => 'd-none', :placeholder => Email.human_attribute_name(:from_address1) %>
+      <%= f.text_block :from_postcode, :div_class => '', :label_class => 'd-none', :placeholder => Email.human_attribute_name(:from_postcode) %>
       <div>
         <button class="btn btn-primary">Send</button>
         <a class="btn btn-default" href="/campaigns/<%=@campaign.slug%>/next_action/email?postcode=<%=params[:postcode]%>">Skip</a>
