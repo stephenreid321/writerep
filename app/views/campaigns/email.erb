@@ -28,9 +28,9 @@
         <%= hidden_field_tag :'representative_ids[]', :value => representative.id %>
       <% } %>
       <p>Email subject line (please customise):</p> 
-      <%= f.text_block :subject, :div_class => '', :label_class => '' %>
+      <%= f.text_block :subject, :div_class => '', :label_class => 'd-none' %>
       <p>Dear <%=@relevant_representatives.map(&:firstname).sort.to_sentence %>,</p>    
-      <%= f.wysiwyg_block :body, :div_class => '', :label_class => '' %>
+      <%= f.wysiwyg_block :body, :div_class => '', :label_class => 'd-none' %>
       <p>Yours sincerely,</p>    
       <%= f.text_block :from_name, :div_class => '', :label_class => 'd-none', :placeholder => Email.human_attribute_name(:from_name) %>
       <%= f.email_block :from_email, :div_class => '', :label_class => 'd-none', :placeholder => Email.human_attribute_name(:from_email) %>

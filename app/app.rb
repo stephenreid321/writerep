@@ -53,10 +53,10 @@ module ActivateApp
       @title = @campaign.name
       @og_image = @campaign.background_image_url
       @og_desc = @campaign.facebook_share_text
-      
+            
       if @campaign.representatives.count == 1
         @representatives = @campaign.representatives
-      elsif params[:postcode]
+      elsif params[:postcode]              
         @representatives = @campaign.representatives.for_postcode(params[:postcode])
         if @representatives.empty?
           redirect "/campaigns/#{@campaign.slug}?representatives_empty=1"
